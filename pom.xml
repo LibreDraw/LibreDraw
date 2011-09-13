@@ -145,4 +145,5 @@
 			</properties>
 		</profile>
 	</profiles>
+	<version>master/head</version>
 </project>
