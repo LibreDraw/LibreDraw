@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <!-- The Basics -->
-  <groupId>org.ld.libredraw</groupId>
+  <groupId>org.Libredraw</groupId>
   <artifactId>LibreDraw</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
@@ -249,14 +249,13 @@
 			version pointed to by ${gae.home} property (Typically, one used by
 			your Eclipse plug-in)
 		-->
-		<gae.version>1.5.2</gae.version>
+		<gae.version>1.5.3</gae.version>
 
 		<!--
 			Upload to http://test.latest.<applicationName>.appspot.com by default
 		-->
 		<gae.application.version>test</gae.application.version>
 
-        <datanucleus.version>1.1.5</datanucleus.version>
 	</properties>
 
 	<profiles>
@@ -296,4 +295,5 @@
 		</profile>
 	</profiles>
 
+	<url>LibreDraw.org</url>
 </project>
