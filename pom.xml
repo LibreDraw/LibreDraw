@@ -83,67 +83,19 @@
 		</plugins>
 	</build>
 
-	<!-- Specify hard-coded project properties here -->
-	<properties>
 
-	  <!-- Sets the project's default encoding.
-         http://docs.codehaus.org/display/MAVENUSER/POM+Element+for+Source+File+Encoding -->
+	<properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<!--
-			This is just for "eclipse:eclipse" goal to always attempt downloading
-			sources
-		-->
 		<downloadSources>true</downloadSources>
 
-		<!--
-			Specify AppEngine version for your project. It should match SDK
-			version pointed to by ${gae.home} property (Typically, one used by
-			your Eclipse plug-in)
-		-->
 		<gae.version>1.5.3</gae.version>
 
-		<!--
-			Upload to http://test.latest.<applicationName>.appspot.com by default
-		-->
 		<gae.application.version>test</gae.application.version>
 
 	</properties>
 
 	<profiles>
-		<!--
-			We can configure our integration server to activate this profile and
-			perform gae:deploy, thus uploading latest snapshot to the
-			http://1.latest.<applicationName>.appspot.com automatically
-		-->
-		<profile>
-			<id>integration-build</id>
-			<properties>
-				<gae.application.version>stage</gae.application.version>
-			</properties>
-		</profile>
 
-		<!--
-			This profile will activate automatically during release and upload
-			application to the http://2.latest.<applicationName>.appspot.com (We
-			might want to set the 2nd version as our applications Default version
-			to be accessible at http://<applicationName>.appspot.com)
-		-->
-		<profile>
-			<id>release-build</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-
-			<properties>
-				<!--
-					During release, set application version in appengine-web.xml to 2
-				-->
-				<gae.application.version>release</gae.application.version>
-			</properties>
-		</profile>
 	</profiles>
 </project>
