@@ -8,7 +8,6 @@
   <packaging>war</packaging>
   	<url>LibreDraw.org</url>
 	<scm>
-		<system>Github</system>
 		<url>ssh://git@github.com:/LibreDraw/LibreDraw.git</url>
 	</scm>
 	<ciManagement>
