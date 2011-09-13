@@ -5,6 +5,7 @@
   <!-- The Basics -->
   <groupId>org.Libredraw</groupId>
   <artifactId>LibreDraw</artifactId>
+  <version>0.00-SNAPSHOT</version>
   <packaging>war</packaging>
   	<url>LibreDraw.org</url>
 	<scm>
@@ -145,5 +146,4 @@
 			</properties>
 		</profile>
 	</profiles>
-	<version>0.00-SNAPSHOT</version>
 </project>
