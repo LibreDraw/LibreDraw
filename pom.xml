@@ -296,4 +296,11 @@
 	</profiles>
 
 	<url>LibreDraw.org</url>
+	<scm>
+		<url>ssh://git@github.com:/LibreDraw/LibreDraw.git</url>
+	</scm>
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>https://au.ethanapodaca.org/jenkins</url>
+	</ciManagement>
 </project>
