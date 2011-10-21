@@ -1,13 +1,4 @@
 /** Add css rules here for your application. */
-@import url(http://fonts.googleapis.com/css?family=VT323);
-
-/** Example rules used by the template application (remove for your app) */
-
-.sendButton {
-  display: block;
-  font-size: 16pt;
-}
-
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;
