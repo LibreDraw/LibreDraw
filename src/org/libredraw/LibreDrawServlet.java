@@ -1,4 +1,4 @@
-package org.LibreDraw;
+package org.libredraw;
 
 import java.io.IOException;
 import javax.servlet.http.*;

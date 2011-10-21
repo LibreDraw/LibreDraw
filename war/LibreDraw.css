@@ -1,14 +1,7 @@
 /** Add css rules here for your application. */
-
+@import url(http://fonts.googleapis.com/css?family=VT323);
 
 /** Example rules used by the template application (remove for your app) */
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
-  text-align: center;
-}
 
 .sendButton {
   display: block;
@@ -31,4 +24,11 @@ h1 {
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
+}
+LibreDrawLogo {
+	font-family: 'VT323', cursive;
+	color: Lime;
+	font-size: 24px;
+	background-color: Black;
+
 }
