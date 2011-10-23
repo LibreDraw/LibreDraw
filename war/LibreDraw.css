@@ -1,25 +1,25 @@
-/** Add css rules here for your application. */
-/** Most GWT widgets already have a style name defined */
-.gwt-DialogBox {
-  width: 400px;
+#backgroud{
+	background-color:rgb(240,240,240);
+	position: absolute;
+	left: 100px;
+	right: 100px;
+	top: 150px;
+	bottom: 100px;
+	z-index: -1;
+	border:2px solid rgb(155,155,155);;
 }
 
-.dialogVPanel {
-  margin: 5px;
+#loginBox{
+	background-color:rgb(255,255,255);
+	position: absolute;
+	right: 100px;
+	top: 100px;
+	width: 230px;
+	height: 250px;
+	z-index: 1;	
+	border:2px solid rgb(155,155,155);;
 }
-
-.serverResponseLabelError {
-  color: red;
-}
-
-/** Set ids using widget.getElement().setId("idOfElement") */
-#closeButton {
-  margin: 15px 6px 6px;
-}
-LibreDrawLogo {
-	font-family: 'VT323', cursive;
-	color: Lime;
-	font-size: 24px;
-	background-color: Black;
-
+.center {
+    margin-left: auto;
+    margin-right: auto;
 }
