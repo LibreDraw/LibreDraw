@@ -1,25 +1,52 @@
-#backgroud{
-	background-color:rgb(240,240,240);
+@import url(https://fonts.googleapis.com/css?family=Play:700);
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700);
+
+#backgroud {
+	background-color: rgb(240,240,240);
 	position: absolute;
 	left: 100px;
 	right: 100px;
-	top: 150px;
+	top: 120px;
 	bottom: 100px;
 	z-index: -1;
-	border:2px solid rgb(155,155,155);;
+	border: 2px solid rgb(155,155,155);
 }
 
-#loginBox{
-	background-color:rgb(255,255,255);
+#loginBox {
+	background-color: rgb(255,255,255);
 	position: absolute;
 	right: 100px;
 	top: 100px;
 	width: 230px;
-	height: 250px;
+	height: 160px;
 	z-index: 1;	
-	border:2px solid rgb(155,155,155);;
+	border: 2px solid rgb(155,155,155);
 }
-.center {
-    margin-left: auto;
-    margin-right: auto;
+#header {
+	position: absolute;
+	right: 100px;
+	left: 100px;
+	top: 50px;
+	height: 70px;
+	padding-left: 1px;
+	font-family: 'Play', sans-serif;
+	font-size: 70px;
+}
+#body {
+	position: absolute;
+	left: 120px;
+	top: 200px;
+}
+.loginBox {
+	padding-left: 10px;
+	padding-bottom: 10px;
+}
+.heading1 {
+	font-family: 'Droid Sans', sans-serif;
+	font-weight: 700;
+}
+.heading2 {
+	font-family: 'Droid Sans', sans-serif;
+	font-weight: 400;
+	padding-left: 20px;
 }
