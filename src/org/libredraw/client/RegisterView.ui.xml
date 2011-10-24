@@ -1,0 +1,25 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		/* Add CSS here. See the GWT docs on UI Binder for more details */
+	</ui:style>
+	<g:DialogBox styleName="registerBox">
+		<g:VerticalPanel>
+			<g:Label text="Register"/>
+			<g:Label text="E-mail:"/>
+			<g:TextBox ui:field="userRegisterEmail"/>
+			<g:Label text="Display Name:"/>
+			<g:TextBox ui:field="RegisterEmail"/>
+			<g:Label text="Password:"/>
+			<g:PasswordTextBox ui:field="RegisterPassword"/>
+			<g:Label text="Verify Password:"/>
+			<g:PasswordTextBox ui:field="VerifyPassword"/>
+			<g:HorizontalPanel styleName="registerHorizontal">
+				<g:Button ui:field="submitButton">Submit</g:Button>
+				<g:AbsolutePanel width="50px" height="5px"/>
+				<g:Button ui:field="button">Cancel</g:Button>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+	</g:DialogBox>
+</ui:UiBinder> 

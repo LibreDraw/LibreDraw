@@ -3,7 +3,7 @@
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
 
-  <inherits name='com.google.gwt.user.theme.clean.Clean'/>
+  <inherits name='com.google.gwt.user.theme.chrome.Chrome'/>
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->

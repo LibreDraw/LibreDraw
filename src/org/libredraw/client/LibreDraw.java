@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class LibreDraw implements EntryPoint {
 
 	public void onModuleLoad() {
-		LoginView myScreen = new LoginView();
-		RootPanel.get("loginBox").add(myScreen);
+		RootPanel.get("loginBox").add(new LoginView());
 	}
 }

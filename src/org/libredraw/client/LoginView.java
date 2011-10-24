@@ -11,8 +11,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 
 /**
  * @author Ethan
@@ -22,10 +20,8 @@ public class LoginView extends Composite {
 
 	private static LoginViewUiBinder uiBinder = GWT
 			.create(LoginViewUiBinder.class);
-	@UiField TextBox userEmail;
 	@UiField Button loginButton;
 	@UiField Button registerButton;
-	@UiField PasswordTextBox userPassword;
 
 	interface LoginViewUiBinder extends UiBinder<Widget, LoginView> {
 	}

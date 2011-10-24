@@ -39,6 +39,7 @@
 }
 .loginBox {
 	padding-left: 10px;
+	padding-top:10px;
 	padding-bottom: 10px;
 }
 .heading1 {
@@ -49,4 +50,32 @@
 	font-family: 'Droid Sans', sans-serif;
 	font-weight: 400;
 	padding-left: 20px;
+}
+.loginHorizontal {
+	margin-left:auto;
+	margin-right:auto;
+	padding-top:5px;
+}
+.gwt-Button {
+}
+.loginHeading {
+	font-family: 'Droid Sans', sans-serif;
+	font-weight: 700;
+}
+.loginHeadingTwo {
+	font-family: 'Droid Sans', sans-serif;
+	font-weight: 400;
+}
+.white {
+	color: rgb(255,255,255);
+}
+.registerBox {
+	padding-left: 10px;
+	padding-top:10px;
+	padding-bottom: 10px;
+}
+.registerHorizontal {
+	margin-left:auto;
+	margin-right:auto;
+	padding-top:5px;
 }
