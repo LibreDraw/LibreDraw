@@ -6,6 +6,7 @@ package org.libredraw.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
@@ -22,6 +23,7 @@ public class LoginView extends Composite {
 			.create(LoginViewUiBinder.class);
 	@UiField Button loginButton;
 	@UiField Button registerButton;
+	RegisterView thisRegistration;
 
 	interface LoginViewUiBinder extends UiBinder<Widget, LoginView> {
 	}
@@ -31,5 +33,12 @@ public class LoginView extends Composite {
 	}
 	@UiHandler("registerButton")
 	void onRegisterButtonClick(ClickEvent event) {
+		if(thisRegistration==null) {
+			thisRegistration= new RegisterView();
+			RootPanel.get("register").add(thisRegistration);
+			thisRegistration.registerDialog.center();
+		} else {
+			thisRegistration.registerDialog.show();
+		}
 	}
 }

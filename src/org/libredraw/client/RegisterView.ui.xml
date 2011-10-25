@@ -4,22 +4,25 @@
 	<ui:style>
 		/* Add CSS here. See the GWT docs on UI Binder for more details */
 	</ui:style>
-	<g:DialogBox styleName="registerBox">
-		<g:VerticalPanel>
-			<g:Label text="Register"/>
-			<g:Label text="E-mail:"/>
-			<g:TextBox ui:field="userRegisterEmail"/>
-			<g:Label text="Display Name:"/>
-			<g:TextBox ui:field="RegisterEmail"/>
-			<g:Label text="Password:"/>
-			<g:PasswordTextBox ui:field="RegisterPassword"/>
-			<g:Label text="Verify Password:"/>
-			<g:PasswordTextBox ui:field="VerifyPassword"/>
-			<g:HorizontalPanel styleName="registerHorizontal">
-				<g:Button ui:field="submitButton">Submit</g:Button>
-				<g:AbsolutePanel width="50px" height="5px"/>
-				<g:Button ui:field="button">Cancel</g:Button>
-			</g:HorizontalPanel>
-		</g:VerticalPanel>
-	</g:DialogBox>
+	<g:AbsolutePanel width="100%" height="100%">
+		<g:DialogBox ui:field="registerDialog" animationEnabled="true">
+			<g:caption><b>Register</b></g:caption>
+			<g:VerticalPanel>
+				<g:AbsolutePanel/>
+				<g:Label text="E-mail:"/>
+				<g:TextBox ui:field="registerEmail" width="170px" height="16px"/>
+				<g:Label text="Display Name:"/>
+				<g:TextBox ui:field="registerDisplayName" width="170px" height="16px"/>
+				<g:Label text="Password:"/>
+				<g:PasswordTextBox ui:field="registerPassword" width="170px" height="16px"/>
+				<g:Label text="Verify Password:"/>
+				<g:PasswordTextBox ui:field="registerVerifyPassword" width="170px" height="16px"/>
+				<g:HorizontalPanel styleName="registerHorizontal">
+					<g:Button ui:field="submitButton">Submit</g:Button>
+					<g:AbsolutePanel width="25px" height="20px"/>
+					<g:Button ui:field="cancelButton">Cancel</g:Button>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:DialogBox>
+	</g:AbsolutePanel>
 </ui:UiBinder> 

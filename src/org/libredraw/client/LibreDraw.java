@@ -11,5 +11,6 @@ public class LibreDraw implements EntryPoint {
 
 	public void onModuleLoad() {
 		RootPanel.get("loginBox").add(new LoginView());
+		RootPanel.get("rainbow").add(new Rainbow());
 	}
 }
