@@ -22314,3 +22314,17 @@ Rebinding org.libredraw.client.LoginView_LoginViewUiBinderImpl_designTime1319519
 Rebinding org.libredraw.client.LoginView_LoginViewUiBinderImpl_designTime1319519343050_GenBundle
    Adding '1' new generated units
       Removing invalidated units
+Rebinding org.libredraw.client.RegisterView.RegisterViewUiBinder
+   Adding '3' new generated units
+      Removing invalidated units
+Rebinding org.libredraw.client.RegisterView_RegisterViewUiBinderImpl_designTime1319522204084.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface org.libredraw.client.RegisterView_RegisterViewUiBinderImpl_designTime1319522204084.Template
+         Generating method body for html1()
+         Generating method body for html2()
+         Generating method body for html3()
+   Adding '1' new generated units
+      Removing invalidated units
+Rebinding org.libredraw.client.RegisterView_RegisterViewUiBinderImpl_designTime1319522204084_GenBundle
+   Adding '1' new generated units
+      Removing invalidated units
