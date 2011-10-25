@@ -4,9 +4,9 @@
 	<g:VerticalPanel width="250" height="200" styleName="loginBox">
 		<g:Label text="Login:" styleName="loginHeading"/>
 		<g:Label text="E-Mail:" styleName="loginHeadingTwo"/>
-		<g:TextBox width="200px" height="16px"/>
+		<g:TextBox width="200px" height="16px" ui:field="userEmail"/>
 		<g:Label text="Password:" styleName="loginHeadingTwo"/>
-		<g:PasswordTextBox width="200px" height="16px" />
+		<g:PasswordTextBox width="200px" height="16px" ui:field="userPassword" />
 		<g:HorizontalPanel styleName="loginHorizontal">
 			<g:Button ui:field="loginButton" >Login</g:Button>
 			<g:SimplePanel height="5px" width="45px"/>

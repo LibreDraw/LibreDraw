@@ -18,7 +18,6 @@
 package org.libredraw.shared;
 
 import java.util.Date;
-import com.google.appengine.api.datastore.Key;
 
 public class Diagram extends AutoIncrement
 {

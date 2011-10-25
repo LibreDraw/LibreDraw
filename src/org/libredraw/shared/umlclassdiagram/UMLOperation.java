@@ -19,7 +19,7 @@ package org.libredraw.shared.umlclassdiagram;
 
 import java.util.Vector;
 import org.libredraw.shared.AutoIncrement;
-import com.google.appengine.api.datastore.Key;
+import org.libredraw.shared.Key;
 
 public class UMLOperation extends AutoIncrement
 {

@@ -18,7 +18,7 @@
 package org.libredraw.shared.umlclassdiagram;
 
 import java.util.Vector;
-import com.google.appengine.api.datastore.Key;
+import org.libredraw.shared.Key;
 
 public class Package extends UMLNode
 {

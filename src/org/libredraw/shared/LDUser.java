@@ -17,8 +17,6 @@
 
 package org.libredraw.shared;
 
-import com.google.appengine.api.datastore.Key;
-
 public class LDUser extends AutoIncrement
 {
 	public String authToken;

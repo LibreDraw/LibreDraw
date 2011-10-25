@@ -17,8 +17,6 @@
 
 package org.libredraw.shared;
 
-import com.google.appengine.api.datastore.Key;
-
 public class Authorization extends AutoIncrement
 {
 	public Key regarding;

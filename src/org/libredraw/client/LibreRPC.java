@@ -4,7 +4,9 @@ import org.libredraw.shared.Project;
 import org.libredraw.shared.Version;
 import com.google.appengine.api.datastore.Key;
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+@RemoteServiceRelativePath("request")
 public interface LibreRPC extends RemoteService {
 
 	String login(String email, String password);

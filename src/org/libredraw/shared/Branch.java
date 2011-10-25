@@ -18,7 +18,6 @@
 package org.libredraw.shared;
 
 import java.util.Vector;
-import com.google.appengine.api.datastore.Key;
 
 public class Branch extends AutoIncrement
 {
