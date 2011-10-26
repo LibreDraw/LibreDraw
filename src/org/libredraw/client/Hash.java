@@ -7,6 +7,8 @@ package org.libredraw.client;
  * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
  * Distributed under the BSD License
  * See http://pajhome.org.uk/crypt/md5 for details.
+ * 
+ * http://pajhome.org.uk/crypt/md5/sha1.html
  */
 
 public final class Hash {

@@ -56,7 +56,17 @@ public class LoginView extends Composite {
 	@UiHandler("loginButton")
 	void onLoginButtonClick(ClickEvent event) {
 		errorLabel.setText(Hash.sha1(userPassword.getText()));
-		loginCheck();
+		/*
+		if(userEmail.getText()=="") {
+			errorLabel.setText("Please enter a valid e-mail.");
+		}
+		else if(userPassword.getText()=="") {
+			errorLabel.setText("Please enter a password.");
+		}
+		else {
+			errorLabel.setText("");
+			loginCheck();
+		} */
 	}
 	@UiHandler("userEmail")
 	void onUserEmailKeyPress(KeyPressEvent event) {
