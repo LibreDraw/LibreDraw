@@ -99,3 +99,9 @@
 	margin-right: 0px;
 	margin-top: 0px;
 }
+.errorLabel {
+	font-family: 'Droid Sans', sans-serif;
+	font-weight: 400;
+	color:red;
+	margin-left: 5px;
+}

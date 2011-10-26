@@ -1,6 +1,8 @@
 package org.libredraw.shared;
 
-public class Key {
+import java.io.Serializable;
+
+public class Key implements Serializable {
 	public long id;
-	public Class<?> entityType;
+	public String entityType;
 }

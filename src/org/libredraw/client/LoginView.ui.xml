@@ -2,7 +2,10 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
 	<g:VerticalPanel width="250" height="200" styleName="loginBox">
-		<g:Label text="Login:" styleName="loginHeading"/>
+		<g:HorizontalPanel>
+			<g:Label text="Login:" styleName="loginHeading"/>
+			<g:Label ui:field="errorLabel" styleName="errorLabel"/>
+		</g:HorizontalPanel>
 		<g:Label text="E-Mail:" styleName="loginHeadingTwo"/>
 		<g:TextBox width="200px" height="16px" ui:field="userEmail"/>
 		<g:Label text="Password:" styleName="loginHeadingTwo"/>

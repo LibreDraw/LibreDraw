@@ -1,10 +1,11 @@
 package org.libredraw.server;
 
 import org.libredraw.client.LibreRPC;
+import org.libredraw.shared.DiagramType;
+import org.libredraw.shared.Key;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.Version;
 
-import com.google.appengine.api.datastore.Key;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
@@ -46,7 +47,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 	}
 
 	@Override
-	public boolean createDiagram(String name, Object type) {
+	public boolean createDiagram(String name, DiagramType type) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -58,13 +59,13 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 	}
 
 	@Override
-	public String lockEnity(Object diagram, Key entity) {
+	public String lockEnity(Key entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean commitEntity(Object entity, Object id) {
+	public boolean commitEntity(Key entity) {
 		// TODO Auto-generated method stub
 		return false;
 	}

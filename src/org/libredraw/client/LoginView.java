@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * @author Ethan
@@ -30,6 +31,7 @@ public class LoginView extends Composite {
 	@UiField Button registerButton;
 	@UiField TextBox userEmail;
 	@UiField PasswordTextBox userPassword;
+	@UiField Label errorLabel;
 	RegisterView thisRegistration;
 	
 	private final LibreRPCAsync LibreRPCService = GWT
@@ -53,6 +55,7 @@ public class LoginView extends Composite {
 	}
 	@UiHandler("loginButton")
 	void onLoginButtonClick(ClickEvent event) {
+		errorLabel.setText(Hash.sha1(userPassword.getText()));
 		loginCheck();
 	}
 	@UiHandler("userEmail")

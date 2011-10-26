@@ -1,8 +1,9 @@
 package org.libredraw.client;
 
+import org.libredraw.shared.DiagramType;
+import org.libredraw.shared.Key;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.Version;
-import com.google.appengine.api.datastore.Key;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -21,12 +22,12 @@ public interface LibreRPC extends RemoteService {
 	
 	Version getDiagram(long diagramId, int version);
 	
-	boolean createDiagram(String name, Object type);
+	boolean createDiagram(String name, DiagramType type);
 	
 	boolean createProject(String name);
 	
-	String lockEnity(Object diagram, Key entity);
+	String lockEnity(Key entity);
 	
-	boolean commitEntity(Object entity, Object id);
+	boolean commitEntity(Key entity);
 
 }
