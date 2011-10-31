@@ -15,17 +15,14 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared.umlclassdiagram;
+package org.libredraw.server.persistence;
 
-import java.util.Vector;
-import org.libredraw.shared.Key;
-
-public class UMLClass extends UMLNode
+public class P_Authorization extends P_AutoIncrement
 {
-	boolean isAbstract;
-
-	Vector<Key> operations;
-
-	Vector<Key> atributes;
-
+	public P_Key regarding;
+	public boolean archive;
+	public P_LDUser user;
+	public P_Permission granted;
 }
+
+

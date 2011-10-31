@@ -15,11 +15,13 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared;
+package org.libredraw.server.persistence.umlclassdiagram;
 
-public class GoogleAccountConnector extends AccountConnector
+import java.util.Vector;
+import org.libredraw.server.persistence.P_Key;
+
+public class P_UMLEnumeration extends P_UMLNode
 {
-	public String email;
-	public String authDomain;
-	public String userID;
+	Vector<P_Key> literals;
+
 }

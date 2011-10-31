@@ -15,12 +15,9 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared;
+package org.libredraw.server.persistence;
 
-public abstract class DrawableObject extends AutoIncrement
+public abstract class P_AccountConnector extends P_AutoIncrement
 {
-	public int xCoordinate;
-	public int yCoordinate;
-	public int width;
-	public int height;
+	public String displayName;
 }

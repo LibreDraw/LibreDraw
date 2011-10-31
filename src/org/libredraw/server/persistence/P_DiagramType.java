@@ -1,6 +1,6 @@
-package org.libredraw.shared;
+package org.libredraw.server.persistence;
 
-public enum DiagramType {
+public enum P_DiagramType {
 	UMLClassDiagram,
 	UMLUseCaseDiagram,
 	EntityRelationshipDiagram,

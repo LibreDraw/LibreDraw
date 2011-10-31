@@ -15,14 +15,18 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared.umlclassdiagram;
+package org.libredraw.server.persistence.umlclassdiagram;
 
-import org.libredraw.shared.DrawableObject;
+import org.libredraw.server.persistence.P_AutoIncrement;
 
-public abstract class UMLNode extends DrawableObject
+public class P_UMLAttribute extends P_AutoIncrement
 {
 	String name;
 
-	Visibility visibility;
+	String type;
+
+	String multiplicity;
+
+	P_UMLVisibility visibility;
 
 }

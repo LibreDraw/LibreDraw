@@ -1,9 +1,5 @@
 package org.libredraw.client;
 
-import org.libredraw.shared.DiagramType;
-import org.libredraw.shared.Key;
-import org.libredraw.shared.Project;
-import org.libredraw.shared.Version;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface LibreRPCAsync {
@@ -13,7 +9,7 @@ public interface LibreRPCAsync {
 	
 	void register(String email, String password, String displayName, AsyncCallback<String> callback);
 	
-	void commitEntity(Key entity, AsyncCallback<Boolean> callback);
+	/*void commitEntity(Key entity, AsyncCallback<Boolean> callback);
 	
 	void createDiagram(String name, DiagramType type,
 			AsyncCallback<Boolean> callback);
@@ -26,6 +22,6 @@ public interface LibreRPCAsync {
 	
 	void getProjectList(AsyncCallback<Project[]> callback);
 	
-	void lockEnity(Key entity, AsyncCallback<String> callback);
+	void lockEnity(Key entity, AsyncCallback<String> callback);*/
 	
 }

@@ -15,14 +15,11 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared;
+package org.libredraw.server.persistence;
 
-import java.util.Vector;
-
-public class Branch extends AutoIncrement
+public class P_GenericAccountConnector extends P_AccountConnector
 {
-	public String name;
-	public Key owner;
-	public Key diagram;
-	public Vector<Key> versions;
+	public String password;
+	public String salt;
+	public String email;
 }

@@ -15,9 +15,14 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared;
+package org.libredraw.server.persistence.umlclassdiagram;
 
-public abstract class AccountConnector extends AutoIncrement
+import org.libredraw.server.persistence.P_DrawableObject;
+
+public abstract class P_UMLNode extends P_DrawableObject
 {
-	public String displayName;
+	String name;
+
+	P_UMLVisibility visibility;
+
 }

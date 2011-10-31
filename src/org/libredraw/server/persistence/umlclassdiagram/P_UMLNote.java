@@ -15,15 +15,10 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared.umlclassdiagram;
+package org.libredraw.server.persistence.umlclassdiagram;
 
-import java.util.Vector;
-import org.libredraw.shared.Key;
-
-public class UMLInterface extends UMLNode
+public class P_UMLNote extends P_UMLNode
 {
-	Vector<Key> operations;
+	public String text;
 
-	Vector<Key> atributes;
-	
 }

@@ -15,18 +15,13 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared.umlclassdiagram;
+package org.libredraw.server.persistence.umlclassdiagram;
 
-import org.libredraw.shared.AutoIncrement;
-
-public class UMLAttribute extends AutoIncrement
+public enum P_UMLAssociationType
 {
-	String name;
-
-	String type;
-
-	String multiplicity;
-
-	Visibility visibility;
-
+	Association,
+	Aggregation,
+	Composition,
+	Dependency,
+	Inheritance,
 }

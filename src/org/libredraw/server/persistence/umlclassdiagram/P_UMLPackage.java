@@ -15,13 +15,17 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared.umlclassdiagram;
+package org.libredraw.server.persistence.umlclassdiagram;
 
-public enum AssociationType
+import java.util.Vector;
+import org.libredraw.server.persistence.P_Key;
+
+public class P_UMLPackage extends P_UMLNode
 {
-	Association,
-	Aggregation,
-	Composition,
-	Dependency,
-	Inheritance,
+	String name;
+
+	Vector<P_Key> nodes;
+
+	P_Key parentPackage;
+
 }

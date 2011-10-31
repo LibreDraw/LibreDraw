@@ -15,16 +15,14 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared.umlclassdiagram;
+package org.libredraw.server.persistence.umlclassdiagram;
 
-import org.libredraw.shared.AutoIncrement;
+import org.libredraw.server.persistence.P_AutoIncrement;
 
-public class UMLOperationParameter extends AutoIncrement
+public class P_UMLEnumerationLiteral extends P_AutoIncrement
 {
 	String name;
 
-	String type;
-
-	String multiplicity;
+	String value;
 
 }

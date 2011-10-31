@@ -15,9 +15,9 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared.umlclassdiagram;
+package org.libredraw.server.persistence.umlclassdiagram;
 
-public enum Visibility
+public enum P_UMLVisibility
 {
 	Public,
 	Private,

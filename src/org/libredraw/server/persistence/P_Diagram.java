@@ -15,16 +15,16 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared;
+package org.libredraw.server.persistence;
 
 import java.util.Date;
 
-public class Diagram extends AutoIncrement
+public class P_Diagram extends P_AutoIncrement
 {
 	public String name;
 	public Date createdDate;
 	public Date modifiedDate;
-	public Key owner;
-	public DiagramType type;
-	public Key master;
+	public P_Key owner;
+	public P_DiagramType type;
+	public P_Key master;
 }

@@ -15,11 +15,12 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared;
+package org.libredraw.server.persistence;
 
-public class GenericAccountConnector extends AccountConnector
+public abstract class P_DrawableObject extends P_AutoIncrement
 {
-	public String password;
-	public String salt;
-	public String email;
+	public int xCoordinate;
+	public int yCoordinate;
+	public int width;
+	public int height;
 }

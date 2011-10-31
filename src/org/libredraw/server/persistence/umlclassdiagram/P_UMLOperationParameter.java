@@ -15,10 +15,16 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared.umlclassdiagram;
+package org.libredraw.server.persistence.umlclassdiagram;
 
-public class Note extends UMLNode
+import org.libredraw.server.persistence.P_AutoIncrement;
+
+public class P_UMLOperationParameter extends P_AutoIncrement
 {
-	public String text;
+	String name;
+
+	String type;
+
+	String multiplicity;
 
 }

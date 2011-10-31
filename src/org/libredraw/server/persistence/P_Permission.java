@@ -15,14 +15,24 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared.umlclassdiagram;
+package org.libredraw.server.persistence;
 
-import org.libredraw.shared.AutoIncrement;
-
-public class EnumerationLiteral extends AutoIncrement
+public enum P_Permission
 {
-	String name;
+	READ(1),
+	WRITE(2),
+	BRANCH(4),
+	MERGE(8),
+	EXPORT(16),
+	OWNER(32);
+	
+	private int code;
 
-	Object value;
+	 private P_Permission(int c) {
+	   code = c;
+	 }
 
+	 public int getCode() {
+	   return code;
+	 }
 }

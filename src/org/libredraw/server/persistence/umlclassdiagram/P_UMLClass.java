@@ -15,24 +15,17 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared;
+package org.libredraw.server.persistence.umlclassdiagram;
 
-public enum Permission
+import java.util.Vector;
+import org.libredraw.server.persistence.P_Key;
+
+public class P_UMLClass extends P_UMLNode
 {
-	READ(1),
-	WRITE(2),
-	BRANCH(4),
-	MERGE(8),
-	EXPORT(16),
-	OWNER(32);
-	
-	private int code;
+	boolean isAbstract;
 
-	 private Permission(int c) {
-	   code = c;
-	 }
+	Vector<P_Key> operations;
 
-	 public int getCode() {
-	   return code;
-	 }
+	Vector<P_Key> atributes;
+
 }

@@ -15,10 +15,11 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared;
+package org.libredraw.server.persistence;
 
-public class LDUser extends AutoIncrement
+public class P_GoogleAccountConnector extends P_AccountConnector
 {
-	public String authToken;
-	public Key accountConnector;
+	public String email;
+	public String authDomain;
+	public String userID;
 }

@@ -15,26 +15,20 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.shared.umlclassdiagram;
+package org.libredraw.server.persistence.umlclassdiagram;
 
 import java.util.Vector;
-import org.libredraw.shared.DrawableObject;
-import org.libredraw.shared.Key;
+import org.libredraw.server.persistence.P_AutoIncrement;
+import org.libredraw.server.persistence.P_Key;
 
-public class Association extends DrawableObject
+public class P_UMLOperation extends P_AutoIncrement
 {
-	public String leftName;
+	String name;
 
-	public String rightName;
+	String returnType;
 
-	public String leftMultiplicity;
+	Vector<P_Key> parameters;
 
-	public String rightMiltipliciry;
-
-	public AssociationType type;
-
-	public Vector<Key> nodes;
+	P_UMLVisibility visibility;
 
 }
-
-
