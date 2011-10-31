@@ -17,8 +17,20 @@
 
 package org.libredraw.server.persistence;
 
+import java.security.MessageDigest;
+
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
+
 public class P_LDUser extends P_AutoIncrement
 {
-	public String authToken;
-	public P_Key accountConnector;
+
+	public String m_authToken;
+	public P_Key m_accountConnector;
+	
+	public P_LDUser(P_Key accountConnector) throws Exception {
+		super();
+		this.m_accountConnector = accountConnector;
+	}
+		
 }

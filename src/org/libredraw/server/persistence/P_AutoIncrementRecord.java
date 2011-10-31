@@ -29,7 +29,11 @@ public class P_AutoIncrementRecord {
 		P_UMLOperationParameter.class, 
 		P_UMLPackage.class, 
 		P_UMLVisibility.class
-		};
+	};
+	
+	public P_AutoIncrementRecord(long id) {
+		EntiyType = id;
+	}
 	
 	public long getNextId() {
 		return nextId++;

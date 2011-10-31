@@ -19,5 +19,11 @@ package org.libredraw.server.persistence;
 
 public abstract class P_AccountConnector extends P_AutoIncrement
 {
-	public String displayName;
+	
+	public String m_displayName;
+	
+	public P_AccountConnector(String name) throws Exception {
+		super();
+		this.m_displayName = name;
+	}
 }
