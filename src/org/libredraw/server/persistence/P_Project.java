@@ -1,9 +1,10 @@
 package org.libredraw.server.persistence;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Vector;
+import javax.persistence.Entity;
 
+@Entity
 public class P_Project extends P_AutoIncrement {
 
 	public String m_name;

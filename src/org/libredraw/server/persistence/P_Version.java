@@ -1,10 +1,13 @@
 package org.libredraw.server.persistence;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Vector;
 
 public class P_Version extends P_AutoIncrement {
+	public P_Version() throws Exception {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public String tag;
 	public int versionNuber;
 	public Date date;

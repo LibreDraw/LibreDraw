@@ -21,6 +21,10 @@ import java.util.Date;
 
 public class P_Diagram extends P_AutoIncrement
 {
+	public P_Diagram() throws Exception {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public String name;
 	public Date createdDate;
 	public Date modifiedDate;

@@ -7,14 +7,13 @@ import org.libredraw.server.persistence.umlclassdiagram.*;
 @Entity
 public class P_AutoIncrementRecord {
 
-	@Id public long EntiyType;
-	private long nextId = 0;
-	private static Class<?> table[] = {
+	@Id public long m_entiyType;
+	private long m_nextId = 0;
+	private static Class<?> m_table[] = {
 		P_Authorization.class, 
 		P_Branch.class, 
 		P_Diagram.class, 
 		P_GenericAccountConnector.class, 
-		P_GoogleAccountConnector.class, 
 		P_LDUser.class, 
 		P_Project.class, 
 		P_Version.class, 
@@ -32,16 +31,16 @@ public class P_AutoIncrementRecord {
 	};
 	
 	public P_AutoIncrementRecord(long id) {
-		EntiyType = id;
+		m_entiyType = id;
 	}
 	
 	public long getNextId() {
-		return nextId++;
+		return m_nextId++;
 	}
 	
 	public static long classToLong(Class<?> value) {
-		for(int i=0; i < table.length;i++)
-			if(table[i] == value)
+		for(int i=0; i < m_table.length;i++)
+			if(m_table[i] == value)
 				return i;
 		return -1;
 	}

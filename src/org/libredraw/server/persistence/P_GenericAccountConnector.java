@@ -18,7 +18,9 @@
 package org.libredraw.server.persistence;
 
 import java.security.MessageDigest;
+import javax.persistence.Entity;
 
+@Entity
 public class P_GenericAccountConnector extends P_AccountConnector
 {
 

@@ -21,6 +21,10 @@ import java.util.Vector;
 
 public class P_Branch extends P_AutoIncrement
 {
+	public P_Branch() throws Exception {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public String name;
 	public P_Key owner;
 	public P_Key diagram;

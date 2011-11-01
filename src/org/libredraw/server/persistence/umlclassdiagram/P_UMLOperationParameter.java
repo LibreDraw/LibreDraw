@@ -21,6 +21,11 @@ import org.libredraw.server.persistence.P_AutoIncrement;
 
 public class P_UMLOperationParameter extends P_AutoIncrement
 {
+	public P_UMLOperationParameter() throws Exception {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	String name;
 
 	String type;

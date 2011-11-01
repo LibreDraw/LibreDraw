@@ -8,8 +8,10 @@
 		<g:DialogBox ui:field="registerDialog" animationEnabled="true" text="Register (all fields required)">
 			<g:caption><b>Register</b></g:caption>
 			<g:VerticalPanel>
-				<g:AbsolutePanel/>
-				<g:Label text="E-mail:"/>
+				<g:HorizontalPanel>
+					<g:Label text="E-mail:"/>
+					<g:Label ui:field="errorLabel" styleName="errorLabel"/>
+				</g:HorizontalPanel>
 				<g:TextBox ui:field="registerEmail" width="170px" height="16px"/>
 				<g:Label text="Display Name:"/>
 				<g:TextBox ui:field="registerDisplayName" width="170px" height="16px"/>

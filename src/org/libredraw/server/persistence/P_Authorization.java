@@ -13,16 +13,23 @@
 
     You should have received a copy of the GNU General Public License
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.libredraw.server.persistence;
 
-public class P_Authorization extends P_AutoIncrement
-{
-	public P_Key regarding;
-	public boolean archive;
-	public P_LDUser user;
-	public P_Permission granted;
+public class P_Authorization extends P_AutoIncrement {
+
+	public P_Key m_regarding;
+	public boolean m_archive;
+	public P_Key m_user;
+	public P_Permission m_granted;
+
+	public P_Authorization(P_Key user, P_Key regarding, P_Permission granted) throws Exception {
+		super();
+		m_user = user;
+		m_regarding = regarding;
+		m_granted = granted;
+		m_archive = false;
+	}
+
 }
-
-

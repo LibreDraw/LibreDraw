@@ -19,6 +19,10 @@ package org.libredraw.server.persistence;
 
 public abstract class P_DrawableObject extends P_AutoIncrement
 {
+	public P_DrawableObject() throws Exception {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public int xCoordinate;
 	public int yCoordinate;
 	public int width;

@@ -21,6 +21,11 @@ import org.libredraw.server.persistence.P_AutoIncrement;
 
 public class P_UMLEnumerationLiteral extends P_AutoIncrement
 {
+	public P_UMLEnumerationLiteral() throws Exception {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	String name;
 
 	String value;

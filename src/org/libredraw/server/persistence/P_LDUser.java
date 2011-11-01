@@ -17,11 +17,9 @@
 
 package org.libredraw.server.persistence;
 
-import java.security.MessageDigest;
+import javax.persistence.Entity;
 
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyService;
-
+@Entity
 public class P_LDUser extends P_AutoIncrement
 {
 

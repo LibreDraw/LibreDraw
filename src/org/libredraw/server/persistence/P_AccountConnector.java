@@ -22,8 +22,8 @@ public abstract class P_AccountConnector extends P_AutoIncrement
 	
 	public String m_displayName;
 	
-	public P_AccountConnector(String name) throws Exception {
+	public P_AccountConnector(String diaplayName) throws Exception {
 		super();
-		this.m_displayName = name;
+		this.m_displayName = diaplayName;
 	}
 }

@@ -27,14 +27,15 @@ public class P_AutoIncrement {
 		P_AutoIncrementRecord record;
 		long id = P_AutoIncrementRecord.classToLong(value);
 		if(id<0)
-			throw new Exception("Bad class type");
+			throw new Exception("Bad class type"); //This should never happen!
 		try {
-			record = (P_AutoIncrementRecord) ofy.get(value, id);
+			record = ofy.get(P_AutoIncrementRecord.class, id);
 		} catch (NotFoundException e) {
+			//make one if not in existence
 			record = new P_AutoIncrementRecord(id);
 		}
 		long nextId = record.getNextId();
-		ofy.put(record);
+		ofy.put(record); //make sure to store changed record
 		return nextId;
 	}
 	
