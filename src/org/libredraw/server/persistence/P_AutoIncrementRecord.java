@@ -9,7 +9,7 @@ public class P_AutoIncrementRecord {
 
 	@Id public long m_entiyType;
 	private long m_nextId = 0;
-	private static Class<?> m_table[] = {
+	public static Class<?> m_table[] = {
 		P_Authorization.class, 
 		P_Branch.class, 
 		P_Diagram.class, 

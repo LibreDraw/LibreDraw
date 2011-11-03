@@ -22,17 +22,16 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 
 	@Override
 	public String register(String email, String password, String displayName) throws Exception {
-		Query<P_GenericAccountConnector> query = 
-			dba.getQuery(P_GenericAccountConnector.class).filter("m_email =", email);
+		//Query<P_GenericAccountConnector> query = 
+		//	dba.getQuery(P_GenericAccountConnector.class).filter("m_email =", email);
 
-		if(query.get() != null)
-			throw new Exception("email in use");
+		//if(query.get() != null)
+			//throw new Exception("email in use");
 		
 		try {
 			P_Key connector = dba.createGenericAccountConnector(email, password, displayName);
 			dba.createLDUser(connector);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace(); //This should never happen!
 		}
 		return "Sucsess";

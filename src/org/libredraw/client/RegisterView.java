@@ -3,6 +3,8 @@
  */
 package org.libredraw.client;
 
+import java.io.PrintStream;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -49,10 +51,17 @@ public class RegisterView extends Composite {
 		LibreRPCService.register(registerEmail.getText(), Hash.sha1(registerPassword.getText()), registerDisplayName.getText(),
 				new AsyncCallback<String>() {
 				public void onFailure(Throwable caught) {
-					errorLabel.setText(caught.toString());
+					String output = caught.getClass().getName() + ": " + caught.getMessage();
+					for (StackTraceElement ste : caught.getStackTrace())
+						output += "\n" + ste.toString();
+					
+					errorLabel.setText(output);
 				}
 				public void onSuccess(String result) {
-					hide();
+					if(result =="Sucsess")
+						hide();
+					else
+						errorLabel.setText(result);
 				}
 		});
 	}

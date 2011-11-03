@@ -28,11 +28,11 @@ public enum P_Permission
 	
 	private int code;
 
-	 private P_Permission(int c) {
-	   code = c;
-	 }
+	private P_Permission(int c) {
+		code = c;
+	}
 
-	 public int getCode() {
-	   return code;
-	 }
+	public int getCode() {
+		return code;
+	}
 }

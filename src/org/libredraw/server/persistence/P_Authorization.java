@@ -17,12 +17,18 @@
 
 package org.libredraw.server.persistence;
 
+import javax.persistence.Id;
+
 public class P_Authorization extends P_AutoIncrement {
 
 	public P_Key m_regarding;
 	public boolean m_archive;
 	public P_Key m_user;
 	public P_Permission m_granted;
+	
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
 
 	public P_Authorization(P_Key user, P_Key regarding, P_Permission granted) throws Exception {
 		super();
