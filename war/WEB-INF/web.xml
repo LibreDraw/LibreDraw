@@ -6,6 +6,15 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
+  <servlet>
+    <servlet-name>EngineRPC</servlet-name>
+    <servlet-class>org.libredraw.server.EngineRPC</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>EngineRPC</servlet-name>
+    <url-pattern>/libredraw/request</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

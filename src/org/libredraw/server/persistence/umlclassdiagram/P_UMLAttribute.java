@@ -27,11 +27,8 @@ public class P_UMLAttribute extends P_AutoIncrement
 	}
 
 	String name;
-
 	String type;
-
 	String multiplicity;
-
 	P_UMLVisibility visibility;
 
 }

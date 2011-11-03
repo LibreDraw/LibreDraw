@@ -23,9 +23,7 @@ import org.libredraw.server.persistence.P_Key;
 public class P_UMLPackage extends P_UMLNode
 {
 	String name;
-
 	Vector<P_Key> nodes;
-
 	P_Key parentPackage;
 
 }

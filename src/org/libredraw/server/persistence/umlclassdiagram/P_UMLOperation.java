@@ -29,11 +29,8 @@ public class P_UMLOperation extends P_AutoIncrement
 	}
 
 	String name;
-
 	String returnType;
-
 	Vector<P_Key> parameters;
-
 	P_UMLVisibility visibility;
 
 }

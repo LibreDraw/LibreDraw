@@ -27,9 +27,7 @@ public class P_UMLOperationParameter extends P_AutoIncrement
 	}
 
 	String name;
-
 	String type;
-
 	String multiplicity;
 
 }

@@ -23,9 +23,7 @@ import org.libredraw.server.persistence.P_Key;
 public class P_UMLClass extends P_UMLNode
 {
 	boolean isAbstract;
-
 	Vector<P_Key> operations;
-
 	Vector<P_Key> atributes;
 
 }

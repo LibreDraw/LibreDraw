@@ -1,9 +1,11 @@
 package org.libredraw.server;
 
+import java.io.Console;
+
 import org.libredraw.client.LibreRPC;
 import org.libredraw.server.persistence.DAO;
 import org.libredraw.server.persistence.P_GenericAccountConnector;
-import org.libredraw.server.persistence.P_LDUser;
+import org.libredraw.server.persistence.P_Key;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Query;
@@ -27,7 +29,8 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			throw new Exception("email in use");
 		
 		try {
-			dba.createLDUser(dba.createGenericAccountConnector(email, password, displayName));
+			P_Key connector = dba.createGenericAccountConnector(email, password, displayName);
+			dba.createLDUser(connector);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); //This should never happen!

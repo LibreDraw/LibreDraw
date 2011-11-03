@@ -19,7 +19,7 @@ package org.libredraw.server.persistence;
 
 public abstract class P_DrawableObject extends P_AutoIncrement
 {
-	public P_DrawableObject() throws Exception {
+	public P_DrawableObject() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

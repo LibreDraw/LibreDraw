@@ -18,13 +18,18 @@
 package org.libredraw.server.persistence;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
-public class P_LDUser extends P_AutoIncrement
+public class P_LDUser
 {
 
 	public String m_authToken;
 	public P_Key m_accountConnector;
+	
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
 	
 	public P_LDUser(P_Key accountConnector) throws Exception {
 		super();

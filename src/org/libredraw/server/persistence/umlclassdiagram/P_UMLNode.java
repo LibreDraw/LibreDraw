@@ -19,10 +19,9 @@ package org.libredraw.server.persistence.umlclassdiagram;
 
 import org.libredraw.server.persistence.P_DrawableObject;
 
-public abstract class P_UMLNode extends P_DrawableObject
-{
+public class P_UMLNode extends P_DrawableObject {
+	
 	String name;
-
 	P_UMLVisibility visibility;
-
+	
 }

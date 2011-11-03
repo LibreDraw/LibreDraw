@@ -1,14 +1,10 @@
 package org.libredraw.server.persistence;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.NotFoundException;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Query;
 import com.googlecode.objectify.util.DAOBase;
-import java.io.UnsupportedEncodingException; 
-import java.security.MessageDigest; 
-import java.security.NoSuchAlgorithmException; 
 
 public class DAO extends DAOBase {
 	

@@ -19,6 +19,7 @@ package org.libredraw.server.persistence;
 
 import java.security.MessageDigest;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class P_GenericAccountConnector extends P_AccountConnector
@@ -27,6 +28,10 @@ public class P_GenericAccountConnector extends P_AccountConnector
 	public String m_password;
 	public String m_salt;
 	public String m_email;
+	
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
 	
 	public P_GenericAccountConnector(String email, String password, String name) 
 			throws Exception {

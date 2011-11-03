@@ -23,7 +23,6 @@ import org.libredraw.server.persistence.P_Key;
 public class P_UMLInterface extends P_UMLNode
 {
 	Vector<P_Key> operations;
-
 	Vector<P_Key> atributes;
 	
 }

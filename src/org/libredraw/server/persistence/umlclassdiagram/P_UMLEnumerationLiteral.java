@@ -27,7 +27,6 @@ public class P_UMLEnumerationLiteral extends P_AutoIncrement
 	}
 
 	String name;
-
 	String value;
 
 }

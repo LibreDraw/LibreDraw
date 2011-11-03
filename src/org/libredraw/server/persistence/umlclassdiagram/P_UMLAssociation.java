@@ -21,20 +21,13 @@ import java.util.Vector;
 import org.libredraw.server.persistence.P_DrawableObject;
 import org.libredraw.server.persistence.P_Key;
 
-public class P_UMLAssociation extends P_DrawableObject
-{
+public class P_UMLAssociation extends P_DrawableObject {
+	
 	public String leftName;
-
 	public String rightName;
-
 	public String leftMultiplicity;
-
 	public String rightMiltipliciry;
-
 	public P_UMLAssociationType type;
-
 	public Vector<P_Key> nodes;
-
+	
 }
-
-
