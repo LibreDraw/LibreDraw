@@ -1,35 +1,43 @@
 package org.libredraw.server;
 
-import java.io.Console;
-
 import org.libredraw.client.LibreRPC;
 import org.libredraw.server.persistence.DAO;
 import org.libredraw.server.persistence.P_GenericAccountConnector;
-import org.libredraw.server.persistence.P_Key;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Query;
 
 public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
+	
+
+	private static final long serialVersionUID = 1024L;
 	
 	static DAO dba = new DAO();
 
 	@Override
 	public String login(String email, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		Query<P_GenericAccountConnector> query = 
+			dba.getQuery(P_GenericAccountConnector.class).filter("m_email =", email);
+		
+		P_GenericAccountConnector account = query.get();
+		
+		if(account != null && account.checkPassword(password)) {
+			return "Sucsess";
+		}
+			
+		return "bad combination";
 	}
 
 	@Override
-	public String register(String email, String password, String displayName) throws Exception {
-		//Query<P_GenericAccountConnector> query = 
-		//	dba.getQuery(P_GenericAccountConnector.class).filter("m_email =", email);
+	public String register(String email, String password, String displayName) {
+		Query<P_GenericAccountConnector> query = 
+			dba.getQuery(P_GenericAccountConnector.class).filter("m_email =", email);
 
-		//if(query.get() != null)
-			//throw new Exception("email in use");
+		if(query.get() != null)
+			return("email in use");
 		
 		try {
-			P_Key connector = dba.createGenericAccountConnector(email, password, displayName);
+			Key<?> connector = dba.createGenericAccountConnector(email, password, displayName);
 			dba.createLDUser(connector);
 		} catch (Exception e) {
 			e.printStackTrace(); //This should never happen!

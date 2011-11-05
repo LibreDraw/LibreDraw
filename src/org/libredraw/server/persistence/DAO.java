@@ -7,61 +7,51 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Query;
 import com.googlecode.objectify.util.DAOBase;
 
+
 public class DAO extends DAOBase {
 	
-	private static Objectify ofy = ObjectifyService.begin();
+	static {
+		ObjectifyFactory factory = ObjectifyService.factory();
+		for(Class<?> currentClass : P_AutoIncrement.m_table) {
+			factory.register(currentClass);
+		}
+	}
+	
+	private final Objectify ofy = ObjectifyService.begin();
 	
 	/**
 	 * @param accountConnector
 	 * @return P_Key to reference created LDUser
 	 * @throws Exception
 	 */
-	public P_Key createLDUser(P_Key accountConnector) throws Exception {
-		registerClasses();
-		Key<?> object = ofy.put(new P_LDUser(accountConnector));
-		return new P_Key(object.getClass(), object.getId());
+	public Key<?> createLDUser(Key<?> accountConnector) {
+		return ofy.put(new P_LDUser(accountConnector));
 	}
 	
-	public P_Key createGenericAccountConnector(String email, String password, String diaplayName) throws Exception {
-		registerClasses();
-		Key<?> object = ofy.put(new P_GenericAccountConnector(email, password, diaplayName));
-		return new P_Key(object.getClass(), object.getId());
+	public Key<?> createGenericAccountConnector(String email, String password, String diaplayName) {
+		return ofy.put(new P_GenericAccountConnector(email, password, diaplayName));
 	}
 	
-	public P_Key createProject(String name, P_Key owner) throws Exception {
-		registerClasses();
-		Key<?> object = ofy.put(new P_Project(name, owner));
-		return new P_Key(object.getClass(), object.getId());
+	public Key<?> createProject(String name, Key<?> owner) {
+		return ofy.put(new P_Project(name, owner));
 	}
 	
-	public P_Key createAuthorization(P_Key user, P_Key regarding, P_Permission granted) throws Exception {
-		registerClasses();
-		Key<?> object = ofy.put(new P_Authorization(user, regarding, granted));
-		return new P_Key(object.getClass(), object.getId());
+	public Key<?> createAuthorization(Key<?> user, Key<?> regarding, P_Permission granted) {
+		return ofy.put(new P_Authorization(user, regarding, granted));
 	}
 	
-	public Object get(P_Key entity) {
-		registerClasses();
-		return ofy.get(new Key(entity.entityType, entity.id));
+	public Object get(Key<?> entity) {
+		return ofy.get(entity);
 	}
 	
-	public P_Key put(Object entity) {
-		registerClasses();
-		Key<?> key = ofy.put(entity);
-		return new P_Key(key.getClass(), key.getId());
+	public Key<?> put(Object entity) {
+		return ofy.put(entity);
 	}
 	
 	public <T> Query<T> getQuery(Class<T> entityType) {
-		registerClasses();
 		return ofy.query(entityType);
 	}
 	
-	private void registerClasses() {
-		ObjectifyFactory factory = ObjectifyService.factory();
-		for(int i=0;i<P_AutoIncrementRecord.m_table.length;i++) {
-			factory.register(P_AutoIncrementRecord.m_table[i]);
-		}
-	}
-	
+		
 }
 

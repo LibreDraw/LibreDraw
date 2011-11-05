@@ -19,14 +19,22 @@ package org.libredraw.server.persistence;
 
 import java.util.Vector;
 
-public class P_Branch extends P_AutoIncrement
+import javax.persistence.Id;
+
+import com.googlecode.objectify.Key;
+
+public class P_Branch
 {
-	public P_Branch() throws Exception {
-		super();
+	public P_Branch() {
 		// TODO Auto-generated constructor stub
 	}
-	public String name;
-	public P_Key owner;
-	public P_Key diagram;
-	public Vector<P_Key> versions;
+	
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
+	
+	public String m_name;
+	public Key<?> m_owner;
+	public Key<?> m_diagram;
+	public Vector<Key<?>> m_versions;
 }

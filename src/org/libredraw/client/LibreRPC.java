@@ -8,7 +8,7 @@ public interface LibreRPC extends RemoteService {
 
 	String login(String email, String password);
 
-	String register(String email, String password, String displayName) throws Exception;
+	String register(String email, String password, String displayName);
 
 	String login(String authToken);
 	

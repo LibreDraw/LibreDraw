@@ -19,16 +19,24 @@ package org.libredraw.server.persistence;
 
 import java.util.Date;
 
-public class P_Diagram extends P_AutoIncrement
+import javax.persistence.Id;
+
+import com.googlecode.objectify.Key;
+
+public class P_Diagram
 {
-	public P_Diagram() throws Exception {
-		super();
+	public P_Diagram() {
 		// TODO Auto-generated constructor stub
 	}
-	public String name;
-	public Date createdDate;
-	public Date modifiedDate;
-	public P_Key owner;
-	public P_DiagramType type;
-	public P_Key master;
+	
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
+	
+	public String m_name;
+	public Date m_createdDate;
+	public Date m_modifiedDate;
+	public Key<?> m_owner;
+	public P_DiagramType m_type;
+	public Key<?> m_master;
 }

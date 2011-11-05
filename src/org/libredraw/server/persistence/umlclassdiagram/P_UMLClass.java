@@ -18,12 +18,18 @@
 package org.libredraw.server.persistence.umlclassdiagram;
 
 import java.util.Vector;
-import org.libredraw.server.persistence.P_Key;
+import javax.persistence.Id;
+import com.googlecode.objectify.Key;
 
 public class P_UMLClass extends P_UMLNode
 {
+	
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
+	
 	boolean isAbstract;
-	Vector<P_Key> operations;
-	Vector<P_Key> atributes;
+	Vector<Key<?>> operations;
+	Vector<Key<?>> atributes;
 
 }

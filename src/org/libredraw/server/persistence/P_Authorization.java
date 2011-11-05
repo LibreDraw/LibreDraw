@@ -17,21 +17,29 @@
 
 package org.libredraw.server.persistence;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
-public class P_Authorization extends P_AutoIncrement {
+import com.googlecode.objectify.Key;
 
-	public P_Key m_regarding;
+@Entity
+public class P_Authorization {
+
+	public Key<?> m_regarding;
 	public boolean m_archive;
-	public P_Key m_user;
+	public Key<?> m_user;
 	public P_Permission m_granted;
 	
 	@Id public long id;
-	public boolean locked;
-	public boolean limited;
+	
+	public P_Authorization() {
+		m_user = null;
+		m_regarding = null;
+		m_granted = null;
+		m_archive = false;
+	}
 
-	public P_Authorization(P_Key user, P_Key regarding, P_Permission granted) throws Exception {
-		super();
+	public P_Authorization(Key<?> user, Key<?> regarding, P_Permission granted) {
 		m_user = user;
 		m_regarding = regarding;
 		m_granted = granted;

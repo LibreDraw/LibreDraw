@@ -18,19 +18,24 @@
 package org.libredraw.server.persistence.umlclassdiagram;
 
 import java.util.Vector;
-import org.libredraw.server.persistence.P_AutoIncrement;
-import org.libredraw.server.persistence.P_Key;
 
-public class P_UMLOperation extends P_AutoIncrement
+import javax.persistence.Id;
+
+import com.googlecode.objectify.Key;
+
+public class P_UMLOperation
 {
-	public P_UMLOperation() throws Exception {
-		super();
+	public P_UMLOperation() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
 
 	String name;
 	String returnType;
-	Vector<P_Key> parameters;
+	Vector<Key<?>> parameters;
 	P_UMLVisibility visibility;
 
 }

@@ -20,19 +20,19 @@ package org.libredraw.server.persistence;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.googlecode.objectify.Key;
+
 @Entity
 public class P_LDUser
 {
 
 	public String m_authToken;
-	public P_Key m_accountConnector;
+	public Key<?> m_accountConnector;
 	
 	@Id public long id;
-	public boolean locked;
-	public boolean limited;
 	
-	public P_LDUser(P_Key accountConnector) throws Exception {
-		super();
+	public P_LDUser(Key<?> accountConnector) {
+		id = P_AutoIncrement.getNextId(this.getClass());
 		this.m_accountConnector = accountConnector;
 	}
 		

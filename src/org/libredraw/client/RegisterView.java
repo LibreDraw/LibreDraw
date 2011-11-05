@@ -3,8 +3,6 @@
  */
 package org.libredraw.client;
 
-import java.io.PrintStream;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -18,6 +16,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
 /**
  * @author Ethan
@@ -35,6 +34,7 @@ public class RegisterView extends Composite {
 	@UiField PasswordTextBox registerVerifyPassword;
 	@UiField DialogBox registerDialog;
 	@UiField Label errorLabel;
+	@UiField AbsolutePanel overlay;
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
@@ -48,22 +48,32 @@ public class RegisterView extends Composite {
 
 	@UiHandler("submitButton")
 	void onSubmitButtonClick(ClickEvent event) {
-		LibreRPCService.register(registerEmail.getText(), Hash.sha1(registerPassword.getText()), registerDisplayName.getText(),
-				new AsyncCallback<String>() {
-				public void onFailure(Throwable caught) {
-					String output = caught.getClass().getName() + ": " + caught.getMessage();
-					for (StackTraceElement ste : caught.getStackTrace())
-						output += "\n" + ste.toString();
-					
-					errorLabel.setText(output);
-				}
-				public void onSuccess(String result) {
-					if(result =="Sucsess")
-						hide();
-					else
-						errorLabel.setText(result);
-				}
-		});
+		if(registerEmail.getText() == "" || 
+				registerDisplayName.getText() == "" || 
+				registerPassword.getText() == "" || 
+				registerVerifyPassword.getText() == "") {
+			errorLabel.setText("All fields are required");
+		} else if(registerPassword.getText() != registerVerifyPassword.getText()) {
+			errorLabel.setText("Passwords do not match.");
+		} else if(!validateEmail(registerEmail.getText())) {
+			errorLabel.setText("Invalid email");
+		} else {
+			errorLabel.setText("");
+			LibreRPCService.register(registerEmail.getText(), Hash.sha1(registerPassword.getText()), registerDisplayName.getText(),
+					new AsyncCallback<String>() {
+					public void onFailure(Throwable caught) {
+						overlay.add(new StackTrace(caught));
+					}
+					public void onSuccess(String result) {
+						if(result =="Sucsess")
+							hide();
+						else if (result=="email in use")
+							errorLabel.setText("Email in use.");
+						else
+							errorLabel.setText(result);
+					}
+			});
+		}
 	}
 	@UiHandler("cancelButton")
 	void onCancelButtonClick(ClickEvent event) {
@@ -77,4 +87,9 @@ public class RegisterView extends Composite {
 		registerPassword.setText("");
 		registerVerifyPassword.setText("");
 	}
+	
+	private native boolean validateEmail(String email) /*-{
+		var emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;;
+		return emailPattern.test(email);
+	}-*/;
 }

@@ -18,16 +18,21 @@
 package org.libredraw.server.persistence.umlclassdiagram;
 
 import java.util.Vector;
+import javax.persistence.Id;
 import org.libredraw.server.persistence.P_DrawableObject;
-import org.libredraw.server.persistence.P_Key;
+import com.googlecode.objectify.Key;
 
 public class P_UMLAssociation extends P_DrawableObject {
+	
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
 	
 	public String leftName;
 	public String rightName;
 	public String leftMultiplicity;
 	public String rightMiltipliciry;
 	public P_UMLAssociationType type;
-	public Vector<P_Key> nodes;
+	public Vector<Key<?>> nodes;
 	
 }

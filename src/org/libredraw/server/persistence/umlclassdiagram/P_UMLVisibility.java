@@ -22,5 +22,6 @@ public enum P_UMLVisibility
 	Public,
 	Private,
 	Package,
-	Protected,
+	Protected;
+	
 }

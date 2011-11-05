@@ -17,14 +17,13 @@
 
 package org.libredraw.server.persistence;
 
-public abstract class P_DrawableObject extends P_AutoIncrement
+public abstract class P_DrawableObject
 {
 	public P_DrawableObject() {
-		super();
 		// TODO Auto-generated constructor stub
 	}
-	public int xCoordinate;
-	public int yCoordinate;
-	public int width;
-	public int height;
+	public int m_xCoordinate;
+	public int m_yCoordinate;
+	public int m_width;
+	public int m_height;
 }

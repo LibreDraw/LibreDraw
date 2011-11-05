@@ -4,7 +4,7 @@
 	<ui:style>
 		/* Add CSS here. See the GWT docs on UI Binder for more details */
 	</ui:style>
-	<g:AbsolutePanel width="100%" height="100%">
+	<g:AbsolutePanel width="100%" height="100%" ui:field="overlay">
 		<g:DialogBox ui:field="registerDialog" animationEnabled="true" text="Register (all fields required)">
 			<g:caption><b>Register</b></g:caption>
 			<g:VerticalPanel>

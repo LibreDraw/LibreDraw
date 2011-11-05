@@ -17,8 +17,15 @@
 
 package org.libredraw.server.persistence.umlclassdiagram;
 
+import javax.persistence.Id;
+
 public class P_UMLNote extends P_UMLNode
 {
+	
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
+	
 	public String text;
 
 }

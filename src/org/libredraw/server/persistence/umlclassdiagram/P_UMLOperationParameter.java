@@ -17,14 +17,17 @@
 
 package org.libredraw.server.persistence.umlclassdiagram;
 
-import org.libredraw.server.persistence.P_AutoIncrement;
+import javax.persistence.Id;
 
-public class P_UMLOperationParameter extends P_AutoIncrement
+public class P_UMLOperationParameter
 {
-	public P_UMLOperationParameter() throws Exception {
-		super();
+	public P_UMLOperationParameter() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
 
 	String name;
 	String type;

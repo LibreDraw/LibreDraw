@@ -18,6 +18,7 @@
 package org.libredraw.server.persistence;
 
 import java.security.MessageDigest;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -30,18 +31,25 @@ public class P_GenericAccountConnector extends P_AccountConnector
 	public String m_email;
 	
 	@Id public long id;
-	public boolean locked;
-	public boolean limited;
 	
-	public P_GenericAccountConnector(String email, String password, String name) 
-			throws Exception {
+	public P_GenericAccountConnector() {
+		super();
+		id = P_AutoIncrement.getNextId(this.getClass());
+		m_email = null;
+		m_salt = null;
+		m_password = null;
+	}
+	
+	public P_GenericAccountConnector(String email, String password, String name) {
 		super(name);
-		this.m_email = email;
-		this.m_password = hashPassword(this.m_salt + password);
+		id = P_AutoIncrement.getNextId(this.getClass());
+		m_email = email;
+		m_salt = hashPassword(new Date().toString() + m_email);
+		m_password = hashPassword(this.m_salt + password);
 	}
 	
 	public boolean checkPassword(String password) {
-		if(hashPassword(this.m_salt + password) == this.m_password)
+		if(hashPassword(this.m_salt + password) == m_password)
 			return true;
 		return false;
 	}
