@@ -33,11 +33,6 @@ public class P_GenericAccountConnector extends P_AccountConnector
 	@Id public long id;
 	
 	public P_GenericAccountConnector() {
-		super();
-		id = P_AutoIncrement.getNextId(this.getClass());
-		m_email = null;
-		m_salt = null;
-		m_password = null;
 	}
 	
 	public P_GenericAccountConnector(String email, String password, String name) {

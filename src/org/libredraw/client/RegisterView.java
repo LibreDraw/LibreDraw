@@ -67,8 +67,10 @@ public class RegisterView extends Composite {
 					public void onSuccess(String result) {
 						if(result =="Sucsess")
 							hide();
-						else if (result=="email in use")
+						else if (result=="email")
 							errorLabel.setText("Email in use.");
+						else if (result=="name")
+							errorLabel.setText("Display name in use.");
 						else
 							errorLabel.setText(result);
 					}
@@ -86,6 +88,7 @@ public class RegisterView extends Composite {
 		registerDisplayName.setText("");
 		registerPassword.setText("");
 		registerVerifyPassword.setText("");
+		errorLabel.setText("");
 	}
 	
 	private native boolean validateEmail(String email) /*-{

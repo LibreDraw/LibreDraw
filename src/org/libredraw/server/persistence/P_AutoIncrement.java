@@ -9,7 +9,7 @@ public final class P_AutoIncrement {
 	
 	private static Objectify m_ofy = ObjectifyService.begin();
 	public static Class<?> m_table[] = {
-		P_AutoIncrementRecord.class,
+		P_AutoIncrementRecord.class, //can't use zero
 		P_Authorization.class, 
 		P_Branch.class, 
 		P_Diagram.class, 

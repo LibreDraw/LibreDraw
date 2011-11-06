@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Label;
  * @author Ethan
  *
  */
-public class LoginView extends Composite {
+public class LoginBox extends Composite {
 
 	private static LoginViewUiBinder uiBinder = GWT
 			.create(LoginViewUiBinder.class);
@@ -37,10 +37,10 @@ public class LoginView extends Composite {
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
 
-	interface LoginViewUiBinder extends UiBinder<Widget, LoginView> {
+	interface LoginViewUiBinder extends UiBinder<Widget, LoginBox> {
 	}
 
-	public LoginView() {
+	public LoginBox() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	@UiHandler("registerButton")
@@ -83,10 +83,12 @@ public class LoginView extends Composite {
 		LibreRPCService.login(userEmail.getText(), Hash.sha1(userPassword.getText()),
 				new AsyncCallback<String>() {
 				public void onFailure(Throwable caught) {
-					
+					RootPanel.get("overlay").add(new StackTrace(caught));
 				}
 				public void onSuccess(String result) {
-					
+					if(result == "Sucsess") {
+						errorLabel.setText("Login Sucsess");
+					}
 				}
 		});
 	}

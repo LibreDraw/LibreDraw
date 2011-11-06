@@ -34,14 +34,18 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			dba.getQuery(P_GenericAccountConnector.class).filter("m_email =", email);
 
 		if(query.get() != null)
-			return("email in use");
+			return("email");
 		
-		try {
-			Key<?> connector = dba.createGenericAccountConnector(email, password, displayName);
-			dba.createLDUser(connector);
-		} catch (Exception e) {
-			e.printStackTrace(); //This should never happen!
-		}
+		query = 
+			dba.getQuery(P_GenericAccountConnector.class).filter("m_displayName =", displayName);
+		
+		if(query.get() != null)
+			return("name");
+		
+		Key<?> connector = 
+			dba.createGenericAccountConnector(email, password, displayName);
+		dba.createLDUser(connector);
+		
 		return "Sucsess";
 	}
 
