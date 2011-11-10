@@ -7,10 +7,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class LibreDraw implements EntryPoint {
+public class Login implements EntryPoint {
 
 	public void onModuleLoad() {
-		RootPanel.get("loginBox").add(new LoginBox());
-		RootPanel.get("rainbow").add(new Rainbow());
+			RootPanel.get("loginBox").add(new LoginBox());
+			RootPanel.get("rainbow").add(new Rainbow());
 	}
 }
