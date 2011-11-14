@@ -17,15 +17,19 @@
 
 package org.libredraw.server.persistence;
 
+import com.googlecode.objectify.Key;
+
 public abstract class P_AccountConnector
 {
 	public String m_displayName;
+	public Key<P_LDUser> m_user;
 	
 	public P_AccountConnector() {
-		this.m_displayName = null;
+		m_displayName = null;
 	}
 	
 	public P_AccountConnector(String diaplayName) {
-		this.m_displayName = diaplayName;
+		m_displayName = diaplayName;
+		m_user = null;
 	}
 }

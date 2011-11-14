@@ -24,15 +24,21 @@ public class DAO extends DAOBase {
 	 * @return P_Key to reference created LDUser
 	 * @throws Exception
 	 */
-	public Key<?> createLDUser(Key<?> accountConnector) {
-		return ofy.put(new P_LDUser(accountConnector));
+	public Key<P_LDUser> createLDUser(Key<P_GenericAccountConnector> accountConnector) {
+		
+		P_AccountConnector connector = ofy.get(accountConnector);
+		
+		connector.m_user = ofy.put(new P_LDUser(accountConnector));
+		ofy.put(connector);
+		
+		return connector.m_user;
 	}
 	
-	public Key<?> createGenericAccountConnector(String email, String password, String diaplayName) {
+	public Key<P_GenericAccountConnector> createGenericAccountConnector(String email, String password, String diaplayName) {
 		return ofy.put(new P_GenericAccountConnector(email, password, diaplayName));
 	}
 	
-	public Key<?> createProject(String name, Key<?> owner) {
+	public Key<P_Project> createProject(String name, Key<P_LDUser> owner) {
 		return ofy.put(new P_Project(name, owner));
 	}
 	

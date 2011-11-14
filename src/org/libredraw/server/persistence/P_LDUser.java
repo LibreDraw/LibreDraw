@@ -19,7 +19,6 @@ package org.libredraw.server.persistence;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
 import com.googlecode.objectify.Key;
 
 @Entity

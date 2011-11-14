@@ -18,9 +18,8 @@
 package org.libredraw.server.persistence;
 
 import java.util.Date;
-
 import javax.persistence.Id;
-
+import org.libredraw.shared.DiagramType;
 import com.googlecode.objectify.Key;
 
 public class P_Diagram
@@ -37,6 +36,6 @@ public class P_Diagram
 	public Date m_createdDate;
 	public Date m_modifiedDate;
 	public Key<?> m_owner;
-	public P_DiagramType m_type;
+	public DiagramType m_type;
 	public Key<?> m_master;
 }

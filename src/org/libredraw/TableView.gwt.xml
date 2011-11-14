@@ -3,5 +3,10 @@
 <module>
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="com.google.gwt.user.theme.clean.Clean" />
-	<source path="client"/>
+	
+	<entry-point class='org.libredraw.client.TableView'/>
+
+	<source path='client'/>
+	<source path='shared'/>
+	
 </module>
