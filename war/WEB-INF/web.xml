@@ -13,7 +13,8 @@
   
   <servlet-mapping>
     <servlet-name>EngineRPC</servlet-name>
-    <url-pattern>/libredraw/request</url-pattern>
+    <url-pattern>/login/request</url-pattern>
+    <url-pattern>/TableView/request</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

@@ -46,11 +46,6 @@
 	height: 16px;
 	z-index: 1;
 }
-#overlay {
-	width: 100%;
-	height: 100%;
-	z-index: 3;
-}
 .loginBox {
 	padding-left: 10px;
 	padding-top:10px;

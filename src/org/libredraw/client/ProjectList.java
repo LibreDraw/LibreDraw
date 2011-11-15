@@ -7,7 +7,10 @@ import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.uibinder.client.UiField;
@@ -15,12 +18,14 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class ProjectList extends Composite {
 
 	private static ProjectListUiBinder uiBinder = GWT
 			.create(ProjectListUiBinder.class);
 	@UiField(provided=true) CellTable<Project> table = new CellTable<Project>();
+	@UiField static ScrollPanel scrollPanel;
 
 	interface ProjectListUiBinder extends UiBinder<Widget, ProjectList> {
 	}
@@ -87,12 +92,28 @@ public class ProjectList extends Composite {
 		dataProvider.addDataDisplay(table);
 		
 		List<Project> list = dataProvider.getList();
-		for (Project contact : ps) {
-	    	list.add(contact);
-		}
-			
-			
-			
+		for(int i = 0; i<100;i++) {
+		for (Project p : ps) {
+	    	list.add(p);
+		}}
+		
+		ProjectList.onResize();
+		
+		Window.addResizeHandler(new ResizeHandler() {
+			public void onResize(ResizeEvent event) {
+				ProjectList.onResize();
+			}
+		});
+		
+	}
+
+
+	public static void onResize() {
+		//Set height of scrollPanel widget window height - header - footer
+		Integer windowHeight = Window.getClientHeight()-150;
+		Integer windowWidth = Window.getClientWidth()-2;
+		scrollPanel.setHeight(windowHeight.toString()+"px");
+		scrollPanel.setWidth(windowWidth.toString()+"px");
 	}
 
 }

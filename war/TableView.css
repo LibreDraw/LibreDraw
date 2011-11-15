@@ -34,8 +34,3 @@
 	font-family: 'Droid Sans', sans-serif;
 	font-weight: 400;
 }
-#overlay {
-	width: 100%;
-	height: 100%;
-	z-index: 3;
-}

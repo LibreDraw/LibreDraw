@@ -3,8 +3,11 @@
  */
 package org.libredraw.client;
 
+import java.util.Date;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -83,11 +86,17 @@ public class LoginBox extends Composite {
 		LibreRPCService.login(userEmail.getText(), Hash.sha1(userPassword.getText()),
 				new AsyncCallback<String>() {
 				public void onFailure(Throwable caught) {
-					RootPanel.get("overlay").add(new StackTrace(caught));
+					RootPanel.get("errorOverlay").add(new StackTrace(caught));
 				}
 				public void onSuccess(String result) {
-					if(result == "Sucsess") {
+					if(result != null) {
 						errorLabel.setText("Login Sucsess");
+						long DURATION = 1000 * 60 * 60 * 24 * 14;
+						Date expires = new Date(System.currentTimeMillis() + DURATION);
+						Cookies.setCookie("sid", result, expires, null, "/", false);
+						TableView.navigateTo();
+					}else{
+						errorLabel.setText("Bad Login");
 					}
 				}
 		});

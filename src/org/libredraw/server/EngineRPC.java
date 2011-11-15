@@ -25,12 +25,14 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		
 		P_GenericAccountConnector connector = query.get();
 		
-		if(connector != null && connector.checkPassword(password)) {
-			String sessionId = Util.sha1(connector.m_displayName + new Date().toString());
-			
-			dba.put(new P_Session(sessionId, connector.m_user));
-			
-			return sessionId;
+		if(connector != null) {
+			if(connector.checkPassword(password)) {
+				String sessionId = Util.sha1(connector.m_displayName + new Date().toString());
+				
+				dba.put(new P_Session(sessionId, connector.m_user));
+				
+				return sessionId;
+			}
 		}
 			
 		return null;
@@ -63,9 +65,11 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 				dba.getQuery(P_Session.class).filter("m_sessionId =", authToken);
 		
 		P_Session session = query.get();
-		
+		//make sure it has not expired
 		if(session != null) {
-			return session.m_sessionId; 
+			int compare = session.m_ttl.compareTo(new Date());
+			if(compare > 0)
+				return session.m_sessionId; 
 		}
 		
 		return null;
