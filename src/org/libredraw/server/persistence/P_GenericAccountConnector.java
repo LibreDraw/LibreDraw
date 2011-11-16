@@ -18,10 +18,8 @@
 package org.libredraw.server.persistence;
 
 import java.util.Date;
-import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import org.libredraw.server.EngineRPC;
 import org.libredraw.server.Util;
 
 @Entity
@@ -33,8 +31,6 @@ public class P_GenericAccountConnector extends P_AccountConnector
 	public String m_email;
 	
 	@Id public long id;
-	
-	private static final Logger log = Logger.getLogger(EngineRPC.class.getName());
 	
 	public P_GenericAccountConnector() {
 	}
@@ -49,14 +45,10 @@ public class P_GenericAccountConnector extends P_AccountConnector
 	
 	public boolean checkPassword(String password) {
 		password = Util.sha1(this.m_salt + password);
-		log.warning("sent: "+Util.sha1(this.m_salt + password)+" stored: "+m_password);
-		if(m_password.equals(password)) {
-			log.warning("Compare comparison");
+		if(m_password.equals(password))
 			return true;
-		} else {
-			log.warning("Bad comparison");
+		else
 			return false;
-		}
 	}
 	
 

@@ -14,9 +14,8 @@ public class Login implements EntryPoint {
 		RootPanel.get("loginBox").add(new LoginBox());
 		RootPanel.get("rainbow").add(new Rainbow());
 	}
-
+	
 	public static void navigateTo() {
 		Window.Location.replace("Login.html");
-		
 	}
 }

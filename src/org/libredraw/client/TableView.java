@@ -9,11 +9,10 @@ public class TableView implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		RootPanel.get("body").add(new ProjectList());
-
 	}
 	
 	public static void navigateTo() {
-		Window.Location.replace("TableView.html");
+		Window.Location.assign("TableView.html");
 	}
 
 }

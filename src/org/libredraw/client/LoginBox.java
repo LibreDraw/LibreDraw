@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.CheckBox;
 
 /**
  * @author Ethan
@@ -35,6 +36,7 @@ public class LoginBox extends Composite {
 	@UiField TextBox userEmail;
 	@UiField PasswordTextBox userPassword;
 	@UiField Label errorLabel;
+	@UiField CheckBox rememberCheckbox;
 	RegisterView thisRegistration;
 	
 	private final LibreRPCAsync LibreRPCService = GWT
@@ -93,7 +95,8 @@ public class LoginBox extends Composite {
 						errorLabel.setText("Login Sucsess");
 						long DURATION = 1000 * 60 * 60 * 24 * 14;
 						Date expires = new Date(System.currentTimeMillis() + DURATION);
-						Cookies.setCookie("sid", result, expires, null, "/", false);
+						if(rememberCheckbox.getValue())
+							Cookies.setCookie("sid", result, expires, null, "/", false);
 						TableView.navigateTo();
 					}else{
 						errorLabel.setText("Bad Login");
