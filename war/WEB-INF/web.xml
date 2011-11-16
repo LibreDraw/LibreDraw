@@ -14,12 +14,13 @@
   <servlet-mapping>
     <servlet-name>EngineRPC</servlet-name>
     <url-pattern>/login/request</url-pattern>
-    <url-pattern>/TableView/request</url-pattern>
+    <url-pattern>/Torg.libredraw.Index/request</url-pattern>
+    <url-pattern>/org.libredraw.Index/request</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>Login.html</welcome-file>
+    <welcome-file>Index.html</welcome-file>
   </welcome-file-list>
 
 </web-app>

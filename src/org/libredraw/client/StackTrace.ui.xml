@@ -8,7 +8,6 @@
 		<g:DialogBox text="StackTrace" ui:field="dialog">
 			<g:VerticalPanel>
 				<g:HTML ui:field="htmlPanel"/>
-				<g:AbsolutePanel/>
 				<g:Button ui:field="closeButton">Close</g:Button>
 			</g:VerticalPanel>
 		</g:DialogBox>
