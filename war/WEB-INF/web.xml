@@ -14,8 +14,8 @@
   <servlet-mapping>
     <servlet-name>EngineRPC</servlet-name>
     <url-pattern>/login/request</url-pattern>
-    <url-pattern>/Torg.libredraw.Index/request</url-pattern>
-    <url-pattern>/org.libredraw.Index/request</url-pattern>
+    <url-pattern>/index/request</url-pattern>
+    <url-pattern>/edit/request</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
