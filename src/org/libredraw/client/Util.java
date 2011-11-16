@@ -11,7 +11,7 @@ package org.libredraw.client;
  * http://pajhome.org.uk/crypt/md5/sha1.html
  */
 
-public final class Hash {
+public final class Util {
 	public static native String sha1(String value) /*-{
 		
 		var hexcase = 0;

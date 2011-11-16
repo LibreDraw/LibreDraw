@@ -67,9 +67,9 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		P_Session session = query.get();
 		//make sure it has not expired
 		if(session != null) {
-			int compare = session.m_ttl.compareTo(new Date());
-			if(compare > 0)
-				return session.m_sessionId; 
+			if(session.checkSession(authToken)) {
+				return "true";
+			}
 		}
 		
 		return null;

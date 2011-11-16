@@ -59,7 +59,7 @@ public class RegisterView extends Composite {
 			errorLabel.setText("Invalid email");
 		} else {
 			errorLabel.setText("");
-			LibreRPCService.register(registerEmail.getText(), Hash.sha1(registerPassword.getText()), registerDisplayName.getText(),
+			LibreRPCService.register(registerEmail.getText(), Util.sha1(registerPassword.getText()), registerDisplayName.getText(),
 					new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						overlay.add(new StackTrace(caught));

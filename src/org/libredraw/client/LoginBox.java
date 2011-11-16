@@ -83,7 +83,7 @@ public class LoginBox extends Composite {
 	}
 	
 	private void loginCheck() {
-		LibreRPCService.login(userEmail.getText(), Hash.sha1(userPassword.getText()),
+		LibreRPCService.login(userEmail.getText(), Util.sha1(userPassword.getText()),
 				new AsyncCallback<String>() {
 				public void onFailure(Throwable caught) {
 					RootPanel.get("errorOverlay").add(new StackTrace(caught));
