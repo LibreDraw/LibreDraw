@@ -1,5 +1,3 @@
-@import url(common.css);
-
 #backgroud {
 	/*background-color: rgb(240,240,240);*/
 	position: absolute;
@@ -35,4 +33,9 @@
 	bottom: 5px;
 	font-family: 'Droid Sans', sans-serif;
 	font-weight: 400;
+}
+.newProjectHorizontal {
+	margin-left:auto;
+	margin-right:auto;
+	padding-top:5px;
 }

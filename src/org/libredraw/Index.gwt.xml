@@ -3,7 +3,7 @@
 <module rename-to='index'>
 	<inherits name="com.google.gwt.user.User" />
 	<!--<inherits name="com.google.gwt.logging.Logging"/>-->
+	<entry-point class="org.libredraw.client.Index" />
 	<source path="client" />
 	<source path="shared" />
-	<entry-point class="org.libredraw.client.Index" />
 </module>

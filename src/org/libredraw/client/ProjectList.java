@@ -10,6 +10,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,6 +20,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.MenuItem;
 
 public class ProjectList extends Composite {
 
@@ -26,6 +28,11 @@ public class ProjectList extends Composite {
 			.create(ProjectListUiBinder.class);
 	@UiField(provided=true) CellTable<Project> table = new CellTable<Project>();
 	@UiField static ScrollPanel scrollPanel;
+	@UiField MenuItem newProjectMenu;
+	@UiField MenuItem archiveMenu;
+	@UiField MenuItem editMenu;
+	@UiField MenuItem deleteMenu;
+	@UiField MenuItem exportMenu;
 
 	interface ProjectListUiBinder extends UiBinder<Widget, ProjectList> {
 	}
@@ -104,6 +111,14 @@ public class ProjectList extends Composite {
 				ProjectList.onResize();
 			}
 		});
+		
+		newProjectMenu.setCommand(new Command() {
+		   public void execute() {
+			     DialogOverlay overlay = DialogOverlay.getInstance();
+			     overlay.add(new NewProjectDialog());
+			   }
+		});
+
 		
 	}
 
