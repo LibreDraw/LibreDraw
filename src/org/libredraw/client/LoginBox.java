@@ -4,13 +4,11 @@
 package org.libredraw.client;
 
 import java.util.Date;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
@@ -37,7 +35,6 @@ public class LoginBox extends Composite {
 	@UiField PasswordTextBox userPassword;
 	@UiField Label errorLabel;
 	@UiField CheckBox rememberCheckbox;
-	RegisterView thisRegistration;
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
@@ -49,14 +46,8 @@ public class LoginBox extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	@UiHandler("registerButton")
-	void onRegisterButtonClick(ClickEvent event) {
-		if(thisRegistration==null) {
-			thisRegistration= new RegisterView();
-			RootPanel.get("overlay").add(thisRegistration);
-			thisRegistration.registerDialog.center();
-		} else {
-			thisRegistration.registerDialog.show();
-		}
+	void onRegisterButtonClick(ClickEvent event) {	
+		Login.registerDialog(new RegisterDialog());
 	}
 	@UiHandler("loginButton")
 	void onLoginButtonClick(ClickEvent event) {
@@ -88,7 +79,7 @@ public class LoginBox extends Composite {
 		LibreRPCService.login(userEmail.getText(), Util.sha1(userPassword.getText()),
 				new AsyncCallback<String>() {
 				public void onFailure(Throwable caught) {
-					RootPanel.get("errorOverlay").add(new StackTrace(caught));
+					Login.registerErrorDialog(new StackTrace(caught));
 				}
 				public void onSuccess(String result) {
 					if(result != null) {
@@ -96,7 +87,7 @@ public class LoginBox extends Composite {
 						long DURATION = 1000 * 60 * 60 * 24 * 14;
 						Date expires = new Date(System.currentTimeMillis() + DURATION);
 						if(rememberCheckbox.getValue())
-							Cookies.setCookie("sid", result, expires, null, "/", false);
+							Cookies.setCookie("SID", result, expires, null, "/", false);
 						TableView.navigateTo();
 					}else{
 						errorLabel.setText("Bad Login");

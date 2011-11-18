@@ -4,12 +4,8 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:AbsolutePanel width="100%" height="100%">
-		<g:DialogBox text="StackTrace" ui:field="dialog">
-			<g:VerticalPanel>
-				<g:HTML ui:field="htmlPanel"/>
-				<g:Button ui:field="closeButton">Close</g:Button>
-			</g:VerticalPanel>
-		</g:DialogBox>
-	</g:AbsolutePanel>
+	<g:VerticalPanel>
+		<g:HTML ui:field="htmlPanel"/>
+		<g:Button ui:field="closeButton">Close</g:Button>
+	</g:VerticalPanel>
 </ui:UiBinder> 

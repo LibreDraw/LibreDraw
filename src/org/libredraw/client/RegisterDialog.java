@@ -6,7 +6,6 @@ package org.libredraw.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
@@ -16,34 +15,36 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 
 /**
  * @author Ethan
  *
  */
-public class RegisterView extends Composite {
+public class RegisterDialog extends DialogBox {
 
-	private static RegisterViewUiBinder uiBinder = GWT
-			.create(RegisterViewUiBinder.class);
+	private static RegisterDialogUiBinder uiBinder = GWT
+			.create(RegisterDialogUiBinder.class);
 	@UiField Button submitButton;
 	@UiField Button cancelButton;
 	@UiField TextBox registerEmail;
 	@UiField TextBox registerDisplayName;
 	@UiField PasswordTextBox registerPassword;
 	@UiField PasswordTextBox registerVerifyPassword;
-	@UiField DialogBox registerDialog;
 	@UiField Label errorLabel;
-	@UiField AbsolutePanel overlay;
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
 
-	interface RegisterViewUiBinder extends UiBinder<Widget, RegisterView> {
+	interface RegisterDialogUiBinder extends UiBinder<Widget, RegisterDialog> {
 	}
 
-	public RegisterView() {
-		initWidget(uiBinder.createAndBindUi(this));
+	public RegisterDialog() {
+		this.setWidget(uiBinder.createAndBindUi(this));
+		this.setText("Register (all fields required)");
+		this.setAnimationEnabled(true);
+		this.setAnimationEnabled(true);
+		this.setGlassEnabled(true);
+		this.center();
 	}
 
 	@UiHandler("submitButton")
@@ -62,7 +63,7 @@ public class RegisterView extends Composite {
 			LibreRPCService.register(registerEmail.getText(), Util.sha1(registerPassword.getText()), registerDisplayName.getText(),
 					new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
-						overlay.add(new StackTrace(caught));
+						Login.registerErrorDialog(new StackTrace(caught));
 					}
 					public void onSuccess(String result) {
 						if(result =="Sucsess")
@@ -77,18 +78,15 @@ public class RegisterView extends Composite {
 			});
 		}
 	}
+	
 	@UiHandler("cancelButton")
 	void onCancelButtonClick(ClickEvent event) {
-		hide();
+		myHide();
 	}
 	
-	private void hide() {
-		registerDialog.hide();
-		registerEmail.setText("");
-		registerDisplayName.setText("");
-		registerPassword.setText("");
-		registerVerifyPassword.setText("");
-		errorLabel.setText("");
+	private void myHide() {
+		this.hide();
+		this.removeFromParent();
 	}
 	
 	private native boolean validateEmail(String email) /*-{

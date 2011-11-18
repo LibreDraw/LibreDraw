@@ -114,8 +114,7 @@ public class ProjectList extends Composite {
 		
 		newProjectMenu.setCommand(new Command() {
 		   public void execute() {
-			     DialogOverlay overlay = DialogOverlay.getInstance();
-			     overlay.add(new NewProjectDialog());
+			     TableView.registerDialog(new NewProjectDialog());
 			   }
 		});
 
@@ -123,7 +122,7 @@ public class ProjectList extends Composite {
 	}
 
 
-	public static void onResize() {
+	private static void onResize() {
 		//Set height of scrollPanel widget window height - header - footer
 		Integer windowHeight = Window.getClientHeight()-150;
 		Integer windowWidth = Window.getClientWidth()-2;

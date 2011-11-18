@@ -3,17 +3,13 @@
 	<ui:style>
 	</ui:style>
 	
-
-		<g:DialogBox text="New Project" ui:field="dialog">
-			<g:VerticalPanel>
-				<g:Label text="Project name:"/>
-				<g:TextBox height="16px" width="170px" ui:field="nameTextBox"/>
-				<g:HorizontalPanel styleName="newProjectHorizontal">
-					<g:Button ui:field="submitButton">Submit</g:Button>
-					<g:AbsolutePanel width="25px" height="20px"/>
-					<g:Button ui:field="cancelButton">Cancel</g:Button>
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
-		</g:DialogBox>
-
+	<g:VerticalPanel>
+		<g:Label text="Project name:"/>
+		<g:TextBox height="16px" width="170px" ui:field="nameTextBox"/>
+		<g:HorizontalPanel styleName="newProjectHorizontal">
+			<g:Button ui:field="submitButton">Submit</g:Button>
+			<g:AbsolutePanel width="25px" height="20px"/>
+			<g:Button ui:field="cancelButton">Cancel</g:Button>
+		</g:HorizontalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

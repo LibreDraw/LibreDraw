@@ -7,8 +7,10 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.DialogBox;
 
 public class Index implements EntryPoint {
+	DialogBox errorDialog;
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
@@ -17,12 +19,13 @@ public class Index implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		String sessionId = Cookies.getCookie("sid");
+		String sessionId = Cookies.getCookie("SID");
 		if(sessionId == null)
 			sessionId="NO_SESSION";
 		LibreRPCService.login(sessionId,
 				new AsyncCallback<String>() {
 				public void onFailure(Throwable caught) {
+					errorDialog = new StackTrace(caught);
 				}
 				public void onSuccess(String result) {
 					//logger.log(Level.SEVERE, "request is back");
