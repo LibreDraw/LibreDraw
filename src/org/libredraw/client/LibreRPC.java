@@ -1,5 +1,9 @@
 package org.libredraw.client;
 
+import java.util.List;
+
+import org.libredraw.shared.Project;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -12,9 +16,11 @@ public interface LibreRPC extends RemoteService {
 
 	String login(String authToken);
 	
-	/*Project[] getProjectList();
+	List<Project> getProjectList(String sessionId);
 	
-	Project[] getProject(long projectId);
+	String createProject(String sessionId, String projectName);
+	
+	/*Project[] getProject(long projectId);
 	
 	Version getDiagram(long diagramId, int version);
 	

@@ -17,22 +17,15 @@
 
 package org.libredraw.server.persistence;
 
-public enum P_Permission
+public class P_Permission
 {
-	READ(1),
-	WRITE(2),
-	BRANCH(4),
-	MERGE(8),
-	EXPORT(16),
-	OWNER(32);
+	static int READ = 1;
+	static int WRITE = 2;
+	static int BRANCH = 4;
+	static int MERGE = 8;
+	static int EXPORT = 16;
+	static int OWNER = 32;
 	
-	private int code;
-
 	private P_Permission(int c) {
-		code = c;
-	}
-
-	public int getCode() {
-		return code;
 	}
 }

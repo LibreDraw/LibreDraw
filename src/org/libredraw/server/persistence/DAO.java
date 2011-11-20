@@ -25,12 +25,12 @@ public class DAO extends DAOBase {
 	 * @throws Exception
 	 */
 	public Key<P_LDUser> createLDUser(Key<P_GenericAccountConnector> accountConnector) {
+		Key<P_LDUser> user = ofy.put(new P_LDUser(accountConnector));
 		
-		P_AccountConnector connector = ofy.get(accountConnector);
-		
-		connector.m_user = ofy.put(new P_LDUser(accountConnector));
+		//set m_user in accountConnector
+		P_GenericAccountConnector connector = ofy.get(accountConnector);
+		connector.m_user = user;
 		ofy.put(connector);
-		
 		return connector.m_user;
 	}
 	
@@ -39,10 +39,12 @@ public class DAO extends DAOBase {
 	}
 	
 	public Key<P_Project> createProject(String name, Key<P_LDUser> owner) {
-		return ofy.put(new P_Project(name, owner));
+		Key<P_Project> project = ofy.put(new P_Project(name, owner));
+		createAuthorization(owner, project, P_Permission.OWNER);
+		return project;
 	}
 	
-	public Key<?> createAuthorization(Key<?> user, Key<?> regarding, P_Permission granted) {
+	public Key<P_Authorization> createAuthorization(Key<P_LDUser> user, Key<?> regarding, int granted) {
 		return ofy.put(new P_Authorization(user, regarding, granted));
 	}
 	
@@ -57,7 +59,6 @@ public class DAO extends DAOBase {
 	public <T> Query<T> getQuery(Class<T> entityType) {
 		return ofy.query(entityType);
 	}
-	
 		
 }
 

@@ -34,6 +34,11 @@
 	font-family: 'Droid Sans', sans-serif;
 	font-weight: 400;
 }
+#logout {
+	position: absolute;
+	right: 5px;
+	top: 40px;
+}
 .newProjectHorizontal {
 	margin-left:auto;
 	margin-right:auto;

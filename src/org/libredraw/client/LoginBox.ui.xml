@@ -10,7 +10,7 @@
 		<g:TextBox width="200px" height="16px" ui:field="userEmail"/>
 		<g:Label text="Password:" styleName="loginHeadingTwo"/>
 		<g:PasswordTextBox width="200px" height="16px" ui:field="userPassword" />
-		<g:CheckBox text="Remember Me" ui:field="rememberCheckbox"/>
+		<g:CheckBox text="Remember Me" ui:field="rememberCheckbox" checked="true" enabled="false"/>
 		<g:HorizontalPanel styleName="loginHorizontal">
 			<g:Button ui:field="loginButton" >Login</g:Button>
 			<g:SimplePanel height="5px" width="45px"/>

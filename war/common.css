@@ -50,3 +50,9 @@ body {
 .cellTable {
 	z-index:1;
 }
+.errorLabel {
+	font-family: 'Droid Sans', sans-serif;
+	font-weight: 400;
+	color:red;
+	margin-left: 5px;
+}

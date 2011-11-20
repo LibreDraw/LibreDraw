@@ -50,7 +50,4 @@ public class P_GenericAccountConnector extends P_AccountConnector
 		else
 			return false;
 	}
-	
-
-	
 }

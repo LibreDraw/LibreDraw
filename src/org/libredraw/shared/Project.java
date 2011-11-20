@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Vector;
 
 public class Project {
+	public long m_id;
 	public String m_name;
 	public Date m_createdDate;
 	public Vector<Long> m_diagrams;
@@ -11,7 +12,7 @@ public class Project {
 	public Date m_modified;
 	public LDUser m_modifedBy;
 	
-	public Project(String name, Date createdDate, LDUser owner, Date modified, LDUser modifiedBy) {
+	public Project(long id, String name, Date createdDate, LDUser owner, Date modified, LDUser modifiedBy) {
 		m_name = name;
 		m_createdDate = createdDate;
 		m_owner = owner;

@@ -27,19 +27,13 @@ public class P_Authorization {
 
 	public Key<?> m_regarding;
 	public boolean m_archive;
-	public Key<?> m_user;
-	public P_Permission m_granted;
+	public Key<P_LDUser> m_user;
+	public int m_granted;
 	
 	@Id public long id;
 	
-	public P_Authorization() {
-		m_user = null;
-		m_regarding = null;
-		m_granted = null;
-		m_archive = false;
-	}
-
-	public P_Authorization(Key<?> user, Key<?> regarding, P_Permission granted) {
+	public P_Authorization(Key<P_LDUser> user, Key<?> regarding, int granted) {
+		id = P_AutoIncrement.getNextId(this.getClass());
 		m_user = user;
 		m_regarding = regarding;
 		m_granted = granted;

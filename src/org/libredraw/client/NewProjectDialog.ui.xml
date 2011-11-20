@@ -4,7 +4,10 @@
 	</ui:style>
 	
 	<g:VerticalPanel>
-		<g:Label text="Project name:"/>
+		<g:HorizontalPanel>
+			<g:Label text="Project name:"/>
+			<g:Label ui:field="errorLabel" styleName="errorLabel"/>
+		</g:HorizontalPanel>
 		<g:TextBox height="16px" width="170px" ui:field="nameTextBox"/>
 		<g:HorizontalPanel styleName="newProjectHorizontal">
 			<g:Button ui:field="submitButton">Submit</g:Button>

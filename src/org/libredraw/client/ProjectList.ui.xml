@@ -6,6 +6,7 @@
 	</ui:style>
 	<g:VerticalPanel>
 		<g:MenuBar width="100%" height="34px">
+			<g:MenuItem text="Refresh" ui:field="refreshMenu"/>
 			<g:MenuItem text="New Project" ui:field="newProjectMenu"/>
 			<g:MenuItemSeparator/>
 			<g:MenuItem text="Manage Project">

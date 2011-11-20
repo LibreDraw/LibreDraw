@@ -19,20 +19,31 @@ package org.libredraw.server.persistence;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import org.libredraw.shared.LDUser;
+
 import com.googlecode.objectify.Key;
 
 @Entity
 public class P_LDUser
 {
+	
+	DAO dba = new DAO();
 
 	public String m_authToken;
-	public Key<?> m_accountConnector;
+	public Key<P_GenericAccountConnector> m_accountConnector;
 	
 	@Id public long id;
 	
-	public P_LDUser(Key<?> accountConnector) {
+	public P_LDUser(Key<P_GenericAccountConnector> accountConnector) {
 		id = P_AutoIncrement.getNextId(this.getClass());
 		this.m_accountConnector = accountConnector;
+	}
+	
+	public LDUser getShareable() {
+		P_AccountConnector connector = 
+				(P_AccountConnector) dba.get(m_accountConnector);
+		return new LDUser(connector.m_displayName);
 	}
 		
 }
