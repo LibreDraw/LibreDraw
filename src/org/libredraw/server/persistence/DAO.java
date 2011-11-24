@@ -40,12 +40,17 @@ public class DAO extends DAOBase {
 	
 	public Key<P_Project> createProject(String name, Key<P_LDUser> owner) {
 		Key<P_Project> project = ofy.put(new P_Project(name, owner));
-		createAuthorization(owner, project, P_Permission.OWNER);
+		createAuthorization(owner, project, P_Permission.OWNER + P_Permission.ALL);
 		return project;
 	}
 	
 	public Key<P_Authorization> createAuthorization(Key<P_LDUser> user, Key<?> regarding, int granted) {
-		return ofy.put(new P_Authorization(user, regarding, granted));
+		Key<P_Permission> permission = createPermission(granted);
+		return ofy.put(new P_Authorization(user, regarding, permission));
+	}
+	
+	public Key<P_Permission> createPermission(int granted) {
+		return ofy.put(new P_Permission(granted));
 	}
 	
 	public Object get(Key<?> entity) {
@@ -54,6 +59,10 @@ public class DAO extends DAOBase {
 	
 	public Key<?> put(Object entity) {
 		return ofy.put(entity);
+	}
+	
+	public void delete(Key<?> entity) {
+		ofy.delete(entity);
 	}
 	
 	public <T> Query<T> getQuery(Class<T> entityType) {

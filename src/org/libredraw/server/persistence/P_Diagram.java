@@ -39,5 +39,5 @@ public class P_Diagram
 	public Key<?> m_owner;
 	public DiagramType m_type;
 	public Key<?> m_master;
-	public P_LDUser m_modifiedBy;
+	public Key<?> m_modifiedBy;
 }

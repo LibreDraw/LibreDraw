@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
 import org.libredraw.client.LibreRPC;
@@ -69,16 +70,16 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 	}
 
 	@Override
-	public String login(String authToken) {
-		if(authToken == null)
+	public String login(String sessionId) {
+		if(sessionId == null)
 			return null;
 		Query<P_Session> query = 
-				dba.getQuery(P_Session.class).filter("m_sessionId =", authToken);
+				dba.getQuery(P_Session.class).filter("m_sessionId =", sessionId);
 		
 		P_Session session = query.get();
 		//make sure it has not expired
 		if(session != null) {
-			if(session.checkSession(authToken)) {
+			if(session.checkSession(sessionId)) {
 				return "true";
 			}
 		}
@@ -92,16 +93,27 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		if(user!=null) {
 			Query<P_Authorization> query = 
 					dba.getQuery(P_Authorization.class).filter("m_user =", user);
-			query.filter("m_regarding =", P_Project.class);
 			List<Project> projects = new ArrayList<Project>();
 			Iterator<P_Authorization> i = query.iterator();
-			P_Authorization next = i.next();
+			P_Authorization next;
+			try {
+				next = i.next();
+			} catch (NoSuchElementException e) {
+				next = null;
+			}
 			while(next!=null) {
 				Key<?> get = next.m_regarding;
-				P_Project thisProject = (P_Project) dba.get(get);
-				Project p = thisProject.getShareable();
-				projects.add(p);
-				next = i.next();
+				if(get.getKind() == "P_Project")
+				{
+					P_Project thisProject = (P_Project) dba.get(get);
+					Project p = thisProject.getShareable();
+					projects.add(p);
+				}
+				try {
+					next = i.next();
+				} catch (NoSuchElementException e) {
+					next = null;
+				}
 			}
 			return projects;
 		}
@@ -114,24 +126,43 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		Query<P_Session> query = 
 				dba.getQuery(P_Session.class).filter("m_sessionId =", sessionId);
 		P_Session session = query.get();
-		log.warning("sent: "+ sessionId + " found: "+session.m_sessionId);
-		if(session == null) {
-			log.warning("rerurn null");
+		if(session == null)
 			return null;
-		} else {
-			log.warning("return user");
+		else 
 			return session.m_user;
-		}
 	}
 
-	@Override
 	public String createProject(String sessionId, String projectName) {
 		Key<P_LDUser> owner = getUser(sessionId);
 		if(owner!=null) {
+			log.warning("start creation");
 			dba.createProject(projectName, owner);
 			return "Sucsess";
 		} else
 			return null;
+	}
+
+	@Override
+	public String endSession(String sessionId) {
+		if(sessionId == null)
+			return null;
+		Query<P_Session> query = 
+				dba.getQuery(P_Session.class).filter("m_sessionId =", sessionId);
+		
+		Key<P_Session> session = query.getKey();
+		//make sure it has not expired
+		if(session != null) {
+			dba.delete(session);
+			return "true";
+		}
+		
+		return null;
+	}
+
+	@Override
+	public Project getProject(long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

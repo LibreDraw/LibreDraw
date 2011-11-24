@@ -14,7 +14,9 @@ public interface LibreRPC extends RemoteService {
 
 	String register(String email, String password, String displayName);
 
-	String login(String authToken);
+	String login(String sessionId);
+	
+	String endSession(String sessionId);
 	
 	List<Project> getProjectList(String sessionId);
 	
@@ -31,5 +33,7 @@ public interface LibreRPC extends RemoteService {
 	String lockEnity(Key entity);
 	
 	boolean commitEntity(Key entity);*/
+	
+	Project getProject(long id);
 
 }

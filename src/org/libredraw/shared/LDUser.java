@@ -1,8 +1,14 @@
 package org.libredraw.shared;
 
-public class LDUser {
+import java.io.Serializable;
+
+public class LDUser implements Serializable {
 	
 	public String m_displayName;
+	
+	public LDUser() {
+		m_displayName = null;
+	}
 	
 	public LDUser(String name) {
 		m_displayName = name;

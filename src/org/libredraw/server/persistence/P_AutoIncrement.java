@@ -27,7 +27,8 @@ public final class P_AutoIncrement {
 		P_UMLOperation.class, 
 		P_UMLOperationParameter.class, 
 		P_UMLPackage.class,
-		P_Session.class
+		P_Session.class,
+		P_Permission.class
 	};
 
 	public static long getNextId(Class<?> value) {

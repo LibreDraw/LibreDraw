@@ -21,7 +21,8 @@ public class ClientSession {
 					public void onFailure(Throwable caught) {
 					}
 					public void onSuccess(String result) {
-						m_sessionId = result;
+						if(result != "true")
+							m_sessionId = null;
 					}
 			});
 		} else

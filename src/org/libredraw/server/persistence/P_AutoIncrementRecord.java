@@ -11,14 +11,14 @@ public class P_AutoIncrementRecord {
 	
 	public P_AutoIncrementRecord(long entity) {
 		m_entiyType = entity;
-		m_nextId = 0;
+		m_nextId = 1;
 	}
 	
 	public P_AutoIncrementRecord() {
 	}
 	
 	public long getNextId() {
-		return ++m_nextId;
+		return m_nextId++;
 	}
 	
 }

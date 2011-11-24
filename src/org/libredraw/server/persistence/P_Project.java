@@ -14,8 +14,6 @@ import com.googlecode.objectify.Key;
 @Entity
 public class P_Project {
 	
-	DAO dba = new DAO();
-
 	public String m_name;
 	public Date m_createdDate;
 	public Vector<Key<P_Diagram>> m_diagrams;
@@ -34,7 +32,8 @@ public class P_Project {
 	}
 
 	public Project getShareable() {
-		Iterator<Key<P_Diagram>> i = m_diagrams.iterator();
+		DAO dba = new DAO();
+		/*Iterator<Key<P_Diagram>> i = m_diagrams.iterator();
 		P_Diagram latest = null;
 		while(i.hasNext()) {
 			if(latest == null) {
@@ -43,9 +42,9 @@ public class P_Project {
 			P_Diagram thisDiagram = (P_Diagram) dba.get(i.next());
 			if(thisDiagram.m_modifiedDate.after(latest.m_modifiedDate))
 				latest = thisDiagram;
-		}
-		Date modified = latest.m_modifiedDate;
-		LDUser modifiedBy = latest.m_modifiedBy.getShareable();
+		}*/
+		Date modified = new Date();//latest.m_modifiedDate;
+		LDUser modifiedBy = ((P_LDUser) dba.get(m_owner)).getShareable();//latest.m_modifiedBy.getShareable();
 		LDUser owner = ((P_LDUser) dba.get(m_owner)).getShareable();
 		return new Project(id,
 						   m_name, 

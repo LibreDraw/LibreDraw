@@ -53,6 +53,58 @@ public class ProjectList extends Composite {
 			}
 		});
 		
+		Column<Project, Boolean> checkColumn = new Column<Project, Boolean>(
+			new CheckboxCell(true, false)) {
+				@Override
+				public Boolean getValue(Project p) {
+					return null;
+				}
+		};
+
+		
+		TextColumn<Project> nameColumn = new TextColumn<Project>() {
+			@Override
+			public String getValue(Project p) {
+				return p.m_name;
+			}
+		};
+				
+		TextColumn<Project> modifiedColumn = new TextColumn<Project>() {
+			@Override
+			public String getValue(Project p) {
+				return p.m_modified.toString();
+			}
+		};
+				
+		TextColumn<Project> modifiedByColumn = new TextColumn<Project>() {
+			@Override
+			public String getValue(Project p) {
+				return p.m_modifedBy.m_displayName;
+			}
+		};
+		
+		TextColumn<Project> createdOnColumn = new TextColumn<Project>() {
+			@Override
+			public String getValue(Project p) {
+				return p.m_createdDate.toString();
+			}
+		};
+				
+		TextColumn<Project> ownerColumn = new TextColumn<Project>() {
+			@Override
+			public String getValue(Project p) {
+				return p.m_owner.m_displayName;
+			}
+		};
+		table.addColumn(checkColumn, "");
+		table.addColumn(nameColumn, "Name");
+		table.addColumn(modifiedColumn, "Date Modified");
+		table.addColumn(modifiedByColumn, "By");
+		table.addColumn(createdOnColumn, "Created On");
+		table.addColumn(ownerColumn, "Owner");
+		
+		refreshTable();
+		
 		newProjectMenu.setCommand(new Command() {
 		   public void execute() {
 			     TableView.registerDialog(new NewProjectDialog());
@@ -92,65 +144,14 @@ public class ProjectList extends Composite {
 	}
 	
 	private void populateTable(List<Project> projects) {
-		Column<Project, Boolean> checkColumn = new Column<Project, Boolean>(
-				new CheckboxCell(true, false)) {
-					@Override
-					public Boolean getValue(Project p) {
-						return null;
-					}
-			};
-
+		ListDataProvider<Project> dataProvider = new ListDataProvider<Project>();
 		
-			TextColumn<Project> nameColumn = new TextColumn<Project>() {
-				@Override
-				public String getValue(Project p) {
-					return p.m_name;
-				}
-			};
-					
-			TextColumn<Project> modifiedColumn = new TextColumn<Project>() {
-				@Override
-				public String getValue(Project p) {
-					return p.m_modified.toString();
-				}
-			};
-					
-			TextColumn<Project> modifiedByColumn = new TextColumn<Project>() {
-				@Override
-				public String getValue(Project p) {
-					return p.m_modifedBy.m_displayName;
-				}
-			};
-			
-			TextColumn<Project> createdOnColumn = new TextColumn<Project>() {
-				@Override
-				public String getValue(Project p) {
-					return p.m_createdDate.toString();
-				}
-			};
-					
-			TextColumn<Project> ownerColumn = new TextColumn<Project>() {
-				@Override
-				public String getValue(Project p) {
-					return p.m_owner.m_displayName;
-				}
-			};
-			table.addColumn(checkColumn, "");
-			table.addColumn(nameColumn, "Name");
-			table.addColumn(modifiedColumn, "Date Modified");
-			table.addColumn(modifiedByColumn, "By");
-			table.addColumn(createdOnColumn, "Created On");
-			table.addColumn(ownerColumn, "Owner");
-			
-			ListDataProvider<Project> dataProvider = new ListDataProvider<Project>();
-			
-			dataProvider.addDataDisplay(table);
-			
-			List<Project> list = dataProvider.getList();
-			for(int i = 0; i<100;i++) {
-			for (Project p : projects) {
-		    	list.add(p);
-			}}
+		dataProvider.addDataDisplay(table);
+		
+		List<Project> list = dataProvider.getList();
+		for (Project p : projects) {
+	    	list.add(p);
+		}
 	}
 
 }

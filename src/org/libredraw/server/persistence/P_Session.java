@@ -8,12 +8,13 @@ import com.googlecode.objectify.Key;
 @Entity
 public class P_Session {
 	
-	@Id
+	@Id public long id;
 	public String m_sessionId;
 	public Key<P_LDUser> m_user;
 	public Date m_ttl;
 	
 	public P_Session(String sessionId, Key<P_LDUser> user) {
+		id = P_AutoIncrement.getNextId(this.getClass());
 		m_sessionId = sessionId;
 		m_user = user;
 		m_ttl = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 14);

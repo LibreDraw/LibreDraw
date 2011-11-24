@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface LibreRPCAsync {
 	void login(String email, String password, AsyncCallback<String> callback);
 	
-	void login(String authToken, AsyncCallback<String> callback);
+	void login(String sessionId, AsyncCallback<String> callback);
 	
 	void register(String email, String password, String displayName, AsyncCallback<String> callback);
 
@@ -17,6 +17,10 @@ public interface LibreRPCAsync {
 
 	void createProject(String sessionId, String projectName,
 			AsyncCallback<String> callback);
+
+	void endSession(String sessionId, AsyncCallback<String> callback);
+
+	void getProject(long id, AsyncCallback<Project> callback);
 	
 	/*void commitEntity(Key entity, AsyncCallback<Boolean> callback);
 	

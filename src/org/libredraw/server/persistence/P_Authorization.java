@@ -28,11 +28,11 @@ public class P_Authorization {
 	public Key<?> m_regarding;
 	public boolean m_archive;
 	public Key<P_LDUser> m_user;
-	public int m_granted;
+	public Key<P_Permission> m_granted;
 	
 	@Id public long id;
 	
-	public P_Authorization(Key<P_LDUser> user, Key<?> regarding, int granted) {
+	public P_Authorization(Key<P_LDUser> user, Key<?> regarding, Key<P_Permission> granted) {
 		id = P_AutoIncrement.getNextId(this.getClass());
 		m_user = user;
 		m_regarding = regarding;

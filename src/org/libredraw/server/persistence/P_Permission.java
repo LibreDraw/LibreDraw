@@ -17,6 +17,10 @@
 
 package org.libredraw.server.persistence;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class P_Permission
 {
 	static int READ = 1;
@@ -25,7 +29,20 @@ public class P_Permission
 	static int MERGE = 8;
 	static int EXPORT = 16;
 	static int OWNER = 32;
+	static int ALL = READ + WRITE + BRANCH + MERGE + EXPORT;
 	
-	private P_Permission(int c) {
+	int code;
+	
+	@Id public long id;
+	
+	public P_Permission(int c) {
+		id = P_AutoIncrement.getNextId(this.getClass());
+		code = c;
+	}
+	
+	public boolean containsPermission(int permission) {
+		if((code & permission) == permission)
+			return true;
+		return false;
 	}
 }
