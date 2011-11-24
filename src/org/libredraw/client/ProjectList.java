@@ -3,7 +3,9 @@ package org.libredraw.client;
 import java.util.List;
 import org.libredraw.shared.Project;
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -53,15 +55,15 @@ public class ProjectList extends Composite {
 			}
 		});
 		
-		Column<Project, Boolean> checkColumn = new Column<Project, Boolean>(
+		Column<Project, Boolean> checkColumn = new Column<Project, Boolean>( 
 			new CheckboxCell(true, false)) {
 				@Override
-				public Boolean getValue(Project p) {
+				public Boolean getValue(Project object) {
 					return null;
 				}
-		};
 
-		
+		};
+				
 		TextColumn<Project> nameColumn = new TextColumn<Project>() {
 			@Override
 			public String getValue(Project p) {
@@ -102,6 +104,9 @@ public class ProjectList extends Composite {
 		table.addColumn(modifiedByColumn, "By");
 		table.addColumn(createdOnColumn, "Created On");
 		table.addColumn(ownerColumn, "Owner");
+		
+		table.setWidth("100%", true);
+		table.setColumnWidth(checkColumn, 50.0, Unit.PX);
 		
 		refreshTable();
 		
