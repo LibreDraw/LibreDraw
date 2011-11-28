@@ -3,7 +3,6 @@ package org.libredraw.client;
 import java.util.List;
 import org.libredraw.shared.Project;
 import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -18,6 +17,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -45,7 +45,7 @@ public class ProjectList extends Composite {
 	public ProjectList() {
 		initWidget(uiBinder.createAndBindUi(this));
 				
-		/*refreshTable();*/
+		refreshTable();
 
 		ProjectList.onResize();
 		
@@ -59,7 +59,7 @@ public class ProjectList extends Composite {
 			new CheckboxCell(true, false)) {
 				@Override
 				public Boolean getValue(Project object) {
-					return null;
+					return false;
 				}
 
 		};
@@ -108,7 +108,15 @@ public class ProjectList extends Composite {
 		table.setWidth("100%", true);
 		table.setColumnWidth(checkColumn, 50.0, Unit.PX);
 		
-		refreshTable();
+		table.addCellPreviewHandler(new CellPreviewEvent.Handler<Project>() {
+			@Override
+			public void onCellPreview(CellPreviewEvent<Project> event) {
+				if(event.getNativeEvent().getType().equals("dblclick")) {
+					Project subject = event.getValue();
+					Window.alert(subject.m_name);
+				}
+			}
+		});
 		
 		newProjectMenu.setCommand(new Command() {
 		   public void execute() {
