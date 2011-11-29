@@ -21,6 +21,9 @@ public interface LibreRPCAsync {
 	void endSession(String sessionId, AsyncCallback<String> callback);
 
 	void getProject(long id, AsyncCallback<Project> callback);
+
+	void createDiagram(String sessionId, long projectId, String diagramName,
+			String diagramType, AsyncCallback<String> callback);
 	
 	/*void commitEntity(Key entity, AsyncCallback<Boolean> callback);
 	

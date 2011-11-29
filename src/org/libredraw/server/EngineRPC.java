@@ -165,4 +165,11 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		return null;
 	}
 
+	@Override
+	public String createDiagram(String sessionId, long projectId,
+			String diagramName, String diagramType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -22,6 +22,8 @@ public interface LibreRPC extends RemoteService {
 	
 	String createProject(String sessionId, String projectName);
 	
+	String createDiagram(String sessionId, long projectId, String diagramName, String diagramType);
+	
 	/*Project[] getProject(long projectId);
 	
 	Version getDiagram(long diagramId, int version);

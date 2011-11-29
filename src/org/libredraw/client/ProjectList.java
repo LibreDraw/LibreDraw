@@ -2,25 +2,30 @@ package org.libredraw.client;
 
 import java.util.List;
 import org.libredraw.shared.Project;
+
+import com.gargoylesoftware.htmlunit.javascript.host.Event;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.event.logical.shared.AttachEvent.Handler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.MenuItem;
 
 public class ProjectList extends Composite {
 	
@@ -38,6 +43,7 @@ public class ProjectList extends Composite {
 	@UiField MenuItem exportMenu;
 	@UiField MenuItem refreshMenu;
 	List<Project> ps;
+	int clickCounter=0;
 
 	interface ProjectListUiBinder extends UiBinder<Widget, ProjectList> {
 	}
@@ -108,12 +114,18 @@ public class ProjectList extends Composite {
 		table.setWidth("100%", true);
 		table.setColumnWidth(checkColumn, 50.0, Unit.PX);
 		
+		table.sinkEvents(Event.DBLCLICK);
+		
 		table.addCellPreviewHandler(new CellPreviewEvent.Handler<Project>() {
 			@Override
 			public void onCellPreview(CellPreviewEvent<Project> event) {
-				if(event.getNativeEvent().getType().equals("dblclick")) {
-					Project subject = event.getValue();
-					Window.alert(subject.m_name);
+				//TODO get a real double click event
+				if("click".equals(event.getNativeEvent().getType())) {
+					clickCounter++;
+					if(clickCounter == 2) {
+						clickCounter = 0;
+						//TODO navigate to diagram list
+					}
 				}
 			}
 		});
