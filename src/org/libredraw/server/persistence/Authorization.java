@@ -13,23 +13,37 @@
 
     You should have received a copy of the GNU General Public License
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.libredraw.server.persistence;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import org.libredraw.shared.LDUser;
+
 import com.googlecode.objectify.Key;
 
-public abstract class P_AccountConnector
-{
-	public String m_displayName;
-	public Key<P_LDUser> m_user;
+@Entity
+public class Authorization {
+
+	public Key<?> m_regarding;
+	public boolean m_archive;
+	public Key<LDUser> m_user;
+	public Key<Permission> m_granted;
 	
-	public P_AccountConnector() {
-		m_displayName = null;
+	@Id public long id;
+	
+	public Authorization() {
+		
 	}
 	
-	public P_AccountConnector(String diaplayName) {
-		m_displayName = diaplayName;
-		m_user = null;
+	public Authorization(Key<LDUser> user, Key<?> regarding, Key<Permission> granted) {
+		id = AutoIncrement.getNextId(this.getClass());
+		m_user = user;
+		m_regarding = regarding;
+		m_granted = granted;
+		m_archive = false;
 	}
+
 }

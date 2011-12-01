@@ -19,12 +19,11 @@ package org.libredraw.shared;
 
 public abstract class DrawableObject
 {
+	public DrawableObject() {
+		// TODO Auto-generated constructor stub
+	}
 	public int m_xCoordinate;
 	public int m_yCoordinate;
 	public int m_width;
 	public int m_height;
-	
-	public DrawableObject() {
-		// TODO Auto-generated constructor stub
-	}
 }

@@ -15,24 +15,23 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.server.persistence.umlclassdiagram;
-
-import java.util.Vector;
+package org.libredraw.shared.umlclassdiagram;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.googlecode.objectify.Key;
-
 @Entity
-public class P_UMLInterface extends P_UMLNode
+public class UMLEnumerationLiteral
 {
+	public UMLEnumerationLiteral() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;
-	
-	Vector<Key<?>> operations;
-	Vector<Key<?>> atributes;
-	
+
+	String name;
+	String value;
+
 }

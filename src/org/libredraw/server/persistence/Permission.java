@@ -17,37 +17,36 @@
 
 package org.libredraw.server.persistence;
 
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import org.libredraw.server.Util;
 
 @Entity
-public class P_GenericAccountConnector extends P_AccountConnector
+public class Permission
 {
-
-	public String m_password;
-	public String m_salt;
-	public String m_email;
+	static int READ = 1;
+	static int WRITE = 2;
+	static int BRANCH = 4;
+	static int MERGE = 8;
+	static int EXPORT = 16;
+	static int OWNER = 32;
+	static int ALL = READ + WRITE + BRANCH + MERGE + EXPORT;
+	
+	int code;
 	
 	@Id public long id;
 	
-	public P_GenericAccountConnector() {
+	public Permission () {
+		
 	}
 	
-	public P_GenericAccountConnector(String email, String password, String name) {
-		super(name);
-		id = P_AutoIncrement.getNextId(this.getClass());
-		m_email = email;
-		m_salt = Util.sha1(new Date().toString() + m_email);
-		m_password = Util.sha1(this.m_salt + password);
+	public Permission(int c) {
+		id = AutoIncrement.getNextId(this.getClass());
+		code = c;
 	}
 	
-	public boolean checkPassword(String password) {
-		password = Util.sha1(this.m_salt + password);
-		if(m_password.equals(password))
+	public boolean containsPermission(int permission) {
+		if((code & permission) == permission)
 			return true;
-		else
-			return false;
+		return false;
 	}
 }

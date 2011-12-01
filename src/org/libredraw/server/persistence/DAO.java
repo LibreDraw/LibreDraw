@@ -1,6 +1,10 @@
 package org.libredraw.server.persistence;
 
+import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
+import org.libredraw.shared.Branch;
+import org.libredraw.shared.LDUser;
+import org.libredraw.shared.Project;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
@@ -14,7 +18,7 @@ public class DAO extends DAOBase {
 	
 	static {
 		ObjectifyFactory factory = ObjectifyService.factory();
-		for(Class<?> currentClass : P_AutoIncrement.m_table) {
+		for(Class<?> currentClass : AutoIncrement.m_table) {
 			factory.register(currentClass);
 		}
 	}
@@ -26,44 +30,44 @@ public class DAO extends DAOBase {
 	 * @return P_Key to reference created LDUser
 	 * @throws Exception
 	 */
-	public Key<P_LDUser> createLDUser(Key<P_GenericAccountConnector> accountConnector) {
-		Key<P_LDUser> user = ofy.put(new P_LDUser(accountConnector));
+	public Key<LDUser> createLDUser(Key<GenericAccountConnector> accountConnector) {
+		Key<LDUser> user = ofy.put(new LDUser(accountConnector));
 		
 		//set m_user in accountConnector
-		P_GenericAccountConnector connector = ofy.get(accountConnector);
+		GenericAccountConnector connector = ofy.get(accountConnector);
 		connector.m_user = user;
 		ofy.put(connector);
 		return connector.m_user;
 	}
 	
-	public Key<P_GenericAccountConnector> createGenericAccountConnector(String email, String password, String diaplayName) {
-		return ofy.put(new P_GenericAccountConnector(email, password, diaplayName));
+	public Key<GenericAccountConnector> createGenericAccountConnector(String email, String password, String diaplayName) {
+		return ofy.put(new GenericAccountConnector(email, password, diaplayName));
 	}
 	
-	public Key<P_Project> createProject(String name, Key<P_LDUser> owner) {
-		Key<P_Project> project = ofy.put(new P_Project(name, owner));
-		createAuthorization(owner, project, P_Permission.OWNER + P_Permission.ALL);
+	public Key<Project> createProject(String name, Key<LDUser> owner) {
+		Key<Project> project = ofy.put(new Project(name, owner));
+		createAuthorization(owner, project, Permission.OWNER + Permission.ALL);
 		return project;
 	}
 	
-	public Key<P_Diagram> createDiagram(String name, DiagramType type, Key<P_LDUser> owner) {
-		Key<P_Branch> branch = createBranch("MASTER", owner);
-		Key<P_Diagram> diagram = ofy.put(new P_Diagram(name, type, owner, branch));
-		createAuthorization(owner, diagram, P_Permission.OWNER + P_Permission.ALL);
+	public Key<Diagram> createDiagram(String name, DiagramType type, Key<LDUser> owner) {
+		Key<Branch> branch = createBranch("MASTER", owner);
+		Key<Diagram> diagram = ofy.put(new Diagram(name, type, owner, branch));
+		createAuthorization(owner, diagram, Permission.OWNER + Permission.ALL);
 		return diagram;
 	}
 	
-	public Key<P_Branch> createBranch(String name, Key<P_LDUser> owner) {
-		return ofy.put(new P_Branch(name, owner));
+	public Key<Branch> createBranch(String name, Key<LDUser> owner) {
+		return ofy.put(new Branch(name, owner));
 	}
 	
-	public Key<P_Authorization> createAuthorization(Key<P_LDUser> user, Key<?> regarding, int granted) {
-		Key<P_Permission> permission = createPermission(granted);
-		return ofy.put(new P_Authorization(user, regarding, permission));
+	public Key<Authorization> createAuthorization(Key<LDUser> user, Key<?> regarding, int granted) {
+		Key<Permission> permission = createPermission(granted);
+		return ofy.put(new Authorization(user, regarding, permission));
 	}
 	
-	public Key<P_Permission> createPermission(int granted) {
-		return ofy.put(new P_Permission(granted));
+	public Key<Permission> createPermission(int granted) {
+		return ofy.put(new Permission(granted));
 	}
 	
 	public <T> Object get(Key<T> entity) {
@@ -82,8 +86,8 @@ public class DAO extends DAOBase {
 		return ofy.query(entityType);
 	}
 
-	public P_Project getProject(long id) {
-		return ofy.get(new Key<P_Project>(P_Project.class, id));
+	public Project getProject(long id) {
+		return ofy.get(new Key<Project>(Project.class, id));
 	}
 		
 }

@@ -15,19 +15,19 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.server.persistence.umlclassdiagram;
+package org.libredraw.shared.umlclassdiagram;
 
 import java.util.Vector;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import org.libredraw.server.persistence.P_DrawableObject;
-import org.libredraw.shared.umlclassdiagram.UMLAssociationType;
+
+import org.libredraw.shared.DrawableObject;
 
 import com.googlecode.objectify.Key;
 
 @Entity
-public class P_UMLAssociation extends P_DrawableObject {
+public class UMLAssociation extends DrawableObject {
 	
 	@Id public long id;
 	public boolean locked;

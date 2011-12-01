@@ -86,14 +86,14 @@ public class DiagramList extends Composite {
 		TextColumn<Diagram> modifiedColumn = new TextColumn<Diagram>() {
 			@Override
 			public String getValue(Diagram d) {
-				return d.m_modifiedDate.toString();
+				return d.modifiedDate.toString();
 			}
 		};
 				
 		TextColumn<Diagram> modifiedByColumn = new TextColumn<Diagram>() {
 			@Override
 			public String getValue(Diagram d) {
-				return d.m_modifiedBy.m_displayName;
+				return d.modifiedBy.m_displayName;
 			}
 		};
 		
@@ -107,7 +107,7 @@ public class DiagramList extends Composite {
 		TextColumn<Diagram> ownerColumn = new TextColumn<Diagram>() {
 			@Override
 			public String getValue(Diagram d) {
-				return d.m_owner.m_displayName;
+				return d.owner.m_displayName;
 			}
 		};
 		
@@ -134,7 +134,7 @@ public class DiagramList extends Composite {
 							long difference = new Date().getTime() - clickTracker.getTime();
 							if(difference <= 500){
 								Diagram thisProject = event.getValue();
-								RootPanel.get("body").add(new DiagramView(thisProject.m_master));
+								RootPanel.get("body").add(new DiagramView(thisProject.master));
 								myRemove();
 							}
 							else
@@ -172,7 +172,7 @@ public class DiagramList extends Composite {
 	}
 	
 	private void refreshTable() {
-		LibreRPCService.getDiagramList(ClientSession.getInstance().getSessionId(), thisProject.m_id, 
+		LibreRPCService.getDiagramList(ClientSession.getInstance().getSessionId(), thisProject.id, 
 				new AsyncCallback<List<Diagram>>() {
 			@Override
 			public void onFailure(Throwable caught) {

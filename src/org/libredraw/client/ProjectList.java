@@ -77,14 +77,14 @@ public class ProjectList extends Composite {
 		TextColumn<Project> modifiedColumn = new TextColumn<Project>() {
 			@Override
 			public String getValue(Project p) {
-				return p.m_modified.toString();
+				return p.modified.toString();
 			}
 		};
 				
 		TextColumn<Project> modifiedByColumn = new TextColumn<Project>() {
 			@Override
 			public String getValue(Project p) {
-				return p.m_modifedBy.m_displayName;
+				return p.modifiedBy.m_displayName;
 			}
 		};
 		
@@ -98,7 +98,7 @@ public class ProjectList extends Composite {
 		TextColumn<Project> ownerColumn = new TextColumn<Project>() {
 			@Override
 			public String getValue(Project p) {
-				return p.m_owner.m_displayName;
+				return p.owner.m_displayName;
 			}
 		};
 		table.addColumn(checkColumn, "");

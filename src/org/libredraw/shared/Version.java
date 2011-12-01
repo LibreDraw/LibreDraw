@@ -1,4 +1,4 @@
-package org.libredraw.server.persistence;
+package org.libredraw.shared;
 
 import java.util.Date;
 import java.util.Vector;
@@ -7,8 +7,8 @@ import javax.persistence.Id;
 
 import com.googlecode.objectify.Key;
 
-public class P_Version {
-	public P_Version() {
+public class Version {
+	public Version() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -21,5 +21,5 @@ public class P_Version {
 	public Date m_date;
 	public Vector<Key<?>> m_diagram;
 	public Key<?> m_previousVersion;
-	public Key<?> m_modified;
+	public Key<?> m_modifiedBy;
 }

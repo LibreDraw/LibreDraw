@@ -54,7 +54,7 @@ public class NewDiagramDialog extends DialogBox {
 		else {
 			errorLabel.setText("");
 			LibreRPCService.createDiagram(ClientSession.getInstance().getSessionId(),
-					thisProject.m_id, nameTextBox.getText(), DiagramType.UMLClassDiagram, new AsyncCallback<String>() {
+					thisProject.id, nameTextBox.getText(), DiagramType.UMLClassDiagram, new AsyncCallback<String>() {
 						@Override
 						public void onFailure(Throwable caught) {
 							TableView.registerErrorDialog(new StackTrace(caught));
