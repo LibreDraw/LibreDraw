@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of LibreDraw.
 
     LibreDraw is free software: you can redistribute it and/or modify
@@ -19,10 +19,14 @@ package org.libredraw.server.persistence.umlclassdiagram;
 
 import java.util.Vector;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import org.libredraw.shared.umlclassdiagram.UMLVisibility;
 
 import com.googlecode.objectify.Key;
 
+@Entity
 public class P_UMLOperation
 {
 	public P_UMLOperation() {
@@ -36,6 +40,6 @@ public class P_UMLOperation
 	String name;
 	String returnType;
 	Vector<Key<?>> parameters;
-	P_UMLVisibility visibility;
+	UMLVisibility visibility;
 
 }

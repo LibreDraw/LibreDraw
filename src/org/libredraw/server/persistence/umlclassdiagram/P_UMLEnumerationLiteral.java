@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of LibreDraw.
 
     LibreDraw is free software: you can redistribute it and/or modify
@@ -17,8 +17,10 @@
 
 package org.libredraw.server.persistence.umlclassdiagram;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
+@Entity
 public class P_UMLEnumerationLiteral
 {
 	public P_UMLEnumerationLiteral() {

@@ -32,6 +32,10 @@ public class P_Authorization {
 	
 	@Id public long id;
 	
+	public P_Authorization() {
+		
+	}
+	
 	public P_Authorization(Key<P_LDUser> user, Key<?> regarding, Key<P_Permission> granted) {
 		id = P_AutoIncrement.getNextId(this.getClass());
 		m_user = user;

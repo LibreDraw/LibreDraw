@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of LibreDraw.
 
     LibreDraw is free software: you can redistribute it and/or modify
@@ -17,8 +17,11 @@
 
 package org.libredraw.server.persistence.umlclassdiagram;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.libredraw.shared.umlclassdiagram.UMLVisibility;
 
+@Entity
 public class P_UMLAttribute
 {
 	public P_UMLAttribute() {
@@ -32,6 +35,6 @@ public class P_UMLAttribute
 	String name;
 	String type;
 	String multiplicity;
-	P_UMLVisibility visibility;
+	UMLVisibility visibility;
 
 }

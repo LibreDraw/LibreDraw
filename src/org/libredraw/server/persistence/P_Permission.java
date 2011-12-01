@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of LibreDraw.
 
     LibreDraw is free software: you can redistribute it and/or modify
@@ -34,6 +34,10 @@ public class P_Permission
 	int code;
 	
 	@Id public long id;
+	
+	public P_Permission () {
+		
+	}
 	
 	public P_Permission(int c) {
 		id = P_AutoIncrement.getNextId(this.getClass());

@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of LibreDraw.
 
     LibreDraw is free software: you can redistribute it and/or modify
@@ -29,6 +29,10 @@ public class P_LDUser
 	public Key<P_GenericAccountConnector> m_accountConnector;
 	
 	@Id public long id;
+	
+	public P_LDUser() {
+		
+	}
 	
 	public P_LDUser(Key<P_GenericAccountConnector> accountConnector) {
 		id = P_AutoIncrement.getNextId(this.getClass());

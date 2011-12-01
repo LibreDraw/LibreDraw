@@ -3,6 +3,7 @@ package org.libredraw.client;
 import java.util.Date;
 import java.util.List;
 
+import org.libredraw.client.umlclassdiagram.DiagramView;
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.Project;
 
@@ -133,7 +134,7 @@ public class DiagramList extends Composite {
 							long difference = new Date().getTime() - clickTracker.getTime();
 							if(difference <= 500){
 								Diagram thisProject = event.getValue();
-								//RootPanel.get("body").add(new DiagramList(thisProject));
+								RootPanel.get("body").add(new DiagramView(thisProject.m_master));
 								myRemove();
 							}
 							else

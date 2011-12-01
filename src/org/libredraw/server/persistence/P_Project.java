@@ -20,6 +20,10 @@ public class P_Project {
 	public boolean locked;
 	public boolean limited;
 	
+	public P_Project() {
+		
+	}
+	
 	public P_Project(String name, Key<P_LDUser> owner) {
 		id = P_AutoIncrement.getNextId(this.getClass());
 		m_name = name;

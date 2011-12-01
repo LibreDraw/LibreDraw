@@ -41,6 +41,10 @@ public class P_Diagram
 	public Key<?> m_master;
 	public Key<?> m_modifiedBy;
 	
+	public P_Diagram() {
+		
+	}
+	
 	public P_Diagram(String name, DiagramType type, Key<?> owner, Key<?> master) {
 		id = P_AutoIncrement.getNextId(this.getClass());
 		m_name = name;

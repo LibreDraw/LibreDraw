@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of LibreDraw.
 
     LibreDraw is free software: you can redistribute it and/or modify
@@ -15,34 +15,25 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.server.persistence;
+package org.libredraw.shared.umlclassdiagram;
 
 import java.util.Vector;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import com.googlecode.objectify.Key;
 
-@Entity
-public class P_Branch
+public class UMLClass extends UMLNode
 {
-	@Id public long id;
+	public long id;
 	public boolean locked;
 	public boolean limited;
 	
-	public String m_name;
-	public Key<?> m_owner;
-	public Key<?> m_diagram;
-	public Vector<Key<?>> m_versions;
+	boolean m_abstract;
+	Vector<UMLOperation> m_operations;
+	Vector<UMLAttribute> m_attributes;
 	
-	public P_Branch() {
-		
+	public UMLClass(String name, UMLVisibility visibility, boolean abstrac, Vector<UMLOperation> operations, Vector<UMLAttribute> attributes) {
+		super(name, visibility);
+		m_abstract = abstrac;
+		m_operations = operations;
+		m_attributes = attributes;
 	}
-	
-	public P_Branch(String name, Key<?> owner) {
-		id = P_AutoIncrement.getNextId(this.getClass());
-		m_name = name;
-		m_owner = owner;
-		m_versions = new Vector<Key<?>>();
-		m_diagram = null;
-	}
+
 }
