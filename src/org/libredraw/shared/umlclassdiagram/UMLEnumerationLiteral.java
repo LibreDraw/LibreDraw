@@ -21,12 +21,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class UMLEnumerationLiteral
-{
-	public UMLEnumerationLiteral() {
-		// TODO Auto-generated constructor stub
-	}
-	
+public class UMLEnumerationLiteral {
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;
@@ -34,4 +29,7 @@ public class UMLEnumerationLiteral
 	String name;
 	String value;
 
+	public UMLEnumerationLiteral() {
+		// TODO Auto-generated constructor stub
+	}
 }

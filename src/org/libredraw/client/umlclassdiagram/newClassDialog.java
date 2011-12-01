@@ -2,6 +2,8 @@ package org.libredraw.client.umlclassdiagram;
 
 import java.util.Vector;
 
+import org.libredraw.client.LibreRPC;
+import org.libredraw.client.LibreRPCAsync;
 import org.libredraw.shared.umlclassdiagram.UMLAttribute;
 import org.libredraw.shared.umlclassdiagram.UMLAttributeParser;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
@@ -26,6 +28,9 @@ import com.google.gwt.user.client.ui.CheckBox;
 
 @SuppressWarnings("deprecation")
 public class newClassDialog extends DialogBox {
+	
+	private final LibreRPCAsync LibreRPCService = GWT
+			.create(LibreRPC.class);
 
 	private static newClassDialogUiBinder uiBinder = GWT
 			.create(newClassDialogUiBinder.class);
@@ -41,6 +46,7 @@ public class newClassDialog extends DialogBox {
 	ClickListenerImpl removeButtonListener;
 	Vector<TextBox> attributeTexts;
 	Vector<TextBox> operationTexts;
+	long thisBranch;
 
 	private final class ClickListenerImpl implements ClickListener {
 		@Override
@@ -53,7 +59,7 @@ public class newClassDialog extends DialogBox {
 	interface newClassDialogUiBinder extends UiBinder<Widget, newClassDialog> {
 	}
 
-	public newClassDialog() {
+	public newClassDialog(long branch) {
 		setWidget(uiBinder.createAndBindUi(this));
 		this.setAnimationEnabled(true);
 		this.setAnimationEnabled(true);

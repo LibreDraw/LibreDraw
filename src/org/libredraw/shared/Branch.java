@@ -45,6 +45,7 @@ public class Branch
 	}
 	
 	public Branch(long newId, String name, Key<LDUser> owner) {
+		id = newId;
 		m_name = name;
 		m_owner = owner;
 		m_versions = new Vector<Key<Version>>();

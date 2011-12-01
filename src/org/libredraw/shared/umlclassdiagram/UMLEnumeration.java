@@ -23,18 +23,16 @@ import javax.persistence.Id;
 import com.googlecode.objectify.Key;
 
 @Entity
-public class UMLEnumeration extends UMLNode
-{
-	
-	public UMLEnumeration(String name, UMLVisibility visibility) {
-		super(name, visibility);
-		// TODO Auto-generated constructor stub
-	}
-
+public class UMLEnumeration extends UMLNode {
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;
 	
 	Vector<Key<?>> literals;
+	
+	public UMLEnumeration(String name, UMLVisibility visibility) {
+		super(name, visibility);
+		// TODO Auto-generated constructor stub
+	}
 
 }

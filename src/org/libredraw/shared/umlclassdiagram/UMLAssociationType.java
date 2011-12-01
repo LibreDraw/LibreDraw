@@ -17,8 +17,7 @@
 
 package org.libredraw.shared.umlclassdiagram;
 
-public enum UMLAssociationType
-{
+public enum UMLAssociationType {
 	Association,
 	Aggregation,
 	Composition,

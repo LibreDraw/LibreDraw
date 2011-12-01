@@ -21,18 +21,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class UMLNote extends UMLNode
-{
-	
-	public UMLNote(String name, UMLVisibility visibility) {
-		super(name, visibility);
-		// TODO Auto-generated constructor stub
-	}
-
+public class UMLNote extends UMLNode {
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;
 	
 	public String text;
+	
+	public UMLNote(String name, UMLVisibility visibility) {
+		super(name, visibility);
+		// TODO Auto-generated constructor stub
+	}
 
 }

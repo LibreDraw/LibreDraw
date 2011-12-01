@@ -1,7 +1,6 @@
 package org.libredraw.shared.umlclassdiagram;
 
-public enum UMLVisibility
-{
+public enum UMLVisibility {
 	Public,
 	Private,
 	Package,

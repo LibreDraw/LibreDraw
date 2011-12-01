@@ -1,12 +1,16 @@
 package org.libredraw.server;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Vector;
+
 import org.libredraw.client.LibreRPC;
 import org.libredraw.server.persistence.Authorization;
+import org.libredraw.server.persistence.AutoIncrement;
 import org.libredraw.server.persistence.DAO;
 import org.libredraw.server.persistence.Session;
 import org.libredraw.shared.Diagram;
@@ -15,6 +19,9 @@ import org.libredraw.shared.GenericAccountConnector;
 import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.Util;
+import org.libredraw.shared.umlclassdiagram.UMLAttribute;
+import org.libredraw.shared.umlclassdiagram.UMLClass;
+import org.libredraw.shared.umlclassdiagram.UMLOperation;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Key;
@@ -37,7 +44,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		
 		if(connector != null) {
 			if(connector.checkPassword(password)) {
-				String sessionId = Util.sha1(connector.m_displayName + new Date().toString());
+				String sessionId = Util.sha1Java(connector.m_displayName + new Date().toString());
 				
 				dba.put(new Session(sessionId, connector.m_user));
 				
@@ -103,7 +110,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			}
 			while(next!=null) {
 				Key<?> get = next.m_regarding;
-				if("P_Project".equals(get.getKind()))
+				if("Project".equals(get.getKind()))
 				{
 					Project thisProject = (Project) dba.get(get);
 					Project p = thisProject;
@@ -178,19 +185,37 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 
 	@Override
 	public List<Diagram> getDiagramList(String sessionId, long projectId) {
-		if(sessionId == null)
+		if(getUser(sessionId) == null)
 			return null;
-		else if(getUser(sessionId) == null)
-			return null;
-		Project project = dba.getProject(projectId);
-		Iterator<Key<Diagram>> i = project.m_diagrams.iterator();
+		//TODO authorization check
 		List<Diagram> result = new ArrayList<Diagram>();
-		while(i.hasNext()) {
-			Key<Diagram> thisDiagram = i.next();
-			Diagram d = ((Diagram) dba.get(thisDiagram));
-			result.add(TransientUpdator.update(d));
-		}
+		Project project = dba.getProject(projectId);
+		if(project.m_diagrams!=null && !project.m_diagrams.isEmpty())
+			for(Key<Diagram> d : project.m_diagrams) 
+				result.add(TransientUpdator.update((Diagram) dba.get(d)));
 		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public String addClass(String sessionId, long branch, UMLClass theClass) {
+		if(getUser(sessionId) ==null)
+			return null;
+		//TODO Authorization check
+		theClass.id = AutoIncrement.classToLong(UMLClass.class);
+		theClass.m_operations = new Vector<Key<UMLOperation>>();
+		for(UMLOperation o : theClass.operations) {
+			o.id = AutoIncrement.getNextId(UMLOperation.class);
+			theClass.m_operations.add((Key<UMLOperation>) dba.put(o));
+		}
+		theClass.m_attributes = new Vector<Key<UMLAttribute>>();
+		for(UMLAttribute a : theClass.attributes) {
+			a.id = AutoIncrement.getNextId(UMLAttribute.class);
+			theClass.m_attributes.add((Key<UMLAttribute>) dba.put(a));
+		}
+		Key<UMLClass> key = (Key<UMLClass>) dba.put(theClass);
+		getBranch(branch).addNewVersion(key);
+		return "Sucsess";
 	}
 	
 	
@@ -207,5 +232,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

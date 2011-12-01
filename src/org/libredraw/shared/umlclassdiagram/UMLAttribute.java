@@ -1,9 +1,13 @@
 package org.libredraw.shared.umlclassdiagram;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class UMLAttribute implements Serializable
 {
+	@Id
 	public long id;
 	public boolean locked;
 	public boolean limited;
@@ -17,11 +21,6 @@ public class UMLAttribute implements Serializable
 	
 	public UMLAttribute() {
 		// TODO Auto-generated constructor stub
-	}
-	
-	//- Private + Public # Protected ~ Package
-	public UMLAttribute(String representation) {
-		
 	}
 
 }

@@ -16,9 +16,12 @@
 */
 
 package org.libredraw.shared.umlclassdiagram;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-public class UMLOperationParameter
-{
+@Entity
+public class UMLOperationParameter {
+	@Id
 	public long id;
 	public boolean locked;
 	public boolean limited;

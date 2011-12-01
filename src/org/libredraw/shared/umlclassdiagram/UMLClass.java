@@ -19,21 +19,34 @@ package org.libredraw.shared.umlclassdiagram;
 
 import java.util.Vector;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import com.googlecode.objectify.Key;
+
+@Entity
 public class UMLClass extends UMLNode
 {
+	@Id
 	public long id;
 	public boolean locked;
 	public boolean limited;
 	
+	public transient Vector<Key<UMLOperation>> m_operations;
+	public transient Vector<Key<UMLAttribute>> m_attributes;
+	
 	boolean m_abstract;
-	Vector<UMLOperation> m_operations;
-	Vector<UMLAttribute> m_attributes;
+	@Transient
+	public Vector<UMLOperation> operations;
+	@Transient
+	public Vector<UMLAttribute> attributes;
 	
 	public UMLClass(String name, UMLVisibility visibility, boolean abstrac, Vector<UMLOperation> operations, Vector<UMLAttribute> attributes) {
 		super(name, visibility);
 		m_abstract = abstrac;
-		m_operations = operations;
-		m_attributes = attributes;
+		this.operations = operations;
+		this.attributes = attributes;
 	}
 
 }

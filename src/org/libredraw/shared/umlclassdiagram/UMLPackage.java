@@ -24,20 +24,17 @@ import javax.persistence.Id;
 import com.googlecode.objectify.Key;
 
 @Entity
-public class UMLPackage extends UMLNode
-{
+public class UMLPackage extends UMLNode {
+	@Id public long id;
+	public boolean locked;
+	public boolean limited;
+	
+	Vector<Key<?>> m_nodes;
+	Key<?> m_parentPackage;
 	
 	public UMLPackage(String name, UMLVisibility visibility) {
 		super(name, visibility);
 		// TODO Auto-generated constructor stub
 	}
-	@Id public long id;
-	public boolean locked;
-	public boolean limited;
-	
-	String m_name;
-	UMLVisibility m_visibility;
-	Vector<Key<?>> m_nodes;
-	Key<?> m_parentPackage;
 
 }

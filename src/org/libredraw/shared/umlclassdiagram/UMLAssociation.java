@@ -29,7 +29,8 @@ import com.googlecode.objectify.Key;
 @Entity
 public class UMLAssociation extends DrawableObject {
 	
-	@Id public long id;
+	@Id
+	public long id;
 	public boolean locked;
 	public boolean limited;
 	

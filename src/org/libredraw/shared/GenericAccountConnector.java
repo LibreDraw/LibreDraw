@@ -38,7 +38,7 @@ public class GenericAccountConnector extends AccountConnector
 		super(name);
 		id = newId;
 		m_email = email;
-		m_salt = Util.sha1(new Date().toString() + m_email);
+		m_salt = Util.sha1Java(new Date().toString() + m_email);
 		m_password = Util.sha1Java(this.m_salt + password);
 	}
 	

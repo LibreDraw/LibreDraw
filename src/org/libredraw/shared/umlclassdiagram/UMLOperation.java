@@ -18,9 +18,12 @@
 package org.libredraw.shared.umlclassdiagram;
 
 import java.util.Vector;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-public class UMLOperation
-{
+@Entity
+public class UMLOperation {
+	@Id
 	public long id;
 	public boolean locked;
 	public boolean limited;

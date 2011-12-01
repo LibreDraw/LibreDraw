@@ -24,18 +24,17 @@ import javax.persistence.Id;
 import com.googlecode.objectify.Key;
 
 @Entity
-public class UMLInterface extends UMLNode
-{
-	
-	public UMLInterface(String name, UMLVisibility visibility) {
-		super(name, visibility);
-		// TODO Auto-generated constructor stub
-	}
+public class UMLInterface extends UMLNode {
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;
 	
 	Vector<Key<?>> operations;
 	Vector<Key<?>> atributes;
+	
+	public UMLInterface(String name, UMLVisibility visibility) {
+		super(name, visibility);
+		// TODO Auto-generated constructor stub
+	}
 	
 }

@@ -181,7 +181,7 @@ public class DiagramList extends Composite {
 			@Override
 			public void onSuccess(List<Diagram> result) {
 				diagramList = result;
-				populateTable(diagramList);
+				populateTable(result);
 			}
 		});
 	}
@@ -193,11 +193,11 @@ public class DiagramList extends Composite {
 		
 		List<Diagram> list = dataProvider.getList();
 		for (Diagram d : diagrams) {
-	    	list.add(d);
+			list.add(d);
 		}
 	}
 	
-	private void myRemove() {
+	public void myRemove() {
 		this.removeFromParent();
 	}
 }

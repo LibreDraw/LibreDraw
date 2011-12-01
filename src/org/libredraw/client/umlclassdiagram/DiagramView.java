@@ -60,7 +60,7 @@ public class DiagramView extends Composite {
 		newClassMenu.setCommand(new Command() {
 			@Override
 			public void execute() {
-				TableView.registerDialog(new newClassDialog());
+				TableView.registerDialog(new newClassDialog(thisBranch));
 			}
 		});
 	}

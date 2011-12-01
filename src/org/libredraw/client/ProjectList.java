@@ -180,11 +180,11 @@ public class ProjectList extends Composite {
 		
 		List<Project> list = dataProvider.getList();
 		for (Project p : projects) {
-	    	list.add(p);
+			list.add(p);
 		}
 	}
 	
-	void myRemove() {
+	private void myRemove() {
 		this.removeFromParent();
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.Project;
+import org.libredraw.shared.umlclassdiagram.UMLClass;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -31,6 +32,9 @@ public interface LibreRPCAsync {
 
 	void getDiagramList(String sessionId, long projectId,
 			AsyncCallback<List<Diagram>> callback);
+
+	void addClass(String sessionId, long branch, UMLClass theClass,
+			AsyncCallback<String> callback);
 	
 	/*void commitEntity(Key entity, AsyncCallback<Boolean> callback);
 	

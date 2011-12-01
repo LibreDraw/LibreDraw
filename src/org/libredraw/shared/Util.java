@@ -14,6 +14,7 @@ import java.security.MessageDigest;
  */
 
 public final class Util {
+
 	public static native String sha1(String value) /*-{
 		
 		var hexcase = 0;
@@ -273,6 +274,7 @@ public final class Util {
 		
 		return hex_sha1(value); 
 	}-*/;
+	
 	
 	/*
 	 * This function credit to:

@@ -5,6 +5,7 @@ import java.util.List;
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.Project;
+import org.libredraw.shared.umlclassdiagram.UMLClass;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -27,6 +28,8 @@ public interface LibreRPC extends RemoteService {
 	String createDiagram(String sessionId, long projectId, String diagramName, DiagramType type);
 	
 	List<Diagram> getDiagramList(String sessionId, long projectId);
+	
+	String addClass(String sessionId, long branch, UMLClass theClass);
 	
 	/*Project[] getProject(long projectId);
 	
