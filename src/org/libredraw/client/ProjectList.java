@@ -3,16 +3,10 @@ package org.libredraw.client;
 import java.util.Date;
 import java.util.List;
 import org.libredraw.shared.Project;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.gargoylesoftware.htmlunit.javascript.host.Event;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.logical.shared.AttachEvent.Handler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.uibinder.client.UiBinder;

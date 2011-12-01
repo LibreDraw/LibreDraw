@@ -19,7 +19,7 @@
 				</g:MenuBar>
 			</g:MenuItem>
 		</g:MenuBar>
-		<g:ScrollPanel alwaysShowScrollBars="true" width="100%" ui:field="scrollPanel">
+		<g:ScrollPanel alwaysShowScrollBars="false" width="100%" ui:field="scrollPanel">
 			<p1:CellTable ui:field="table" pageSize="10000"/>
 		</g:ScrollPanel>
 	</g:VerticalPanel>

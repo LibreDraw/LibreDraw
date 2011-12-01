@@ -1,8 +1,9 @@
 package org.libredraw.shared;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Diagram {
+public class Diagram implements Serializable {
 
 	public boolean locked;
 	public boolean limited;
@@ -15,6 +16,9 @@ public class Diagram {
 	public LDUser m_modifiedBy;
 	public DiagramType m_type;
 	public long m_master;
+	
+	public Diagram(){
+	}
 	
 	public Diagram(long id, String name, Date creationDate, Date modifiedDate, LDUser modifiedBy, LDUser owner, DiagramType type, long master) {
 		m_id = id;

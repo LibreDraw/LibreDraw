@@ -11,6 +11,9 @@ public class Project implements Serializable {
 	public Date m_modified;
 	public LDUser m_modifedBy;
 	
+	public Project() {
+	}
+	
 	public Project(long id, String name, Date createdDate, LDUser owner, Date modified, LDUser modifiedBy) {
 		m_id = id;
 		m_name = name;

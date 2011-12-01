@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.logging.Logger;
 import org.libredraw.client.LibreRPC;
 import org.libredraw.server.persistence.DAO;
 import org.libredraw.server.persistence.P_Authorization;
@@ -23,7 +22,7 @@ import com.googlecode.objectify.Query;
 
 public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 
-	private static final Logger log = Logger.getLogger(EngineRPC.class.getName());
+	//private static final Logger log = Logger.getLogger(EngineRPC.class.getName());
 
 	private static final long serialVersionUID = 1024L;
 	

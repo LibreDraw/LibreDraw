@@ -45,7 +45,6 @@ public class NewDiagramDialog extends DialogBox {
 		typeCombo.addItem("UML Class");
 		
 		thisProject = p;
-		
 	}
 
 	@UiHandler("submitButton")
@@ -56,7 +55,14 @@ public class NewDiagramDialog extends DialogBox {
 			errorLabel.setText("");
 			LibreRPCService.createDiagram(ClientSession.getInstance().getSessionId(),
 					thisProject.m_id, nameTextBox.getText(), DiagramType.UMLClassDiagram, new AsyncCallback<String>() {
-				
+						@Override
+						public void onFailure(Throwable caught) {
+							TableView.registerErrorDialog(new StackTrace(caught));
+						}
+						@Override
+						public void onSuccess(String result) {
+							myHide();
+						}
 			});
 		}
 

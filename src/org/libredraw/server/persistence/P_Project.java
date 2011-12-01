@@ -1,14 +1,11 @@
 package org.libredraw.server.persistence;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Vector;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
 import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
-
 import com.googlecode.objectify.Key;
 
 @Entity

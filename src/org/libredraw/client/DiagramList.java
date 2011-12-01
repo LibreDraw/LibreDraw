@@ -46,7 +46,7 @@ public class DiagramList extends Composite {
 		newDiagramMenu.setCommand(new Command() {
 			@Override
 			public void execute() {
-				TableView.registerDialog(new NewDiagramDialog());
+				TableView.registerDialog(new NewDiagramDialog(regarding));
 			}
 		});
 		
