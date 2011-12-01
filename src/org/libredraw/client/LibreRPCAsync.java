@@ -2,6 +2,8 @@ package org.libredraw.client;
 
 import java.util.List;
 
+import org.libredraw.shared.Diagram;
+import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.Project;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,7 +25,9 @@ public interface LibreRPCAsync {
 	void getProject(long id, AsyncCallback<Project> callback);
 
 	void createDiagram(String sessionId, long projectId, String diagramName,
-			String diagramType, AsyncCallback<String> callback);
+			DiagramType type, AsyncCallback<String> callback);
+
+	void getDiagram(long id, AsyncCallback<Diagram> callback);
 	
 	/*void commitEntity(Key entity, AsyncCallback<Boolean> callback);
 	

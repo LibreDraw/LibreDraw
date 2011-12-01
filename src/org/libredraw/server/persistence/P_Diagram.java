@@ -19,15 +19,14 @@ package org.libredraw.server.persistence;
 
 import java.util.Date;
 import javax.persistence.Id;
+
+import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
 
 import com.googlecode.objectify.Key;
 
 public class P_Diagram
 {
-	public P_Diagram() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	@Id public long id;
 	public boolean locked;
@@ -40,4 +39,20 @@ public class P_Diagram
 	public DiagramType m_type;
 	public Key<?> m_master;
 	public Key<?> m_modifiedBy;
+	
+	public P_Diagram(String name, DiagramType type, Key<?> owner, Key<?> master) {
+		id = P_AutoIncrement.getNextId(this.getClass());
+		m_name = name;
+		m_owner = owner;
+		m_modifiedBy = owner;
+		m_createdDate = new Date();
+		m_modifiedDate = new Date();
+		m_master = master;
+		m_type = type;
+	}
+	
+	public Diagram getShareable() {
+		//TODO implement
+		return null;
+	}
 }

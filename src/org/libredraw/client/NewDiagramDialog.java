@@ -1,5 +1,8 @@
 package org.libredraw.client;
 
+import org.libredraw.shared.DiagramType;
+import org.libredraw.shared.Project;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -25,12 +28,13 @@ public class NewDiagramDialog extends DialogBox {
 	@UiField Button cancelButton;
 	@UiField Label errorLabel;
 	@UiField ListBox typeCombo;
+	Project thisProject;
 
 	interface NewProjectDialogUiBinder extends
 			UiBinder<Widget, NewDiagramDialog> {
 	}
 
-	public NewDiagramDialog() {
+	public NewDiagramDialog(Project p) {
 		setWidget(uiBinder.createAndBindUi(this));
 		this.setText("New diagram");
 		this.setAnimationEnabled(true);
@@ -39,30 +43,23 @@ public class NewDiagramDialog extends DialogBox {
 		this.center();
 		
 		typeCombo.addItem("UML Class");
+		
+		thisProject = p;
+		
 	}
 
 	@UiHandler("submitButton")
 	void onSubmitButtonClick(ClickEvent event) {
-		/*if(nameTextBox.getText() == "")
+		if(nameTextBox.getText() == "")
 			errorLabel.setText("Diagram name cannot be blank");
 		else {
 			errorLabel.setText("");
-			LibreRPCService.createProject(
-					ClientSession.getInstance().getSessionId(), 
-					nameTextBox.getText(), 
-					new AsyncCallback<String>() {
-						public void onFailure(Throwable caught) {
-							TableView.registerErrorDialog(new StackTrace(caught));
-						}
-						public void onSuccess(String result) {
-							if(result != null)
-								myHide();
-							else
-								errorLabel.setText("Create failed :'(");
-						}
-					});
-		}*/
-		//TODO Fix this
+			LibreRPCService.createDiagram(ClientSession.getInstance().getSessionId(),
+					thisProject.m_id, nameTextBox.getText(), DiagramType.UMLClassDiagram, new AsyncCallback<String>() {
+				
+			});
+		}
+
 	}
 	
 	@UiHandler("cancelButton")

@@ -1,5 +1,7 @@
 package org.libredraw.server.persistence;
 
+import org.libredraw.shared.DiagramType;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -44,6 +46,17 @@ public class DAO extends DAOBase {
 		return project;
 	}
 	
+	public Key<P_Diagram> createDiagram(String name, DiagramType type, Key<P_LDUser> owner) {
+		Key<P_Branch> branch = createBranch("MASTER", owner);
+		Key<P_Diagram> diagram = ofy.put(new P_Diagram(name, type, owner, branch));
+		createAuthorization(owner, diagram, P_Permission.OWNER + P_Permission.ALL);
+		return diagram;
+	}
+	
+	public Key<P_Branch> createBranch(String name, Key<P_LDUser> owner) {
+		return ofy.put(new P_Branch(name, owner));
+	}
+	
 	public Key<P_Authorization> createAuthorization(Key<P_LDUser> user, Key<?> regarding, int granted) {
 		Key<P_Permission> permission = createPermission(granted);
 		return ofy.put(new P_Authorization(user, regarding, permission));
@@ -67,6 +80,10 @@ public class DAO extends DAOBase {
 	
 	public <T> Query<T> getQuery(Class<T> entityType) {
 		return ofy.query(entityType);
+	}
+
+	public P_Project getProject(long id) {
+		return ofy.get(new Key<P_Project>(P_Project.class, id));
 	}
 		
 }

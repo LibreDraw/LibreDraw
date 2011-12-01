@@ -6,14 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
-
 import org.libredraw.client.LibreRPC;
 import org.libredraw.server.persistence.DAO;
 import org.libredraw.server.persistence.P_Authorization;
+import org.libredraw.server.persistence.P_Diagram;
 import org.libredraw.server.persistence.P_GenericAccountConnector;
 import org.libredraw.server.persistence.P_LDUser;
 import org.libredraw.server.persistence.P_Project;
 import org.libredraw.server.persistence.P_Session;
+import org.libredraw.shared.Diagram;
+import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.Project;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Key;
@@ -43,7 +45,6 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 				return sessionId;
 			}
 		}
-			
 		return null;
 	}
 
@@ -135,7 +136,6 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 	public String createProject(String sessionId, String projectName) {
 		Key<P_LDUser> owner = getUser(sessionId);
 		if(owner!=null) {
-			log.warning("start creation");
 			dba.createProject(projectName, owner);
 			return "Sucsess";
 		} else
@@ -164,12 +164,25 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Diagram getDiagram(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public String createDiagram(String sessionId, long projectId,
-			String diagramName, String diagramType) {
-		// TODO Auto-generated method stub
-		return null;
+			String DiagramName, DiagramType type) {
+		Key<P_LDUser> owner = getUser(sessionId);
+		if(owner!=null) {
+			Key<P_Diagram> diagram = dba.createDiagram(DiagramName, type, owner);
+			P_Project project = dba.getProject(projectId);
+			project.addDiagram(diagram);
+			dba.put(project);
+			return "Sucsess";
+		} else
+			return null;
 	}
 
 }

@@ -1,7 +1,10 @@
 package org.libredraw.client;
 
+import java.util.Date;
 import java.util.List;
 import org.libredraw.shared.Project;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.gargoylesoftware.htmlunit.javascript.host.Event;
 import com.google.gwt.cell.client.CheckboxCell;
@@ -22,6 +25,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.CellPreviewEvent;
@@ -43,7 +47,7 @@ public class ProjectList extends Composite {
 	@UiField MenuItem exportMenu;
 	@UiField MenuItem refreshMenu;
 	List<Project> ps;
-	int clickCounter=0;
+	Date clickTracker = null;
 
 	interface ProjectListUiBinder extends UiBinder<Widget, ProjectList> {
 	}
@@ -121,10 +125,19 @@ public class ProjectList extends Composite {
 			public void onCellPreview(CellPreviewEvent<Project> event) {
 				//TODO get a real double click event
 				if("click".equals(event.getNativeEvent().getType())) {
-					clickCounter++;
-					if(clickCounter == 2) {
-						clickCounter = 0;
-						//TODO navigate to diagram list
+					if(event.getContext().getColumn() != 0) {
+						if(clickTracker == null)
+							clickTracker = new Date();
+						else {
+							long difference = new Date().getTime() - clickTracker.getTime();
+							if(difference <= 500){
+								Project thisProject = event.getValue();
+								RootPanel.get("body").add(new DiagramList(thisProject));
+								myRemove();
+							}
+							else
+								clickTracker = new Date();
+						}
 					}
 				}
 			}
@@ -177,6 +190,10 @@ public class ProjectList extends Composite {
 		for (Project p : projects) {
 	    	list.add(p);
 		}
+	}
+	
+	void myRemove() {
+		this.removeFromParent();
 	}
 
 }

@@ -3,6 +3,7 @@
 <module rename-to='edit'>
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="com.google.gwt.user.theme.clean.Clean" />
+	<!--<inherits name="com.google.gwt.logging.Logging"/>-->
 	
 	<entry-point class='org.libredraw.client.TableView'/>
 

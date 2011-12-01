@@ -24,11 +24,11 @@ public class P_Project {
 	public boolean limited;
 	
 	public P_Project(String name, Key<P_LDUser> owner) {
-		this.id = P_AutoIncrement.getNextId(this.getClass());
-		this.m_name = name;
-		this.m_createdDate = new Date();
-		this.m_diagrams = new Vector<Key<P_Diagram>>();
-		this.m_owner = owner;
+		id = P_AutoIncrement.getNextId(this.getClass());
+		m_name = name;
+		m_createdDate = new Date();
+		m_diagrams = new Vector<Key<P_Diagram>>();
+		m_owner = owner;
 	}
 
 	public Project getShareable() {
@@ -52,6 +52,10 @@ public class P_Project {
 						   owner,
 						   modified,
 						   modifiedBy);
+	}
+	
+	public void addDiagram(Key<P_Diagram> diagram) {
+		m_diagrams.add(diagram);
 	}
 	
 }

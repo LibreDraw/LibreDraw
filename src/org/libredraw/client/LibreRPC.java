@@ -2,6 +2,8 @@ package org.libredraw.client;
 
 import java.util.List;
 
+import org.libredraw.shared.Diagram;
+import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.Project;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -22,7 +24,7 @@ public interface LibreRPC extends RemoteService {
 	
 	String createProject(String sessionId, String projectName);
 	
-	String createDiagram(String sessionId, long projectId, String diagramName, String diagramType);
+	String createDiagram(String sessionId, long projectId, String diagramName, DiagramType type);
 	
 	/*Project[] getProject(long projectId);
 	
@@ -37,5 +39,7 @@ public interface LibreRPC extends RemoteService {
 	boolean commitEntity(Key entity);*/
 	
 	Project getProject(long id);
+
+	Diagram getDiagram(long id);
 
 }
