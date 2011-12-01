@@ -18,21 +18,13 @@
 package org.libredraw.server.persistence;
 
 import java.util.Vector;
-
+import javax.persistence.Entity;
 import javax.persistence.Id;
-
 import com.googlecode.objectify.Key;
 
+@Entity
 public class P_Branch
 {
-	public P_Branch(String name, Key<?> owner) {
-		id = P_AutoIncrement.getNextId(this.getClass());
-		m_name = name;
-		m_owner = owner;
-		m_versions = new Vector<Key<?>>();
-		m_diagram = null;
-	}
-	
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;
@@ -41,4 +33,12 @@ public class P_Branch
 	public Key<?> m_owner;
 	public Key<?> m_diagram;
 	public Vector<Key<?>> m_versions;
+	
+	public P_Branch(String name, Key<?> owner) {
+		id = P_AutoIncrement.getNextId(this.getClass());
+		m_name = name;
+		m_owner = owner;
+		m_versions = new Vector<Key<?>>();
+		m_diagram = null;
+	}
 }

@@ -18,16 +18,17 @@
 package org.libredraw.server.persistence;
 
 import java.util.Date;
+import javax.persistence.Entity;
 import javax.persistence.Id;
-
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
+import org.libredraw.shared.LDUser;
 
 import com.googlecode.objectify.Key;
 
+@Entity
 public class P_Diagram
 {
-	
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;
@@ -52,7 +53,11 @@ public class P_Diagram
 	}
 	
 	public Diagram getShareable() {
-		//TODO implement
-		return null;
+		//TODO get real data for dates
+		DAO dba = new DAO();
+		LDUser modifiedBy = ((P_LDUser) dba.get(m_modifiedBy)).getShareable();
+		LDUser owner = ((P_LDUser) dba.get(m_modifiedBy)).getShareable(); 
+		return new Diagram(id, m_name, m_createdDate, m_modifiedDate, modifiedBy, 
+				owner, m_type, m_master.getId());
 	}
 }

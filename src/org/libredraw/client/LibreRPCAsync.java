@@ -28,6 +28,9 @@ public interface LibreRPCAsync {
 			DiagramType type, AsyncCallback<String> callback);
 
 	void getDiagram(long id, AsyncCallback<Diagram> callback);
+
+	void getDiagramList(String sessionId, long projectId,
+			AsyncCallback<List<Diagram>> callback);
 	
 	/*void commitEntity(Key entity, AsyncCallback<Boolean> callback);
 	

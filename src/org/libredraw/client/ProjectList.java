@@ -40,7 +40,7 @@ public class ProjectList extends Composite {
 	@UiField MenuItem deleteMenu;
 	@UiField MenuItem exportMenu;
 	@UiField MenuItem refreshMenu;
-	List<Project> ps;
+	List<Project> projectList;
 	Date clickTracker = null;
 
 	interface ProjectListUiBinder extends UiBinder<Widget, ProjectList> {
@@ -65,7 +65,6 @@ public class ProjectList extends Composite {
 				public Boolean getValue(Project object) {
 					return false;
 				}
-
 		};
 				
 		TextColumn<Project> nameColumn = new TextColumn<Project>() {
@@ -159,7 +158,6 @@ public class ProjectList extends Composite {
 	}
 	
 	private void refreshTable() {
-		
 		LibreRPCService.getProjectList(ClientSession.getInstance().getSessionId(),
 				new AsyncCallback<List<Project>>() {
 				public void onFailure(Throwable caught) {
@@ -168,8 +166,8 @@ public class ProjectList extends Composite {
 				@Override
 				public void onSuccess(List<Project> result) {
 					if(result != null) {
-						ps = result;
-						populateTable(ps);
+						projectList = result;
+						populateTable(projectList);
 					}
 				}
 		});

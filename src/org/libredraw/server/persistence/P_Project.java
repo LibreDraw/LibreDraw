@@ -30,6 +30,7 @@ public class P_Project {
 
 	public Project getShareable() {
 		DAO dba = new DAO();
+		//TODO get real dates
 		/*Iterator<Key<P_Diagram>> i = m_diagrams.iterator();
 		P_Diagram latest = null;
 		while(i.hasNext()) {
@@ -52,6 +53,8 @@ public class P_Project {
 	}
 	
 	public void addDiagram(Key<P_Diagram> diagram) {
+		if(m_diagrams == null)
+			m_diagrams = new Vector<Key<P_Diagram>>();
 		m_diagrams.add(diagram);
 	}
 	

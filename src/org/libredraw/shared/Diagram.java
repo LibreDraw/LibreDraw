@@ -20,7 +20,8 @@ public class Diagram implements Serializable {
 	public Diagram(){
 	}
 	
-	public Diagram(long id, String name, Date creationDate, Date modifiedDate, LDUser modifiedBy, LDUser owner, DiagramType type, long master) {
+	public Diagram(long id, String name, Date creationDate, Date modifiedDate, 
+			LDUser modifiedBy, LDUser owner, DiagramType type, long master) {
 		m_id = id;
 		m_name = name;
 		m_createdDate = creationDate;

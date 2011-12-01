@@ -103,7 +103,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			}
 			while(next!=null) {
 				Key<?> get = next.m_regarding;
-				if(get.getKind() == "P_Project")
+				if("P_Project".equals(get.getKind()))
 				{
 					P_Project thisProject = (P_Project) dba.get(get);
 					Project p = thisProject.getShareable();
@@ -128,8 +128,10 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		P_Session session = query.get();
 		if(session == null)
 			return null;
-		else 
+		else if(session.checkSession(sessionId))
 			return session.m_user;
+		else
+			return null;
 	}
 
 	public String createProject(String sessionId, String projectName) {
@@ -158,17 +160,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		return null;
 	}
 
-	@Override
-	public Project getProject(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public Diagram getDiagram(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public String createDiagram(String sessionId, long projectId,
@@ -182,6 +174,38 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			return "Sucsess";
 		} else
 			return null;
+	}
+
+	@Override
+	public List<Diagram> getDiagramList(String sessionId, long projectId) {
+		if(sessionId == null)
+			return null;
+		else if(getUser(sessionId) == null)
+			return null;
+		P_Project project = dba.getProject(projectId);
+		Iterator<Key<P_Diagram>> i = project.m_diagrams.iterator();
+		List<Diagram> result = new ArrayList<Diagram>();
+		while(i.hasNext()) {
+			Key<P_Diagram> thisDiagram = i.next();
+			Diagram d = ((P_Diagram) dba.get(thisDiagram)).getShareable();
+			result.add(d);
+		}
+		return result;
+	}
+	
+	
+	//The following exist only so that the RPC knows that the types are on the 
+	//serializable whitelist.
+	@Override
+	public Project getProject(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Diagram getDiagram(long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

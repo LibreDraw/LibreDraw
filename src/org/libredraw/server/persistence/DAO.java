@@ -66,7 +66,7 @@ public class DAO extends DAOBase {
 		return ofy.put(new P_Permission(granted));
 	}
 	
-	public Object get(Key<?> entity) {
+	public <T> Object get(Key<T> entity) {
 		return ofy.get(entity);
 	}
 	
