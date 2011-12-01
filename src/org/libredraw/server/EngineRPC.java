@@ -6,14 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.libredraw.client.LibreRPC;
-import org.libredraw.server.persistence.DAO;
 import org.libredraw.server.persistence.Authorization;
-import org.libredraw.server.persistence.GenericAccountConnector;
+import org.libredraw.server.persistence.DAO;
 import org.libredraw.server.persistence.Session;
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
+import org.libredraw.shared.GenericAccountConnector;
 import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
+import org.libredraw.shared.Util;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Query;
@@ -105,8 +107,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 				{
 					Project thisProject = (Project) dba.get(get);
 					Project p = thisProject;
-					p.update();
-					projects.add(p);
+					projects.add(TransientUpdator.update(p));
 				}
 				try {
 					next = i.next();
@@ -187,8 +188,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		while(i.hasNext()) {
 			Key<Diagram> thisDiagram = i.next();
 			Diagram d = ((Diagram) dba.get(thisDiagram));
-			d.update();
-			result.add(d);
+			result.add(TransientUpdator.update(d));
 		}
 		return result;
 	}

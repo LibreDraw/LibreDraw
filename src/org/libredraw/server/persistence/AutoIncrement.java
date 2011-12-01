@@ -2,6 +2,7 @@ package org.libredraw.server.persistence;
 
 import org.libredraw.shared.Branch;
 import org.libredraw.shared.Diagram;
+import org.libredraw.shared.GenericAccountConnector;
 import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.Version;

@@ -15,12 +15,11 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.server.persistence;
+package org.libredraw.shared;
 
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import org.libredraw.server.Util;
 
 @Entity
 public class GenericAccountConnector extends AccountConnector
@@ -35,16 +34,16 @@ public class GenericAccountConnector extends AccountConnector
 	public GenericAccountConnector() {
 	}
 	
-	public GenericAccountConnector(String email, String password, String name) {
+	public GenericAccountConnector(long newId, String email, String password, String name) {
 		super(name);
-		id = AutoIncrement.getNextId(this.getClass());
+		id = newId;
 		m_email = email;
 		m_salt = Util.sha1(new Date().toString() + m_email);
-		m_password = Util.sha1(this.m_salt + password);
+		m_password = Util.sha1Java(this.m_salt + password);
 	}
 	
 	public boolean checkPassword(String password) {
-		password = Util.sha1(this.m_salt + password);
+		password = Util.sha1Java(this.m_salt + password);
 		if(m_password.equals(password))
 			return true;
 		else

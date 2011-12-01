@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of LibreDraw.
 
     LibreDraw is free software: you can redistribute it and/or modify
@@ -20,8 +20,7 @@ package org.libredraw.shared;
 import java.util.Vector;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import org.libredraw.server.persistence.AutoIncrement;
+import javax.persistence.Transient;
 
 import com.googlecode.objectify.Key;
 
@@ -33,16 +32,19 @@ public class Branch
 	public boolean limited;
 	
 	public String m_name;
-	public Key<?> m_owner;
-	public Key<?> m_diagram;
-	public Vector<Key<Version>> m_versions;
+	transient public Key<LDUser> m_owner;
+	transient public Key<Diagram> m_diagram;
+	transient public Vector<Key<Version>> m_versions;
+	
+	@Transient public LDUser owner;
+	@Transient public Diagram diagram;
+	@Transient public Vector<Version> versions;
 	
 	public Branch() {
 		
 	}
 	
-	public Branch(String name, Key<?> owner) {
-		id = AutoIncrement.getNextId(this.getClass());
+	public Branch(long newId, String name, Key<LDUser> owner) {
 		m_name = name;
 		m_owner = owner;
 		m_versions = new Vector<Key<Version>>();

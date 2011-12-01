@@ -17,20 +17,15 @@
 
 package org.libredraw.shared;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-
-import org.libredraw.server.persistence.AccountConnector;
-import org.libredraw.server.persistence.AutoIncrement;
-import org.libredraw.server.persistence.DAO;
-import org.libredraw.server.persistence.GenericAccountConnector;
 import org.libredraw.shared.LDUser;
 import com.googlecode.objectify.Key;
 
 @Entity
-public class LDUser
-{
+public class LDUser implements Serializable {
 	transient public Key<GenericAccountConnector> m_accountConnector;
 	@Transient public String m_displayName;
 	
@@ -40,15 +35,9 @@ public class LDUser
 		
 	}
 	
-	public LDUser(Key<GenericAccountConnector> accountConnector) {
-		id = AutoIncrement.getNextId(this.getClass());
+	public LDUser(long newId, Key<GenericAccountConnector> accountConnector) {
+		id = newId;
 		this.m_accountConnector = accountConnector;
-	}
-	
-	public void update() {
-		DAO dba = new DAO();
-		AccountConnector connector = (AccountConnector) dba.get(m_accountConnector);
-		m_displayName = connector.m_displayName;
 	}
 	
 }

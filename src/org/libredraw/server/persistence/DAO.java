@@ -3,6 +3,7 @@ package org.libredraw.server.persistence;
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.Branch;
+import org.libredraw.shared.GenericAccountConnector;
 import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
 
@@ -31,7 +32,7 @@ public class DAO extends DAOBase {
 	 * @throws Exception
 	 */
 	public Key<LDUser> createLDUser(Key<GenericAccountConnector> accountConnector) {
-		Key<LDUser> user = ofy.put(new LDUser(accountConnector));
+		Key<LDUser> user = ofy.put(new LDUser(AutoIncrement.getNextId(LDUser.class), accountConnector));
 		
 		//set m_user in accountConnector
 		GenericAccountConnector connector = ofy.get(accountConnector);
@@ -41,24 +42,24 @@ public class DAO extends DAOBase {
 	}
 	
 	public Key<GenericAccountConnector> createGenericAccountConnector(String email, String password, String diaplayName) {
-		return ofy.put(new GenericAccountConnector(email, password, diaplayName));
+		return ofy.put(new GenericAccountConnector(AutoIncrement.getNextId(GenericAccountConnector.class), email, password, diaplayName));
 	}
 	
 	public Key<Project> createProject(String name, Key<LDUser> owner) {
-		Key<Project> project = ofy.put(new Project(name, owner));
+		Key<Project> project = ofy.put(new Project(AutoIncrement.getNextId(Project.class), name, owner));
 		createAuthorization(owner, project, Permission.OWNER + Permission.ALL);
 		return project;
 	}
 	
 	public Key<Diagram> createDiagram(String name, DiagramType type, Key<LDUser> owner) {
 		Key<Branch> branch = createBranch("MASTER", owner);
-		Key<Diagram> diagram = ofy.put(new Diagram(name, type, owner, branch));
+		Key<Diagram> diagram = ofy.put(new Diagram(AutoIncrement.getNextId(Diagram.class), name, type, owner, branch));
 		createAuthorization(owner, diagram, Permission.OWNER + Permission.ALL);
 		return diagram;
 	}
 	
 	public Key<Branch> createBranch(String name, Key<LDUser> owner) {
-		return ofy.put(new Branch(name, owner));
+		return ofy.put(new Branch(AutoIncrement.getNextId(Branch.class), name, owner));
 	}
 	
 	public Key<Authorization> createAuthorization(Key<LDUser> user, Key<?> regarding, int granted) {

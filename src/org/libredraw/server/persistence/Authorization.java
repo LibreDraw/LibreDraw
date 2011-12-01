@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of LibreDraw.
 
     LibreDraw is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.libredraw.shared.LDUser;
+
 
 import com.googlecode.objectify.Key;
 

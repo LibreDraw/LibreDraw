@@ -20,16 +20,17 @@ package org.libredraw.server.persistence;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+
 @Entity
 public class Permission
 {
-	static int READ = 1;
-	static int WRITE = 2;
-	static int BRANCH = 4;
-	static int MERGE = 8;
-	static int EXPORT = 16;
-	static int OWNER = 32;
-	static int ALL = READ + WRITE + BRANCH + MERGE + EXPORT;
+	static public int READ = 1;
+	static public int WRITE = 2;
+	static public int BRANCH = 4;
+	static public int MERGE = 8;
+	static public int EXPORT = 16;
+	static public int OWNER = 32;
+	static public int ALL = READ + WRITE + BRANCH + MERGE + EXPORT;
 	
 	int code;
 	

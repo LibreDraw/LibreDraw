@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of LibreDraw.
 
     LibreDraw is free software: you can redistribute it and/or modify
@@ -15,9 +15,9 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.libredraw.server.persistence;
+package org.libredraw.shared;
 
-import org.libredraw.shared.LDUser;
+
 
 import com.googlecode.objectify.Key;
 
