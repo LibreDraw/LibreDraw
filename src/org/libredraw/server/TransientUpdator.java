@@ -3,6 +3,7 @@ package org.libredraw.server;
 import java.util.Date;
 import java.util.Vector;
 
+import org.libredraw.server.persistence.AutoIncrement;
 import org.libredraw.server.persistence.DAO;
 import org.libredraw.shared.AccountConnector;
 import org.libredraw.shared.Branch;
@@ -127,7 +128,7 @@ public final class TransientUpdator {
 		for(Key<DiagramEntity> k: v.m_objects) {
 			objects.add(k);
 		}
-		return new Version(v.m_versionNuber+1, thisVersion , modified, objects);
+		return new Version(AutoIncrement.getNextId(Version.class), v.m_versionNuber+1, thisVersion , modified, objects);
 	}
 
 }

@@ -79,6 +79,7 @@ public class newClassDialog extends DialogBox {
 		
 		operationTexts = new Vector<TextBox>();
 		operationTexts.add(operationsTextBox);
+		thisBranch = branch;
 	}
 
 	@UiHandler("attributeAddButton")

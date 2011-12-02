@@ -24,7 +24,8 @@ public class Version {
 	public Version() {
 	}
 	
-	public Version(int versionNumber, Key<Version> previous, Key<LDUser> modified) {
+	public Version(long newId, int versionNumber, Key<Version> previous, Key<LDUser> modified) {
+		id = newId;
 		m_tag = "";
 		m_versionNuber = versionNumber;
 		m_date = new Date();
@@ -33,7 +34,8 @@ public class Version {
 		m_modifiedBy = modified;
 	}
 	
-	public Version(int versionNumber, Key<Version> previous, Key<LDUser> modified, Vector<Key<DiagramEntity>> objects) {
+	public Version(long newId, int versionNumber, Key<Version> previous, Key<LDUser> modified, Vector<Key<DiagramEntity>> objects) {
+		id = newId;
 		m_tag = "";
 		m_versionNuber = versionNumber;
 		m_date = new Date();

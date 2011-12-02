@@ -220,13 +220,11 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		
 		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
 		if(v == null) {
-			Version next = new Version(0, null, owner);
+			Version next = new Version(AutoIncrement.getNextId(Version.class), 0, null, owner);
 			next.add(key);
 			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
 			return "Sucsess";
 		} else {
-			Version latest = (Version) dba.get(v);
-			
 			Version next = TransientUpdator.nextVersion(v, owner);
 			
 			next.add(key);
