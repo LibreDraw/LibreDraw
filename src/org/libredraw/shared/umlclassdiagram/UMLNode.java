@@ -17,14 +17,20 @@
 
 package org.libredraw.shared.umlclassdiagram;
 
-import org.libredraw.shared.DrawableObject;
+import org.libredraw.shared.DiagramEntity;
+import org.libredraw.shared.LDUser;
 
-public class UMLNode extends DrawableObject {
-	String m_name;
+import com.googlecode.objectify.Key;
+
+public class UMLNode extends DiagramEntity {
 	UMLVisibility m_visibility;
 	
-	public UMLNode(String name, UMLVisibility visibility) {
-		m_name = name;
+	public UMLNode() {
+		super(null, null);
+	}
+	
+	public UMLNode(String name, UMLVisibility visibility, Key<LDUser> createdBy) {
+		super(name, createdBy);
 		m_visibility = visibility;
 	}
 }

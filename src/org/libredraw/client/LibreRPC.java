@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
+import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.googlecode.objectify.Key;
 
 @RemoteServiceRelativePath("request")
 public interface LibreRPC extends RemoteService {
@@ -31,20 +33,14 @@ public interface LibreRPC extends RemoteService {
 	
 	String addClass(String sessionId, long branch, UMLClass theClass);
 	
-	/*Project[] getProject(long projectId);
+	List<DiagramEntity> getEntities(String sessionId, long branch);
 	
-	Version getDiagram(long diagramId, int version);
 	
-	boolean createDiagram(String name, DiagramType type);
-	
-	boolean createProject(String name);
-	
-	String lockEnity(Key entity);
-	
-	boolean commitEntity(Key entity);*/
 	
 	Project getProject(long id);
 
 	Diagram getDiagram(long id);
+	
+	DiagramEntity getObject(Key<?> key);
 
 }

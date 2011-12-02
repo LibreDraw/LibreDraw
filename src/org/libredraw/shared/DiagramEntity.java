@@ -17,13 +17,32 @@
 
 package org.libredraw.shared;
 
-public abstract class DrawableObject
+import java.util.Date;
+import javax.persistence.Transient;
+import com.googlecode.objectify.Key;
+
+public abstract class DiagramEntity
 {
-	public DrawableObject() {
-		// TODO Auto-generated constructor stub
-	}
+
 	public int m_xCoordinate;
 	public int m_yCoordinate;
 	public int m_width;
 	public int m_height;
+	
+	public String m_name;
+	public Date m_created;
+	public Date m_modified;
+	transient public Key<LDUser> m_modifiedBy;
+	transient public Key<LDUser> m_createdBy;
+	
+	@Transient public LDUser modifiedBy;
+	@Transient public LDUser createdBy;
+	
+	public DiagramEntity(String name, Key<LDUser> createdBy) {
+		m_name = name;
+		m_created = new Date();
+		m_modified = new Date();
+		m_createdBy = createdBy;
+		m_modifiedBy = createdBy;
+	}
 }

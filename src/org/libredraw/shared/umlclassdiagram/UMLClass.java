@@ -17,17 +17,19 @@
 
 package org.libredraw.shared.umlclassdiagram;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import org.libredraw.shared.LDUser;
+
 import com.googlecode.objectify.Key;
 
 @Entity
-public class UMLClass extends UMLNode
-{
+public class UMLClass extends UMLNode implements Serializable{
 	@Id
 	public long id;
 	public boolean locked;
@@ -42,8 +44,12 @@ public class UMLClass extends UMLNode
 	@Transient
 	public Vector<UMLAttribute> attributes;
 	
-	public UMLClass(String name, UMLVisibility visibility, boolean abstrac, Vector<UMLOperation> operations, Vector<UMLAttribute> attributes) {
-		super(name, visibility);
+	public UMLClass() {
+		super();
+	}
+	
+	public UMLClass(String name, UMLVisibility visibility, boolean abstrac, Vector<UMLOperation> operations, Vector<UMLAttribute> attributes, Key<LDUser> createdBy) {
+		super(name, visibility, createdBy);
 		m_abstract = abstrac;
 		this.operations = operations;
 		this.attributes = attributes;

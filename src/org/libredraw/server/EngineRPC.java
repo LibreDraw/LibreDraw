@@ -1,28 +1,28 @@
 package org.libredraw.server;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Vector;
-
 import org.libredraw.client.LibreRPC;
 import org.libredraw.server.persistence.Authorization;
 import org.libredraw.server.persistence.AutoIncrement;
 import org.libredraw.server.persistence.DAO;
 import org.libredraw.server.persistence.Session;
+import org.libredraw.shared.Branch;
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
+import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.GenericAccountConnector;
 import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.Util;
+import org.libredraw.shared.Version;
 import org.libredraw.shared.umlclassdiagram.UMLAttribute;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
 import org.libredraw.shared.umlclassdiagram.UMLOperation;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Query;
@@ -199,7 +199,8 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 	@SuppressWarnings("unchecked")
 	@Override
 	public String addClass(String sessionId, long branch, UMLClass theClass) {
-		if(getUser(sessionId) ==null)
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
 			return null;
 		//TODO Authorization check
 		theClass.id = AutoIncrement.classToLong(UMLClass.class);
@@ -213,10 +214,44 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			a.id = AutoIncrement.getNextId(UMLAttribute.class);
 			theClass.m_attributes.add((Key<UMLAttribute>) dba.put(a));
 		}
-		Key<UMLClass> key = (Key<UMLClass>) dba.put(theClass);
-		//getBranch(branch).addNewVersion(key);
-		return "Sucsess";
+		theClass.m_createdBy = owner;
+		theClass.m_modifiedBy = owner;
+		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(theClass);
+		
+		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
+		if(v == null) {
+			Version next = new Version(0, null, owner);
+			next.add(key);
+			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
+			return "Sucsess";
+		} else {
+			Version latest = (Version) dba.get(v);
+			
+			Version next = latest.next(owner);
+			
+			next.add(key);
+			
+			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
+			return "Sucsess";
+		}
 	}
+	
+	@Override
+	public List<DiagramEntity> getEntities(String sessionId, long branch) {
+		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
+		
+		if(v == null)
+			return null;
+		
+		Version ver = (Version) dba.get(v);
+		
+		List<DiagramEntity> result = new ArrayList<DiagramEntity>();
+		for(Key<DiagramEntity> o: ver.m_objects) {
+			result.add((DiagramEntity) dba.get(o));
+		}
+		return result;
+	}
+	
 	
 	
 	//The following exist only so that the RPC knows that the types are on the 
@@ -233,6 +268,10 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		return null;
 	}
 
-
+	@Override
+	public DiagramEntity getObject(Key<?> key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

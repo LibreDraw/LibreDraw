@@ -19,6 +19,8 @@ package org.libredraw.shared.umlclassdiagram;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.libredraw.shared.LDUser;
+import com.googlecode.objectify.Key;
 
 @Entity
 public class UMLNote extends UMLNode {
@@ -28,8 +30,8 @@ public class UMLNote extends UMLNode {
 	
 	public String text;
 	
-	public UMLNote(String name, UMLVisibility visibility) {
-		super(name, visibility);
+	public UMLNote(String name, UMLVisibility visibility, Key<LDUser> createdBy) {
+		super(name, visibility, createdBy);
 		// TODO Auto-generated constructor stub
 	}
 

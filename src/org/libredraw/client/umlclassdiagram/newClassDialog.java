@@ -2,8 +2,11 @@ package org.libredraw.client.umlclassdiagram;
 
 import java.util.Vector;
 
+import org.libredraw.client.ClientSession;
 import org.libredraw.client.LibreRPC;
 import org.libredraw.client.LibreRPCAsync;
+import org.libredraw.client.StackTrace;
+import org.libredraw.client.TableView;
 import org.libredraw.shared.umlclassdiagram.UMLAttribute;
 import org.libredraw.shared.umlclassdiagram.UMLAttributeParser;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
@@ -12,6 +15,7 @@ import org.libredraw.shared.umlclassdiagram.UMLVisibility;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -153,6 +157,22 @@ public class newClassDialog extends DialogBox {
 			}
 		}
 		
-		UMLClass thisClass = new UMLClass(nameTextBox.getText(), UMLVisibility.Public, abstractCheckBox.getValue(), operations, attributes);
+		UMLClass thisClass = new UMLClass(nameTextBox.getText(), UMLVisibility.Public, abstractCheckBox.getValue(), operations, attributes, null);
+		LibreRPCService.addClass(ClientSession.getInstance().getSessionId(), thisBranch, thisClass, new AsyncCallback<String>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				TableView.registerErrorDialog(new StackTrace(caught));
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				myHide();
+			}
+			
+		});
+	}
+	
+	void myHide() {
+		this.removeFromParent();
 	}
 }

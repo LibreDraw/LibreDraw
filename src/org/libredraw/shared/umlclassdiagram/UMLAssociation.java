@@ -17,18 +17,16 @@
 
 package org.libredraw.shared.umlclassdiagram;
 
-import java.util.Vector;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.libredraw.shared.DrawableObject;
+import org.libredraw.shared.DiagramEntity;
+import org.libredraw.shared.LDUser;
 
 import com.googlecode.objectify.Key;
 
 @Entity
-public class UMLAssociation extends DrawableObject {
-	
+public class UMLAssociation extends DiagramEntity {
 	@Id
 	public long id;
 	public boolean locked;
@@ -39,6 +37,12 @@ public class UMLAssociation extends DrawableObject {
 	public String leftMultiplicity;
 	public String rightMiltipliciry;
 	public UMLAssociationType type;
-	public Vector<Key<?>> nodes;
+	public Key<?> nodes[];
+	
+	public UMLAssociation(String name, Key<LDUser> createdBy) {
+		super(name, createdBy);
+		nodes = new Key<?>[2];
+		// TODO Auto-generated constructor stub
+	}
 	
 }

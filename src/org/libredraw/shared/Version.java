@@ -2,16 +2,12 @@ package org.libredraw.shared;
 
 import java.util.Date;
 import java.util.Vector;
-
+import javax.persistence.Entity;
 import javax.persistence.Id;
-
 import com.googlecode.objectify.Key;
 
+@Entity
 public class Version {
-	public Version() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;
@@ -19,7 +15,43 @@ public class Version {
 	public String m_tag;
 	public int m_versionNuber;
 	public Date m_date;
-	public Vector<Key<?>> m_diagram;
-	public Key<?> m_previousVersion;
-	public Key<?> m_modifiedBy;
+	public Vector<Key<DiagramEntity>> m_objects;
+	public Key<Version> m_previousVersion;
+	public Key<LDUser> m_modifiedBy;
+	
+	public Version() {
+	}
+	
+	public Version(int versionNumber, Key<Version> previous, Key<LDUser> modified) {
+		m_tag = "";
+		m_versionNuber = versionNumber;
+		m_date = new Date();
+		m_objects = new Vector<Key<DiagramEntity>>();
+		m_previousVersion = previous;
+		m_modifiedBy = modified;
+	}
+	
+	private Version(int versionNumber, Key<Version> previous, Key<LDUser> modified, Vector<Key<DiagramEntity>> objects) {
+		m_tag = "";
+		m_versionNuber = versionNumber;
+		m_date = new Date();
+		m_objects = objects;
+		m_previousVersion = previous;
+		m_modifiedBy = modified;
+	}
+	
+	public Version next(Key<LDUser> modified) {
+		Vector<Key<DiagramEntity>> objects = new Vector<Key<DiagramEntity>>();
+		for(Key<DiagramEntity> k: m_objects) {
+			objects.add(k);
+		}
+		Key<Version> thisVersion = new Key<Version>(this.getClass(), id);
+		return new Version(m_versionNuber+1, thisVersion , modified, objects);
+	}
+	
+	public void add(Key<DiagramEntity> k) {
+		if(m_objects == null)
+			m_objects = new Vector<Key<DiagramEntity>>();
+		m_objects.add(k);
+	}
 }

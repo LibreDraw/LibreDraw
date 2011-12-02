@@ -21,6 +21,9 @@ import java.util.Vector;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import org.libredraw.shared.LDUser;
+
 import com.googlecode.objectify.Key;
 
 @Entity
@@ -32,8 +35,8 @@ public class UMLPackage extends UMLNode {
 	Vector<Key<?>> m_nodes;
 	Key<?> m_parentPackage;
 	
-	public UMLPackage(String name, UMLVisibility visibility) {
-		super(name, visibility);
+	public UMLPackage(String name, UMLVisibility visibility, Key<LDUser> createdBy) {
+		super(name, visibility, createdBy);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -21,6 +21,9 @@ import java.util.Vector;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import org.libredraw.shared.LDUser;
+
 import com.googlecode.objectify.Key;
 
 @Entity
@@ -32,8 +35,8 @@ public class UMLInterface extends UMLNode {
 	Vector<Key<?>> operations;
 	Vector<Key<?>> atributes;
 	
-	public UMLInterface(String name, UMLVisibility visibility) {
-		super(name, visibility);
+	public UMLInterface(String name, UMLVisibility visibility, Key<LDUser> createdBy) {
+		super(name, visibility, createdBy);
 		// TODO Auto-generated constructor stub
 	}
 	

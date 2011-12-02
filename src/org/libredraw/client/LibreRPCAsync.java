@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
+import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.googlecode.objectify.Key;
 
 public interface LibreRPCAsync {
 	void login(String email, String password, AsyncCallback<String> callback);
@@ -23,30 +25,24 @@ public interface LibreRPCAsync {
 
 	void endSession(String sessionId, AsyncCallback<String> callback);
 
-	void getProject(long id, AsyncCallback<Project> callback);
-
 	void createDiagram(String sessionId, long projectId, String diagramName,
 			DiagramType type, AsyncCallback<String> callback);
-
-	void getDiagram(long id, AsyncCallback<Diagram> callback);
 
 	void getDiagramList(String sessionId, long projectId,
 			AsyncCallback<List<Diagram>> callback);
 
 	void addClass(String sessionId, long branch, UMLClass theClass,
 			AsyncCallback<String> callback);
+
+	void getEntities(String sessionId, long branch,
+			AsyncCallback<List<DiagramEntity>> callback);
 	
-	/*void commitEntity(Key entity, AsyncCallback<Boolean> callback);
 	
-	void createDiagram(String name, DiagramType type,
-			AsyncCallback<Boolean> callback);
 	
-	void getDiagram(long diagramId, int version, AsyncCallback<Version> callback);
+	void getDiagram(long id, AsyncCallback<Diagram> callback);
 	
-	void getProject(long projectId, AsyncCallback<Project[]> callback);
-	
-	void getProjectList(AsyncCallback<Project[]> callback);
-	
-	void lockEnity(Key entity, AsyncCallback<String> callback);*/
+	void getProject(long id, AsyncCallback<Project> callback);
+
+	void getObject(Key<?> key, AsyncCallback<DiagramEntity> callback);
 	
 }
