@@ -1,12 +1,15 @@
 package org.libredraw.server.persistence;
 
+import java.util.Date;
+import java.util.Vector;
+
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.Branch;
 import org.libredraw.shared.GenericAccountConnector;
 import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
-
+import org.libredraw.shared.Version;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -69,6 +72,38 @@ public class DAO extends DAOBase {
 	
 	public Key<Permission> createPermission(int granted) {
 		return ofy.put(new Permission(granted));
+	}
+	
+	public Key<Version> getLatestVersion(Key<Branch> k) {
+		Branch b = ofy.get(k);
+		if(b.m_versions == null)
+			return null;
+		else {
+			Date latest = null;
+			Key<Version> latestV = null;
+			for(Key<Version> vKey: b.m_versions) {
+				Version v = ofy.get(vKey);
+				if(latest == null) {
+					latest = v.m_date;
+					latestV = vKey;
+				} else if (latest.before(v.m_date)) {
+					latest = v.m_date;
+					latestV = vKey;
+				}		
+			}
+			return latestV;
+		}
+	}
+	
+	public void putNewVersion(Key<Branch> k, Key<Version> vKey) {
+		Branch b = ofy.get(k);
+		if(b.m_versions == null) {
+			b.m_versions = new Vector<Key<Version>>();
+			b.m_versions.add(vKey);
+		}
+		else
+			b.m_versions.add(vKey);
+		ofy.put(b);
 	}
 	
 	public <T> Object get(Key<T> entity) {

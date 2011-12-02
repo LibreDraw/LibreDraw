@@ -214,7 +214,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			theClass.m_attributes.add((Key<UMLAttribute>) dba.put(a));
 		}
 		Key<UMLClass> key = (Key<UMLClass>) dba.put(theClass);
-		getBranch(branch).addNewVersion(key);
+		//getBranch(branch).addNewVersion(key);
 		return "Sucsess";
 	}
 	

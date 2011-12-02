@@ -17,6 +17,7 @@
 
 package org.libredraw.shared;
 
+import java.util.Date;
 import java.util.Vector;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -32,6 +33,7 @@ public class Branch
 	public boolean limited;
 	
 	public String m_name;
+	public Date m_date;
 	transient public Key<LDUser> m_owner;
 	transient public Key<Diagram> m_diagram;
 	transient public Vector<Key<Version>> m_versions;
@@ -50,5 +52,14 @@ public class Branch
 		m_owner = owner;
 		m_versions = new Vector<Key<Version>>();
 		m_diagram = null;
+	}
+	
+	public void addNewVersion(Key<Version> k) {
+		if(m_versions == null) {
+			m_versions = new Vector<Key<Version>>();
+			m_versions.add(k);
+		} else {
+			m_versions.add(k);
+		}
 	}
 }
