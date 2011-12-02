@@ -1,11 +1,13 @@
 package org.libredraw.server;
 
 import java.util.Date;
+import java.util.Vector;
 
 import org.libredraw.server.persistence.DAO;
 import org.libredraw.shared.AccountConnector;
 import org.libredraw.shared.Branch;
 import org.libredraw.shared.Diagram;
+import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.Version;
@@ -81,7 +83,6 @@ public final class TransientUpdator {
 	}
 	
 	private static Date getModifiedDate(Diagram d) {
-		DAO dba = new DAO();
 		Date latest = null;
 		Branch masterB = (Branch) dba.get(d.m_master);
 		if(masterB.m_versions == null || masterB.m_versions.isEmpty())
@@ -99,7 +100,6 @@ public final class TransientUpdator {
 	}
 
 	private static LDUser getModifiedBy(Diagram d) {
-		DAO dba = new DAO();
 		Key<?> latest = null;
 		Branch masterB = (Branch) dba.get(d.m_master);
 		if(masterB.m_versions == null || masterB.m_versions.isEmpty())
@@ -119,6 +119,15 @@ public final class TransientUpdator {
 			}
 		}
 		return update((LDUser) dba.get(latest));
+	}
+	
+	public static Version nextVersion(Key<Version> thisVersion, Key<LDUser> modified) {
+		Vector<Key<DiagramEntity>> objects = new Vector<Key<DiagramEntity>>();
+		Version v = (Version) dba.get(thisVersion);
+		for(Key<DiagramEntity> k: v.m_objects) {
+			objects.add(k);
+		}
+		return new Version(v.m_versionNuber+1, thisVersion , modified, objects);
 	}
 
 }

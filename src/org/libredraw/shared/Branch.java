@@ -23,6 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+
 import com.googlecode.objectify.Key;
 
 @Entity

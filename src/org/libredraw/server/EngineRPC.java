@@ -227,7 +227,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		} else {
 			Version latest = (Version) dba.get(v);
 			
-			Version next = latest.next(owner);
+			Version next = TransientUpdator.nextVersion(v, owner);
 			
 			next.add(key);
 			
