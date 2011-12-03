@@ -1,8 +1,6 @@
 package org.libredraw.client;
 
 import org.libredraw.shared.DiagramType;
-import org.libredraw.shared.Project;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.rpc.AsyncCallback;

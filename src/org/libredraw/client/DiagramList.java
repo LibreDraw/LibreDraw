@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.libredraw.client.umlclassdiagram.DiagramView;
 import org.libredraw.shared.Diagram;
-import org.libredraw.shared.Project;
-
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;

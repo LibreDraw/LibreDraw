@@ -7,22 +7,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 import org.libredraw.client.LibreRPC;
-import org.libredraw.server.persistence.Authorization;
-import org.libredraw.server.persistence.AutoIncrement;
-import org.libredraw.server.persistence.DAO;
-import org.libredraw.server.persistence.Session;
-import org.libredraw.shared.Branch;
-import org.libredraw.shared.Diagram;
-import org.libredraw.shared.DiagramType;
-import org.libredraw.shared.DiagramEntity;
-import org.libredraw.shared.GenericAccountConnector;
-import org.libredraw.shared.LDUser;
-import org.libredraw.shared.Project;
-import org.libredraw.shared.Util;
-import org.libredraw.shared.Version;
-import org.libredraw.shared.umlclassdiagram.UMLAttribute;
-import org.libredraw.shared.umlclassdiagram.UMLClass;
-import org.libredraw.shared.umlclassdiagram.UMLOperation;
+import org.libredraw.server.persistence.*;
+import org.libredraw.shared.*;
+import org.libredraw.shared.umlclassdiagram.*;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Query;
@@ -248,7 +235,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		List<DiagramEntity> result = new ArrayList<DiagramEntity>();
 		for(Key<DiagramEntity> o: ver.m_objects) {
 			DiagramEntity e = (DiagramEntity) dba.get(o);
-			result.add(e);
+			result.add(TransientUpdator.update(e));
 		}
 		return result;
 	}
@@ -271,6 +258,18 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 
 	@Override
 	public DiagramEntity getObject(Key<?> key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UMLNode getNode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UMLClass getUMLClass() {
 		// TODO Auto-generated method stub
 		return null;
 	}

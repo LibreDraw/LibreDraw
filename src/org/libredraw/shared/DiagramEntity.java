@@ -24,6 +24,7 @@ import com.googlecode.objectify.Key;
 
 public abstract class DiagramEntity implements Serializable {
 
+	private static final long serialVersionUID = 1805626351345492823L;
 	public int m_xCoordinate;
 	public int m_yCoordinate;
 	public int m_width;
@@ -37,6 +38,7 @@ public abstract class DiagramEntity implements Serializable {
 	
 	@Transient public LDUser modifiedBy;
 	@Transient public LDUser createdBy;
+	@Transient public Key<?> entityKey;
 	
 	public DiagramEntity() {
 		

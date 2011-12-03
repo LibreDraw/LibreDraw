@@ -12,6 +12,7 @@ import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.Version;
+import org.libredraw.shared.umlclassdiagram.UMLClass;
 
 import com.googlecode.objectify.Key;
 
@@ -81,6 +82,19 @@ public final class TransientUpdator {
 		AccountConnector connector = (AccountConnector) dba.get(u.m_accountConnector);
 		u.m_displayName = connector.m_displayName;
 		return u;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static DiagramEntity update(DiagramEntity d) {
+		d.createdBy = TransientUpdator.update((LDUser) dba.get(d.m_createdBy));
+		d.modifiedBy = TransientUpdator.update((LDUser) dba.get(d.m_modifiedBy));
+		
+		if(d.getClass() == UMLClass.class) {
+			UMLClass c = (UMLClass) d;
+			d.entityKey = new Key<UMLClass>((Class<UMLClass>) d.getClass(), c.id);
+		}
+		
+		return d;
 	}
 	
 	private static Date getModifiedDate(Diagram d) {

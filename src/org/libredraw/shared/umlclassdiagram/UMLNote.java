@@ -24,6 +24,7 @@ import com.googlecode.objectify.Key;
 
 @Entity
 public class UMLNote extends UMLNode {
+	private static final long serialVersionUID = 1L;
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;

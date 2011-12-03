@@ -27,6 +27,7 @@ import com.googlecode.objectify.Key;
 
 @Entity
 public class UMLAssociation extends DiagramEntity {
+	private static final long serialVersionUID = 1L;
 	@Id
 	public long id;
 	public boolean locked;

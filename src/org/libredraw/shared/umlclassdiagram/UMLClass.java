@@ -29,7 +29,8 @@ import org.libredraw.shared.LDUser;
 import com.googlecode.objectify.Key;
 
 @Entity
-public class UMLClass extends UMLNode implements Serializable{
+public class UMLClass extends UMLNode implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	public long id;
 	public boolean locked;

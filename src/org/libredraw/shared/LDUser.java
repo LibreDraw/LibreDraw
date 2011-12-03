@@ -26,6 +26,7 @@ import com.googlecode.objectify.Key;
 
 @Entity
 public class LDUser implements Serializable {
+	private static final long serialVersionUID = 1L;
 	transient public Key<GenericAccountConnector> m_accountConnector;
 	@Transient public String m_displayName;
 	

@@ -10,8 +10,6 @@ import org.libredraw.client.LibreRPCAsync;
 import org.libredraw.client.StackTrace;
 import org.libredraw.client.TableView;
 import org.libredraw.shared.DiagramEntity;
-import org.libredraw.shared.Project;
-
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -30,7 +28,6 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.user.client.ui.TabPanel;
 
@@ -38,8 +35,6 @@ public class DiagramView extends Composite {
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
-	
-	private static Logger logger = Logger.getLogger("DiagramView.java");
 
 	private static DiagramViewUiBinder uiBinder = GWT
 			.create(DiagramViewUiBinder.class);
@@ -92,7 +87,7 @@ public class DiagramView extends Composite {
 		TextColumn<DiagramEntity> typeColumn = new TextColumn<DiagramEntity>() {
 			@Override
 			public String getValue(DiagramEntity d) {
-				return d.getClass().getName();
+				return d.entityKey.getKind();
 			}
 		};
 				
@@ -153,7 +148,6 @@ public class DiagramView extends Composite {
 			public void execute() {
 				refresh();
 			}
-			
 		});
 		
 		refresh();
@@ -177,9 +171,7 @@ public class DiagramView extends Composite {
 				}
 				@Override
 				public void onSuccess(List<DiagramEntity> result) {
-					if(result != null) {
-						populateTable(result);
-					}
+					populateTable(result);
 				}
 		});
 	}
@@ -192,7 +184,6 @@ public class DiagramView extends Composite {
 		List<DiagramEntity> list = dataProvider.getList();
 		for (DiagramEntity e : entities) {
 			list.add(e);
-			logger.log(Level.SEVERE,"Adding: " + e.getClass());
 		}
 	}
 	

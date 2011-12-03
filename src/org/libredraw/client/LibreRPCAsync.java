@@ -7,6 +7,7 @@ import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
+import org.libredraw.shared.umlclassdiagram.UMLNode;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.googlecode.objectify.Key;
@@ -44,5 +45,9 @@ public interface LibreRPCAsync {
 	void getProject(long id, AsyncCallback<Project> callback);
 
 	void getObject(Key<?> key, AsyncCallback<DiagramEntity> callback);
+
+	void getUMLClass(AsyncCallback<UMLClass> callback);
+
+	void getNode(AsyncCallback<UMLNode> callback);
 	
 }
