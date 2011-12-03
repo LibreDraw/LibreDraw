@@ -13,6 +13,7 @@ import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.Version;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
+import org.libredraw.shared.umlclassdiagram.UMLInterface;
 
 import com.googlecode.objectify.Key;
 
@@ -92,6 +93,9 @@ public final class TransientUpdator {
 		if(d.getClass() == UMLClass.class) {
 			UMLClass c = (UMLClass) d;
 			d.entityKey = new Key<UMLClass>((Class<UMLClass>) d.getClass(), c.id);
+		} else if(d.getClass() == UMLInterface.class) {
+			UMLInterface c = (UMLInterface) d;
+			d.entityKey = new Key<UMLInterface>((Class<UMLInterface>) d.getClass(), c.id);
 		}
 		
 		return d;

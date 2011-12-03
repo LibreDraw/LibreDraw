@@ -1,9 +1,6 @@
 package org.libredraw.client.umlclassdiagram;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.libredraw.client.ClientSession;
 import org.libredraw.client.LibreRPC;
 import org.libredraw.client.LibreRPCAsync;
@@ -141,6 +138,13 @@ public class DiagramView extends Composite {
 			public void execute() {
 				TableView.registerDialog(new newClassDialog(thisBranch));
 			}
+		});
+		
+		newInterfaceMenu.setCommand(new Command() {
+			@Override
+			public void execute() {
+				TableView.registerDialog(new newInterfaceDialog(thisBranch));
+			}	
 		});
 		
 		refreshMenu.setCommand(new Command() {

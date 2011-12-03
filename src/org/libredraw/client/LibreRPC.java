@@ -7,6 +7,7 @@ import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
+import org.libredraw.shared.umlclassdiagram.UMLInterface;
 import org.libredraw.shared.umlclassdiagram.UMLNode;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -36,6 +37,8 @@ public interface LibreRPC extends RemoteService {
 	
 	List<DiagramEntity> getEntities(String sessionId, long branch);
 	
+	String addInterface(String sessionId, long branch, UMLInterface theInterface);
+	
 	
 	UMLNode getNode();
 	
@@ -46,5 +49,7 @@ public interface LibreRPC extends RemoteService {
 	Diagram getDiagram(long id);
 	
 	DiagramEntity getObject(Key<?> key);
+
+	UMLInterface getUMLInterface();
 
 }

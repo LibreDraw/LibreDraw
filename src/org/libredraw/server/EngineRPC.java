@@ -10,6 +10,7 @@ import org.libredraw.client.LibreRPC;
 import org.libredraw.server.persistence.*;
 import org.libredraw.shared.*;
 import org.libredraw.shared.umlclassdiagram.*;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Query;
@@ -223,6 +224,43 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 	}
 	
 	@Override
+	public String addInterface(String sessionId, long branch, UMLInterface theInterface) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return null;
+		//TODO Authorization check
+		theInterface.id = AutoIncrement.getNextId(UMLInterface.class);
+		theInterface.m_operations = new Vector<Key<UMLOperation>>();
+		for(UMLOperation o : theInterface.operations) {
+			o.id = AutoIncrement.getNextId(UMLOperation.class);
+			theInterface.m_operations.add((Key<UMLOperation>) dba.put(o));
+		}
+		theInterface.m_attributes = new Vector<Key<UMLAttribute>>();
+		for(UMLAttribute a : theInterface.attributes) {
+			a.id = AutoIncrement.getNextId(UMLAttribute.class);
+			theInterface.m_attributes.add((Key<UMLAttribute>) dba.put(a));
+		}
+		theInterface.m_createdBy = owner;
+		theInterface.m_modifiedBy = owner;
+		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(theInterface);
+		
+		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
+		if(v == null) {
+			Version next = new Version(AutoIncrement.getNextId(Version.class), 0, null, owner);
+			next.add(key);
+			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
+			return "Sucsess";
+		} else {
+			Version next = TransientUpdator.nextVersion(v, owner);
+			
+			next.add(key);
+			
+			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
+			return "Sucsess";
+		}
+	}
+	
+	@Override
 	public List<DiagramEntity> getEntities(String sessionId, long branch) {
 		Key<LDUser> owner = getUser(sessionId);
 		if(owner ==null)
@@ -270,6 +308,12 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 
 	@Override
 	public UMLClass getUMLClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public UMLInterface getUMLInterface() {
 		// TODO Auto-generated method stub
 		return null;
 	}

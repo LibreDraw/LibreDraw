@@ -10,7 +10,7 @@
 			<g:MenuItem text="New...">
 				<g:MenuBar vertical="true">
 					<g:MenuItem text="Class" ui:field="newClassMenu"/>
-					<g:MenuItem text="Interface" ui:field="newInterfaceMenu" enabled="false"/>
+					<g:MenuItem text="Interface" ui:field="newInterfaceMenu"/>
 					<g:MenuItem text="Enumeration" enabled="false" ui:field="newEnumerationMenu"/>
 					<g:MenuItemSeparator/>
 					<g:MenuItem text="Assocaition" ui:field="menuNewAssociation" enabled="false"/>

@@ -7,6 +7,7 @@ import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
+import org.libredraw.shared.umlclassdiagram.UMLInterface;
 import org.libredraw.shared.umlclassdiagram.UMLNode;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -34,6 +35,9 @@ public interface LibreRPCAsync {
 
 	void addClass(String sessionId, long branch, UMLClass theClass,
 			AsyncCallback<String> callback);
+	
+	void addInterface(String sessionId, long branch,
+			UMLInterface theInterface, AsyncCallback<String> asyncCallback);
 
 	void getEntities(String sessionId, long branch,
 			AsyncCallback<List<DiagramEntity>> callback);
@@ -49,5 +53,9 @@ public interface LibreRPCAsync {
 	void getUMLClass(AsyncCallback<UMLClass> callback);
 
 	void getNode(AsyncCallback<UMLNode> callback);
+
+	void getUMLInterface(AsyncCallback<UMLInterface> callback);
+
+
 	
 }

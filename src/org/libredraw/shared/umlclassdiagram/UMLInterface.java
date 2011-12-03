@@ -17,28 +17,38 @@
 
 package org.libredraw.shared.umlclassdiagram;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.libredraw.shared.LDUser;
 
 import com.googlecode.objectify.Key;
 
 @Entity
-public class UMLInterface extends UMLNode {
+public class UMLInterface extends UMLNode implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;
 	
-	Vector<Key<?>> operations;
-	Vector<Key<?>> atributes;
+	public transient Vector<Key<UMLOperation>> m_operations;
+	public transient Vector<Key<UMLAttribute>> m_attributes;
 	
-	public UMLInterface(String name, UMLVisibility visibility, Key<LDUser> createdBy) {
+	@Transient public Vector<UMLOperation> operations;
+	@Transient public Vector<UMLAttribute> attributes;
+	
+	public UMLInterface() {
+		super();
+	}
+	
+	public UMLInterface(String name, UMLVisibility visibility, Vector<UMLOperation> operations, Vector<UMLAttribute> attributes, Key<LDUser> createdBy) {
 		super(name, visibility, createdBy);
-		// TODO Auto-generated constructor stub
+		this.operations = operations;
+		this.attributes = attributes;
 	}
 	
 }
