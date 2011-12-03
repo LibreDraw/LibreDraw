@@ -41,14 +41,14 @@ public class DiagramList extends Composite {
 	@UiField MenuItem deleteMenu;
 	@UiField MenuItem editMenu;
 	@UiField static ScrollPanel scrollPanel;
-	Project thisProject = null;
+	long thisProject = 0;
 	List<Diagram> diagramList;
 	Date clickTracker = null;
 
 	interface DiagramListUiBinder extends UiBinder<Widget, DiagramList> {
 	}
 
-	public DiagramList(Project project) {
+	public DiagramList(long project) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		thisProject = project;
@@ -172,7 +172,7 @@ public class DiagramList extends Composite {
 	}
 	
 	private void refreshTable() {
-		LibreRPCService.getDiagramList(ClientSession.getInstance().getSessionId(), thisProject.id, 
+		LibreRPCService.getDiagramList(ClientSession.getInstance().getSessionId(), thisProject, 
 				new AsyncCallback<List<Diagram>>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -180,7 +180,6 @@ public class DiagramList extends Composite {
 			}
 			@Override
 			public void onSuccess(List<Diagram> result) {
-				diagramList = result;
 				populateTable(result);
 			}
 		});

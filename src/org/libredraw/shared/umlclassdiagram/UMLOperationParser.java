@@ -49,7 +49,8 @@ public class UMLOperationParser {
 	 */
 	private UMLOperation parseExpression() throws Exception {
 
-		// <expression> ::= <visibility> <name>( <operands> ) :<returnType>
+		// <expression> ::= <visibility> <name> ( <operands> ) :<returnType>
+		//					|| <visibility> <name> ( <operands> )
 		
 		UMLOperation result = new UMLOperation();
 		result.m_visibility = Visibility();
@@ -57,8 +58,10 @@ public class UMLOperationParser {
 		match('(');
 		result = Operands(result);
 		match(')');
-		match(':');
-		result = returnType(result);
+		if(lexer.nextToken() == ':') {
+			match(':');
+			result = returnType(result);
+		}
 
 		return result;
 	}
@@ -69,6 +72,8 @@ public class UMLOperationParser {
 			result.m_returnType = lexer.getString();
 			match(Lexer.STRING_TOKEN);
 		}
+		if(lexer.nextToken() ==')')
+			return result;
 		if(lexer.nextToken() == '[') {
 			match('[');
 			result.m_returnTypeMultiplicity = Multiplicity();

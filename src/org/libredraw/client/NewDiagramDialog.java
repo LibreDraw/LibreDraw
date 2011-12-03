@@ -28,13 +28,13 @@ public class NewDiagramDialog extends DialogBox {
 	@UiField Button cancelButton;
 	@UiField Label errorLabel;
 	@UiField ListBox typeCombo;
-	Project thisProject;
+	long thisProject;
 
 	interface NewProjectDialogUiBinder extends
 			UiBinder<Widget, NewDiagramDialog> {
 	}
 
-	public NewDiagramDialog(Project p) {
+	public NewDiagramDialog(long p) {
 		setWidget(uiBinder.createAndBindUi(this));
 		this.setText("New diagram");
 		this.setAnimationEnabled(true);
@@ -54,7 +54,7 @@ public class NewDiagramDialog extends DialogBox {
 		else {
 			errorLabel.setText("");
 			LibreRPCService.createDiagram(ClientSession.getInstance().getSessionId(),
-					thisProject.id, nameTextBox.getText(), DiagramType.UMLClassDiagram, new AsyncCallback<String>() {
+					thisProject, nameTextBox.getText(), DiagramType.UMLClassDiagram, new AsyncCallback<String>() {
 						@Override
 						public void onFailure(Throwable caught) {
 							TableView.registerErrorDialog(new StackTrace(caught));

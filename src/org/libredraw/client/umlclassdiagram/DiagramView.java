@@ -1,6 +1,8 @@
 package org.libredraw.client.umlclassdiagram;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.libredraw.client.ClientSession;
 import org.libredraw.client.LibreRPC;
@@ -30,11 +32,14 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.user.client.ui.TabPanel;
 
 public class DiagramView extends Composite {
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
+	
+	private static Logger logger = Logger.getLogger("DiagramView.java");
 
 	private static DiagramViewUiBinder uiBinder = GWT
 			.create(DiagramViewUiBinder.class);
@@ -52,8 +57,9 @@ public class DiagramView extends Composite {
 	@UiField MenuItem codeMenu;
 	@UiField MenuItem versionsMenu;
 	@UiField HTML canvas;
-	@UiField ScrollPanel scrollPanel;
-	@UiField static DecoratedTabPanel tabPanel;
+	@UiField
+	static ScrollPanel scrollPanel;
+	@UiField static TabPanel tabPanel;
 	long thisBranch;
 
 	interface DiagramViewUiBinder extends UiBinder<Widget, DiagramView> {
@@ -142,15 +148,24 @@ public class DiagramView extends Composite {
 			}
 		});
 		
+		refreshMenu.setCommand(new Command() {
+			@Override
+			public void execute() {
+				refresh();
+			}
+			
+		});
+		
 		refresh();
 	}
 
 	private static void onResize() {
 		//Set height of scrollPanel widget window height - header - footer
-		Integer windowHeight = Window.getClientHeight()-150;
-		Integer windowWidth = Window.getClientWidth()-2;
-		tabPanel.setHeight(windowHeight.toString()+"px");
-		tabPanel.setWidth(windowWidth.toString()+"px");
+		Integer windowHeight = Window.getClientHeight();
+		Integer windowWidth = Window.getClientWidth();
+		tabPanel.setHeight((windowHeight-150)+"px");
+		tabPanel.setWidth((windowWidth-2)+"px");
+		scrollPanel.setHeight((windowHeight-80)+"px");
 	}
 	
 	private void refresh() {
@@ -175,12 +190,13 @@ public class DiagramView extends Composite {
 		dataProvider.addDataDisplay(table);
 		
 		List<DiagramEntity> list = dataProvider.getList();
-		for (DiagramEntity p : entities) {
-			list.add(p);
+		for (DiagramEntity e : entities) {
+			list.add(e);
+			logger.log(Level.SEVERE,"Adding: " + e.getClass());
 		}
 	}
 	
-	private void myRemove() {
+	public void myRemove() {
 		this.removeFromParent();
 	}
 }

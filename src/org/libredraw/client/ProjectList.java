@@ -2,6 +2,8 @@ package org.libredraw.client;
 
 import java.util.Date;
 import java.util.List;
+
+import org.libredraw.client.umlclassdiagram.DiagramView;
 import org.libredraw.shared.Project;
 import com.gargoylesoftware.htmlunit.javascript.host.Event;
 import com.google.gwt.cell.client.CheckboxCell;
@@ -125,7 +127,7 @@ public class ProjectList extends Composite {
 							long difference = new Date().getTime() - clickTracker.getTime();
 							if(difference <= 500){
 								Project thisProject = event.getValue();
-								RootPanel.get("body").add(new DiagramList(thisProject));
+								RootPanel.get("body").add(new DiagramList(thisProject.id));
 								myRemove();
 							}
 							else
@@ -144,6 +146,13 @@ public class ProjectList extends Composite {
 		refreshMenu.setCommand(new Command() {
 			public void execute() {
 				refreshTable();
+			}
+		});
+		
+		archiveMenu.setCommand(new Command () {
+			public void execute() {
+				RootPanel.get("body").add(new DiagramView(1l));
+				myRemove();
 			}
 		});
 		

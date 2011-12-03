@@ -17,12 +17,14 @@
 
 package org.libredraw.shared.umlclassdiagram;
 
+import java.io.Serializable;
+
 import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.LDUser;
 
 import com.googlecode.objectify.Key;
 
-public class UMLNode extends DiagramEntity {
+public class UMLNode extends DiagramEntity implements Serializable {
 	UMLVisibility m_visibility;
 	
 	public UMLNode() {

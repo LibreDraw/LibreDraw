@@ -17,12 +17,12 @@
 
 package org.libredraw.shared;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Transient;
 import com.googlecode.objectify.Key;
 
-public abstract class DiagramEntity
-{
+public abstract class DiagramEntity implements Serializable {
 
 	public int m_xCoordinate;
 	public int m_yCoordinate;
@@ -37,6 +37,10 @@ public abstract class DiagramEntity
 	
 	@Transient public LDUser modifiedBy;
 	@Transient public LDUser createdBy;
+	
+	public DiagramEntity() {
+		
+	}
 	
 	public DiagramEntity(String name, Key<LDUser> createdBy) {
 		m_name = name;

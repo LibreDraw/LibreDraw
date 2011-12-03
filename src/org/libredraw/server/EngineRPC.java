@@ -173,6 +173,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 	public String createDiagram(String sessionId, long projectId,
 			String DiagramName, DiagramType type) {
 		Key<LDUser> owner = getUser(sessionId);
+		//TODO authorizarion check
 		if(owner!=null) {
 			Key<Diagram> diagram = dba.createDiagram(DiagramName, type, owner);
 			Project project = dba.getProject(projectId);
@@ -203,7 +204,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		if(owner ==null)
 			return null;
 		//TODO Authorization check
-		theClass.id = AutoIncrement.classToLong(UMLClass.class);
+		theClass.id = AutoIncrement.getNextId(UMLClass.class);
 		theClass.m_operations = new Vector<Key<UMLOperation>>();
 		for(UMLOperation o : theClass.operations) {
 			o.id = AutoIncrement.getNextId(UMLOperation.class);
@@ -236,16 +237,18 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 	
 	@Override
 	public List<DiagramEntity> getEntities(String sessionId, long branch) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return null;
 		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
-		
 		if(v == null)
 			return null;
-		
 		Version ver = (Version) dba.get(v);
 		
 		List<DiagramEntity> result = new ArrayList<DiagramEntity>();
 		for(Key<DiagramEntity> o: ver.m_objects) {
-			result.add((DiagramEntity) dba.get(o));
+			DiagramEntity e = (DiagramEntity) dba.get(o);
+			result.add(e);
 		}
 		return result;
 	}

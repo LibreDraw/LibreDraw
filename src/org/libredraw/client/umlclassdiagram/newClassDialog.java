@@ -11,6 +11,7 @@ import org.libredraw.shared.umlclassdiagram.UMLAttribute;
 import org.libredraw.shared.umlclassdiagram.UMLAttributeParser;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
 import org.libredraw.shared.umlclassdiagram.UMLOperation;
+import org.libredraw.shared.umlclassdiagram.UMLOperationParser;
 import org.libredraw.shared.umlclassdiagram.UMLVisibility;
 
 import com.google.gwt.core.client.GWT;
@@ -145,10 +146,10 @@ public class newClassDialog extends DialogBox {
 		Vector<UMLOperation> operations = new Vector<UMLOperation>();
 		for(TextBox t : operationTexts) {
 			if(t!=null) {
-				UMLAttributeParser parser;
+				UMLOperationParser parser;
 				try {
-					parser = new UMLAttributeParser(t.getText());
-					attributes.add(parser.getValue());
+					parser = new UMLOperationParser(t.getText());
+					operations.add(parser.getValue());
 				} catch (Exception e) {
 					if(t.getText() != "") {
 						errorLabel.setText("Error parsing: "+ t.getText());
