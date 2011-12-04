@@ -56,8 +56,6 @@ public class ProjectList extends Composite {
 	
 	private ProjectList() {
 		initWidget(uiBinder.createAndBindUi(this));
-				
-		refreshTable();
 
 		ProjectList.onResize();
 		
@@ -152,9 +150,11 @@ public class ProjectList extends Composite {
 		});
 		refreshMenu.setCommand(new Command() {
 			public void execute() {
-				refreshTable();
+				refresh();
 			}
 		});
+		
+		refresh();
 		
 	}
 
@@ -166,7 +166,7 @@ public class ProjectList extends Composite {
 		scrollPanel.setWidth(windowWidth.toString()+"px");
 	}
 	
-	private void refreshTable() {
+	public void refresh() {
 		LibreRPCService.getProjectList(ClientSession.getInstance().getSessionId(),
 				new AsyncCallback<List<Project>>() {
 				public void onFailure(Throwable caught) {

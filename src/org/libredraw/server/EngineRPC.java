@@ -102,7 +102,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 				{
 					Project thisProject = (Project) dba.get(get);
 					Project p = thisProject;
-					projects.add(TransientUpdator.update(p));
+					projects.add(TransientUpdator.u(p));
 				}
 				try {
 					next = i.next();
@@ -181,7 +181,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		Project project = dba.getProject(projectId);
 		if(project.m_diagrams!=null && !project.m_diagrams.isEmpty())
 			for(Key<Diagram> d : project.m_diagrams) 
-				result.add(TransientUpdator.update((Diagram) dba.get(d)));
+				result.add(TransientUpdator.u((Diagram) dba.get(d)));
 		return result;
 	}
 	
@@ -302,7 +302,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		List<DiagramEntity> result = new ArrayList<DiagramEntity>();
 		for(Key<DiagramEntity> o: ver.m_objects) {
 			DiagramEntity e = (DiagramEntity) dba.get(o);
-			result.add(TransientUpdator.update(e));
+			result.add(TransientUpdator.u(e));
 		}
 		return result;
 	}
@@ -320,7 +320,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			d.m_locked = true;
 			d.m_lockedBy = owner;
 			dba.put(d);
-			return limitNeighbors(TransientUpdator.update(d), owner);
+			return limitNeighbors(TransientUpdator.u(d), owner);
 		}
 	}
 	
@@ -336,7 +336,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 					return true;
 				else {
 					for(UMLAssociation a: l) 
-						if(!limitNeighbors(TransientUpdator.update((DiagramEntity)a), owner))
+						if(!limitNeighbors(TransientUpdator.u((DiagramEntity)a), owner))
 							return false;
 					return true;
 				}
@@ -355,7 +355,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 					return true;
 				else {
 					for(UMLAssociation a: l) 
-						if(!limitNeighbors(TransientUpdator.update((DiagramEntity)a), owner))
+						if(!limitNeighbors(TransientUpdator.u((DiagramEntity)a), owner))
 							return false;
 					return true;
 				}
@@ -400,7 +400,26 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 				result.add(a);
 		return result;
 	}
+	
+	@Override
+	public UMLClass getUMLClass(long id) {
+		return TransientUpdator.u((UMLClass) dba.get(new Key<UMLClass>(UMLClass.class, id)));
+	}
+	
+	@Override
+	public UMLInterface getUMLInterface(long id) {
+		return TransientUpdator.u((UMLInterface) dba.get(new Key<UMLInterface>(UMLInterface.class, id)));
+	}
 
+	@Override
+	public UMLAssociation getUMLAssociation(long id) {
+		return TransientUpdator.u((UMLAssociation) dba.get(new Key<UMLAssociation>(UMLAssociation.class, id)));
+	}
+	
+	
+	
+	
+	
 	//The following exist only so that the RPC knows that the types are on the 
 	//serializable whitelist.
 	@Override
@@ -426,17 +445,5 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public UMLClass getUMLClass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
-	@Override
-	public UMLInterface getUMLInterface() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

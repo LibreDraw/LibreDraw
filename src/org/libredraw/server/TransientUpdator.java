@@ -2,7 +2,6 @@ package org.libredraw.server;
 
 import java.util.Date;
 import java.util.Vector;
-
 import org.libredraw.server.persistence.AutoIncrement;
 import org.libredraw.server.persistence.DAO;
 import org.libredraw.shared.AccountConnector;
@@ -15,6 +14,8 @@ import org.libredraw.shared.Version;
 import org.libredraw.shared.umlclassdiagram.UMLAssociation;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
 import org.libredraw.shared.umlclassdiagram.UMLInterface;
+import org.libredraw.shared.umlclassdiagram.UMLOperation;
+import org.libredraw.shared.umlclassdiagram.UMLAttribute;
 
 import com.googlecode.objectify.Key;
 
@@ -22,8 +23,8 @@ public final class TransientUpdator {
 	
 	static DAO dba = new DAO();
 	
-	public static Project update(Project p) {
-		p.owner = update((LDUser) dba.get(p.m_owner));
+	public static Project u(Project p) {
+		p.owner = u((LDUser) dba.get(p.m_owner));
 		if(p.m_diagrams == null || p.m_diagrams.isEmpty()) {
 			p.modified = p.m_createdDate;
 			p.modifiedBy = p.owner;
@@ -46,13 +47,13 @@ public final class TransientUpdator {
 				}
 			}
 			p.modified = latest;
-			p.modifiedBy = update(getModifiedBy(latestD));
+			p.modifiedBy = u(getModifiedBy(latestD));
 		}
 		return p;
 	}
 	
-	public static Diagram update(Diagram d) {
-		d.owner = update((LDUser) dba.get(d.m_owner));
+	public static Diagram u(Diagram d) {
+		d.owner = u((LDUser) dba.get(d.m_owner));
 		d.master = d.m_master.getId();
 		Branch masterB = (Branch) dba.get(d.m_master);
 		if(masterB.m_versions == null || masterB.m_versions.isEmpty()) {
@@ -74,23 +75,52 @@ public final class TransientUpdator {
 					latestU = v.m_modifiedBy;
 				}
 			}
-			d.modifiedBy = update((LDUser) dba.get(latestU));
+			d.modifiedBy = u((LDUser) dba.get(latestU));
 			d.modifiedDate = latest;
 		}
 		return d;
 	}
 	
-	public static LDUser update(LDUser u) {
+	public static LDUser u(LDUser u) {
 		AccountConnector connector = (AccountConnector) dba.get(u.m_accountConnector);
 		u.m_displayName = connector.m_displayName;
 		return u;
 	}
 	
+	public static UMLClass u(UMLClass c) {
+		c.operations = new Vector<UMLOperation>();
+		for(Key<UMLOperation> o: c.m_operations) {
+			c.operations.add((UMLOperation) dba.get(o));
+		}
+		c.attributes = new Vector<UMLAttribute>();
+		for(Key<UMLAttribute> o: c.m_attributes) {
+			c.attributes.add((UMLAttribute) dba.get(o));
+		}
+		return c;
+	}
+	
+	public static UMLInterface u(UMLInterface i) {
+		i.operations = new Vector<UMLOperation>();
+		for(Key<UMLOperation> o: i.m_operations) {
+			i.operations.add((UMLOperation) dba.get(o));
+		}
+		i.attributes = new Vector<UMLAttribute>();
+		for(Key<UMLAttribute> o: i.m_attributes) {
+			i.attributes.add((UMLAttribute) dba.get(o));
+		}
+		return i;
+	}
+	
+	public static UMLAssociation u(UMLAssociation a) {
+		return a;
+	}
+	
 	@SuppressWarnings("unchecked")
-	public static DiagramEntity update(DiagramEntity d) {
-		d.createdBy = TransientUpdator.update((LDUser) dba.get(d.m_createdBy));
-		d.modifiedBy = TransientUpdator.update((LDUser) dba.get(d.m_modifiedBy));
-		d.lockedBy = TransientUpdator.update((LDUser) dba.get(d.m_lockedBy));
+	public static DiagramEntity u(DiagramEntity d) {
+		d.createdBy = TransientUpdator.u((LDUser) dba.get(d.m_createdBy));
+		d.modifiedBy = TransientUpdator.u((LDUser) dba.get(d.m_modifiedBy));
+		if(d.m_lockedBy != null)
+			d.lockedBy = TransientUpdator.u((LDUser) dba.get(d.m_lockedBy));
 		
 		if(d.getClass() == UMLClass.class) {
 			UMLClass c = (UMLClass) d;
@@ -142,7 +172,7 @@ public final class TransientUpdator {
 				}
 			}
 		}
-		return update((LDUser) dba.get(latest));
+		return u((LDUser) dba.get(latest));
 	}
 	
 	public static Version nextVersion(Key<Version> thisVersion, Key<LDUser> modified) {

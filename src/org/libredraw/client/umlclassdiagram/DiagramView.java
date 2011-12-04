@@ -1,5 +1,6 @@
 package org.libredraw.client.umlclassdiagram;
 
+import java.util.Date;
 import java.util.List;
 import org.libredraw.client.ClientSession;
 import org.libredraw.client.LibreRPC;
@@ -25,6 +26,7 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.user.client.ui.TabPanel;
 
@@ -54,6 +56,8 @@ public class DiagramView extends Composite {
 	@UiField static TabPanel tabPanel;
 	long thisBranch;
 	List<DiagramEntity> entities;
+	
+	Date clickTracker = null;
 	
 	static DiagramView instance = null;
 
@@ -173,6 +177,37 @@ public class DiagramView extends Composite {
 				refresh();
 			}
 		});
+		
+		table.addCellPreviewHandler(new CellPreviewEvent.Handler<DiagramEntity>() {
+			@Override
+			public void onCellPreview(CellPreviewEvent<DiagramEntity> event) {
+				//TODO get a real double click event
+				if("click".equals(event.getNativeEvent().getType())) {
+					if(event.getContext().getColumn() != 0) {
+						if(clickTracker == null)
+							clickTracker = new Date();
+						else {
+							long difference = new Date().getTime() - clickTracker.getTime();
+							if(difference <= 500){
+								DiagramEntity e = event.getValue();
+								if("UMLClass".equals(e.entityKey.getKind())) {
+									TableView.registerDialog(new editClassDialog(e.entityKey, thisBranch));
+								} else if("UMLInterface".equals(e.entityKey.getKind())) {
+									
+								} else if("UMLAssociation".equals(e.entityKey.getKind())) {
+									
+								} else { // should never happen
+									Window.alert("generic error");
+								}
+							}
+							else
+								clickTracker = new Date();
+						}
+					}
+				}
+			}
+		});
+		
 	}
 
 	private static void onResize() {

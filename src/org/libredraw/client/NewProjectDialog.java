@@ -51,9 +51,10 @@ public class NewProjectDialog extends DialogBox {
 							TableView.registerErrorDialog(new StackTrace(caught));
 						}
 						public void onSuccess(String result) {
-							if(result != null)
+							if(result != null) {
 								myHide();
-							else
+								ProjectList.getInstace().refresh();
+							} else
 								errorLabel.setText("Create failed :'(");
 						}
 					});

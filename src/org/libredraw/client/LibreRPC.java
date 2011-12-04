@@ -44,19 +44,21 @@ public interface LibreRPC extends RemoteService {
 	
 	boolean lock(String sessionId, Key<?> key);
 	
+	UMLClass getUMLClass(long id);
+	
+	UMLInterface getUMLInterface(long id);
+	
+	UMLAssociation getUMLAssociation(long id);
+	
 
 	
 	
 	UMLNode getNode();
-	
-	UMLClass getUMLClass();
 	
 	Project getProject(long id);
 
 	Diagram getDiagram(long id);
 	
 	DiagramEntity getObject(Key<?> key);
-
-	UMLInterface getUMLInterface();
 
 }
