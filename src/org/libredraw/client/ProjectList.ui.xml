@@ -11,7 +11,7 @@
 			<g:MenuItemSeparator/>
 			<g:MenuItem text="Manage Project">
 				<g:MenuBar vertical="true">
-					<g:MenuItem text="Archive" ui:field="archiveMenu"/>
+					<g:MenuItem text="Archive" ui:field="archiveMenu" enabled="false"/>
 					<g:MenuItem text="Edit" ui:field="editMenu" enabled="false"/>
 					<g:MenuItem text="Delete" ui:field="deleteMenu" enabled="false"/>
 					<g:MenuItemSeparator/>

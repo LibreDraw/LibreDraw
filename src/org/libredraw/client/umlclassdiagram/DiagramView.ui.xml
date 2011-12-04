@@ -13,7 +13,7 @@
 					<g:MenuItem text="Interface" ui:field="newInterfaceMenu"/>
 					<g:MenuItem text="Enumeration" enabled="false" ui:field="newEnumerationMenu"/>
 					<g:MenuItemSeparator/>
-					<g:MenuItem text="Assocaition" ui:field="newAssociationMenu" enabled="false"/>
+					<g:MenuItem text="Assocaition" ui:field="newAssociationMenu"/>
 					<g:MenuItemSeparator/>
 					<g:MenuItem text="Package" ui:field="newPackageMenu" enabled="false"/>
 				</g:MenuBar>

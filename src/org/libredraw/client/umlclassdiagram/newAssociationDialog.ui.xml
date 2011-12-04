@@ -4,12 +4,25 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:VerticalPanel>
+	<g:VerticalPanel width="100%" height="100%">
 		<g:Label text="Name:" />
-		<g:TextBox ui:field="nameTextBox" />
-		<g:Label text="Entity one:"/>
-		<g:ListBox ui:field="entityOneComboBox"/>
-		<g:Label text="Entity two:"/>
-		<g:ListBox ui:field="entityTwoComboBox"/>
+		<g:TextBox ui:field="nameTextBox" width="170px" height="16px" />
+		<g:Label text="Entity one: [Name | Multiplicity]"/>
+		<g:ListBox ui:field="entityOneComboBox" height="24px" width="170px"/>
+		<g:HorizontalPanel>
+			<g:TextBox width="85px" height="16px"/>
+			<g:TextBox height="16px" width="85px"/>
+		</g:HorizontalPanel>
+		<g:Label text="Entity two: [Name | Multiplicity]"/>
+		<g:ListBox ui:field="entityTwoComboBox" width="170px" height="24px"/>
+		<g:HorizontalPanel>
+			<g:TextBox height="16px" width="85px"/>
+			<g:TextBox height="16px" width="85px"/>
+		</g:HorizontalPanel>
+		<g:HorizontalPanel height="30px" horizontalAlignment="ALIGN_CENTER">
+			<g:Button text="Submit" ui:field="submitButton"/>
+			<g:AbsolutePanel width="50px"/>
+			<g:Button text="Cancel" ui:field="cancelButton"/>
+		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

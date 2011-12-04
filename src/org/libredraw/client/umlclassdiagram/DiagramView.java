@@ -163,7 +163,7 @@ public class DiagramView extends Composite {
 		newAssociationMenu.setCommand(new Command() {
 			@Override
 			public void execute() {
-				TableView.registerDialog(new newAssociationDialog(thisBranch));
+				TableView.registerDialog(new newAssociationDialog(thisBranch, entities));
 			}
 		});
 		

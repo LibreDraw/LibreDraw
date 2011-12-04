@@ -1,7 +1,6 @@
 package org.libredraw.client.umlclassdiagram;
 
 import java.util.Vector;
-
 import org.libredraw.client.ClientSession;
 import org.libredraw.client.LibreRPC;
 import org.libredraw.client.LibreRPCAsync;
@@ -9,12 +8,10 @@ import org.libredraw.client.StackTrace;
 import org.libredraw.client.TableView;
 import org.libredraw.shared.umlclassdiagram.UMLAttribute;
 import org.libredraw.shared.umlclassdiagram.UMLAttributeParser;
-import org.libredraw.shared.umlclassdiagram.UMLClass;
 import org.libredraw.shared.umlclassdiagram.UMLInterface;
 import org.libredraw.shared.umlclassdiagram.UMLOperation;
 import org.libredraw.shared.umlclassdiagram.UMLOperationParser;
 import org.libredraw.shared.umlclassdiagram.UMLVisibility;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -30,7 +27,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.CheckBox;
 
 @SuppressWarnings("deprecation")
 public class newInterfaceDialog extends DialogBox {

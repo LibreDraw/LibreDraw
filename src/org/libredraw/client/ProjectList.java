@@ -2,8 +2,6 @@ package org.libredraw.client;
 
 import java.util.Date;
 import java.util.List;
-
-import org.libredraw.client.umlclassdiagram.DiagramView;
 import org.libredraw.shared.Project;
 import com.gargoylesoftware.htmlunit.javascript.host.Event;
 import com.google.gwt.cell.client.CheckboxCell;
