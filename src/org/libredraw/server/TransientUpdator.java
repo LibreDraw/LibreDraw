@@ -12,6 +12,7 @@ import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.LDUser;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.Version;
+import org.libredraw.shared.umlclassdiagram.UMLAssociation;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
 import org.libredraw.shared.umlclassdiagram.UMLInterface;
 
@@ -89,6 +90,7 @@ public final class TransientUpdator {
 	public static DiagramEntity update(DiagramEntity d) {
 		d.createdBy = TransientUpdator.update((LDUser) dba.get(d.m_createdBy));
 		d.modifiedBy = TransientUpdator.update((LDUser) dba.get(d.m_modifiedBy));
+		d.lockedBy = TransientUpdator.update((LDUser) dba.get(d.m_lockedBy));
 		
 		if(d.getClass() == UMLClass.class) {
 			UMLClass c = (UMLClass) d;
@@ -96,6 +98,9 @@ public final class TransientUpdator {
 		} else if(d.getClass() == UMLInterface.class) {
 			UMLInterface c = (UMLInterface) d;
 			d.entityKey = new Key<UMLInterface>((Class<UMLInterface>) d.getClass(), c.id);
+		} else if(d.getClass() == UMLAssociation.class) {
+			UMLAssociation c = (UMLAssociation) d;
+			d.entityKey = new Key<UMLAssociation>((Class<UMLAssociation>) d.getClass(), c.id);
 		}
 		
 		return d;

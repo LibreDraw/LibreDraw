@@ -261,6 +261,34 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public String addAssocation(String sessionId, long branch, 
+			UMLAssociation theAssocation) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return null;
+		theAssocation.id = AutoIncrement.getNextId(UMLAssociation.class);
+		theAssocation.m_createdBy = owner;
+		theAssocation.m_modifiedBy = owner;
+		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(theAssocation);
+		
+		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
+		if(v == null) {
+			Version next = new Version(AutoIncrement.getNextId(Version.class), 0, null, owner);
+			next.add(key);
+			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
+			return "Sucsess";
+		} else {
+			Version next = TransientUpdator.nextVersion(v, owner);
+			
+			next.add(key);
+			
+			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
+			return "Sucsess";
+		}
+	}
+	
 	@Override
 	public List<DiagramEntity> getEntities(String sessionId, long branch) {
 		Key<LDUser> owner = getUser(sessionId);
@@ -279,8 +307,100 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		return result;
 	}
 	
+	@Override
+	public boolean lock(String sessionId, Key<?> key) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return false;
+		DiagramEntity d = (DiagramEntity) dba.get(key);
+		
+		if(d.m_locked = true)
+			return false;
+		else {
+			d.m_locked = true;
+			d.m_lockedBy = owner;
+			dba.put(d);
+			return limitNeighbors(TransientUpdator.update(d), owner);
+		}
+	}
 	
 	
+	@SuppressWarnings("unchecked")
+	private boolean limitNeighbors(DiagramEntity d, Key<LDUser> owner) {
+		if(d.getClass() == UMLClass.class) {
+			Key<UMLClass> key = (Key<UMLClass>) d.entityKey;
+			
+			if(d.m_locked && d.m_lockedBy == owner) {
+				List<UMLAssociation> l = searchAssociations(key);
+				if(l == null)
+					return true;
+				else {
+					for(UMLAssociation a: l) 
+						if(!limitNeighbors(TransientUpdator.update((DiagramEntity)a), owner))
+							return false;
+					return true;
+				}
+			} else {
+				d.m_limited = true;
+				d.m_lockedBy = owner;
+				dba.put(d);
+				return true;
+			}
+		} else if(d.getClass() == UMLInterface.class) {
+			Key<UMLInterface> key = (Key<UMLInterface>) d.entityKey;
+			
+			if(d.m_locked && d.m_lockedBy == owner) {
+				List<UMLAssociation> l = searchAssociations(key);
+				if(l == null)
+					return true;
+				else {
+					for(UMLAssociation a: l) 
+						if(!limitNeighbors(TransientUpdator.update((DiagramEntity)a), owner))
+							return false;
+					return true;
+				}
+			} else {
+				d.m_limited = true;
+				d.m_lockedBy = owner;
+				dba.put(d);
+				return true;
+			}
+		} else if(d.getClass() == UMLAssociation.class) {
+			UMLAssociation a = (UMLAssociation) dba.get(d.entityKey);
+			DiagramEntity left = (DiagramEntity) dba.get(a.m_left);
+			DiagramEntity right = (DiagramEntity) dba.get(a.m_left);
+			
+			if(left.m_locked == false) {
+				left.m_limited = true;
+				left.m_lockedBy = owner;
+				dba.put(left);
+			}
+			
+			if(right.m_locked == false) {
+				right.m_limited = true;
+				right.m_lockedBy = owner;
+				dba.put(right);
+			}
+			
+			a.m_limited = true;
+			a.m_lockedBy = owner;
+			
+			dba.put(a);
+			
+			return true;
+		}
+		return false;
+	}
+
+	private List<UMLAssociation> searchAssociations(Key<?> d) {
+		List<UMLAssociation> result = new ArrayList<UMLAssociation>();
+		Query<UMLAssociation> q = dba.getQuery(UMLAssociation.class);
+		for(UMLAssociation a : q)
+			if(a.m_left == d || a.m_right == d)
+				result.add(a);
+		return result;
+	}
+
 	//The following exist only so that the RPC knows that the types are on the 
 	//serializable whitelist.
 	@Override

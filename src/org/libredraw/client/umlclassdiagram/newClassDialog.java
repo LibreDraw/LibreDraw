@@ -1,7 +1,6 @@
 package org.libredraw.client.umlclassdiagram;
 
 import java.util.Vector;
-
 import org.libredraw.client.ClientSession;
 import org.libredraw.client.LibreRPC;
 import org.libredraw.client.LibreRPCAsync;
@@ -13,7 +12,6 @@ import org.libredraw.shared.umlclassdiagram.UMLClass;
 import org.libredraw.shared.umlclassdiagram.UMLOperation;
 import org.libredraw.shared.umlclassdiagram.UMLOperationParser;
 import org.libredraw.shared.umlclassdiagram.UMLVisibility;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -168,8 +166,10 @@ public class newClassDialog extends DialogBox {
 
 			@Override
 			public void onSuccess(String result) {
-				myHide();
-				DiagramView.getInstance().refresh();
+				if("Sucsess".equals(result)) {
+					myHide();
+					DiagramView.getInstance().refresh();
+				}
 			}
 			
 		});

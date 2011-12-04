@@ -17,31 +17,41 @@
 
 package org.libredraw.shared.umlclassdiagram;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
 import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.LDUser;
-
 import com.googlecode.objectify.Key;
 
 @Entity
-public class UMLAssociation extends DiagramEntity {
+public class UMLAssociation extends DiagramEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	public long id;
 	
-	public String leftName;
-	public String rightName;
-	public String leftMultiplicity;
-	public String rightMiltipliciry;
-	public UMLAssociationType type;
-	public Key<?> nodes[];
+	public String m_leftName;
+	public String m_rightName;
+	public String m_leftMultiplicity;
+	public String m_rightMiltipliciry;
+	public UMLAssociationType m_type;
+	public Key<DiagramEntity> m_left;
+	public Key<DiagramEntity> m_right;
 	
-	public UMLAssociation(String name, Key<LDUser> createdBy) {
+	public UMLAssociation() {
+		
+	}
+	
+	public UMLAssociation(String name, Key<DiagramEntity> one, Key<DiagramEntity>two, String leftName, String leftMultiplicity, String rightName, String rightMultiplicity, UMLAssociationType type,  Key<LDUser> createdBy) {
 		super(name, createdBy);
-		nodes = new Key<?>[2];
-		// TODO Auto-generated constructor stub
+		//m_nodes = new Key<DiagramEntity>[2];
+		m_left = one;
+		m_right = two;
+		m_leftName = leftName;
+		m_rightName = rightName;
+		m_leftMultiplicity = leftMultiplicity;
+		m_rightMiltipliciry = rightMultiplicity;
+		m_type = type;
 	}
 	
 }

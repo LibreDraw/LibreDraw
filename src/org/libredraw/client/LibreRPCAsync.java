@@ -6,6 +6,7 @@ import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.Project;
+import org.libredraw.shared.umlclassdiagram.UMLAssociation;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
 import org.libredraw.shared.umlclassdiagram.UMLInterface;
 import org.libredraw.shared.umlclassdiagram.UMLNode;
@@ -38,9 +39,15 @@ public interface LibreRPCAsync {
 	
 	void addInterface(String sessionId, long branch,
 			UMLInterface theInterface, AsyncCallback<String> asyncCallback);
+	
+	void addAssocation(String sessionId, long branch,
+			UMLAssociation theAssocation, AsyncCallback<String> callback);
 
 	void getEntities(String sessionId, long branch,
 			AsyncCallback<List<DiagramEntity>> callback);
+	
+	void lock(String sessionId, Key<?> key, AsyncCallback<Boolean> callback);
+	
 	
 	
 	
@@ -55,6 +62,8 @@ public interface LibreRPCAsync {
 	void getNode(AsyncCallback<UMLNode> callback);
 
 	void getUMLInterface(AsyncCallback<UMLInterface> callback);
+
+
 
 
 	

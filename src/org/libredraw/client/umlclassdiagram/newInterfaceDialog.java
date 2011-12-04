@@ -164,8 +164,10 @@ public class newInterfaceDialog extends DialogBox {
 
 			@Override
 			public void onSuccess(String result) {
-				myHide();
-				DiagramView.getInstance().refresh();
+				if("Sucsess".equals(result)) {
+					myHide();
+					DiagramView.getInstance().refresh();
+				}
 			}
 			
 		});

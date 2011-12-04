@@ -10,15 +10,17 @@
 		<g:Label text="Entity one: [Name | Multiplicity]"/>
 		<g:ListBox ui:field="entityOneComboBox" height="24px" width="170px"/>
 		<g:HorizontalPanel>
-			<g:TextBox width="85px" height="16px"/>
-			<g:TextBox height="16px" width="85px"/>
+			<g:TextBox width="85px" height="16px" ui:field="entityOneNameTextBox"/>
+			<g:TextBox height="16px" width="85px" ui:field="entityOneMultiplicityTextBox"/>
 		</g:HorizontalPanel>
 		<g:Label text="Entity two: [Name | Multiplicity]"/>
 		<g:ListBox ui:field="entityTwoComboBox" width="170px" height="24px"/>
 		<g:HorizontalPanel>
-			<g:TextBox height="16px" width="85px"/>
-			<g:TextBox height="16px" width="85px"/>
+			<g:TextBox height="16px" width="85px" ui:field="entityTwoNameTextBox"/>
+			<g:TextBox height="16px" width="85px" ui:field="entityTwoMultiplicityTextBox"/>
 		</g:HorizontalPanel>
+		<g:Label text="Type:"/>
+		<g:ListBox ui:field="typeComboBox" width="170px" height="24px"/>
 		<g:HorizontalPanel height="30px" horizontalAlignment="ALIGN_CENTER">
 			<g:Button text="Submit" ui:field="submitButton"/>
 			<g:AbsolutePanel width="50px"/>
