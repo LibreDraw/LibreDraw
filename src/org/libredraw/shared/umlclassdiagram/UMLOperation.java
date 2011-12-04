@@ -25,8 +25,6 @@ import javax.persistence.Id;
 public class UMLOperation {
 	@Id
 	public long id;
-	public boolean locked;
-	public boolean limited;
 
 	String m_name;
 	String m_returnType;

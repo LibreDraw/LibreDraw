@@ -30,6 +30,9 @@ public abstract class DiagramEntity implements Serializable {
 	public int m_width;
 	public int m_height;
 	
+	public boolean locked;
+	public boolean limited;
+	
 	public String m_name;
 	public Date m_created;
 	public Date m_modified;

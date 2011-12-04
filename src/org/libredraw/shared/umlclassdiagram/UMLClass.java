@@ -33,8 +33,6 @@ public class UMLClass extends UMLNode implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	public long id;
-	public boolean locked;
-	public boolean limited;
 	
 	public transient Vector<Key<UMLOperation>> m_operations;
 	public transient Vector<Key<UMLAttribute>> m_attributes;

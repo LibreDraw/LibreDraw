@@ -42,14 +42,24 @@ public class DiagramList extends Composite {
 	long thisProject = 0;
 	List<Diagram> diagramList;
 	Date clickTracker = null;
+	static DiagramList instance = null;
 
 	interface DiagramListUiBinder extends UiBinder<Widget, DiagramList> {
 	}
-
-	public DiagramList(long project) {
-		initWidget(uiBinder.createAndBindUi(this));
-		
+	
+	public static DiagramList getInstance() {
+		if(instance == null)
+			instance = new DiagramList();
+		return instance;
+	}
+	
+	public void setProject(long project) {
 		thisProject = project;
+		refresh();
+	}
+
+	private DiagramList() {
+		initWidget(uiBinder.createAndBindUi(this));
 		
 		DiagramList.onResize();
 		
@@ -132,7 +142,8 @@ public class DiagramList extends Composite {
 							long difference = new Date().getTime() - clickTracker.getTime();
 							if(difference <= 500){
 								Diagram thisProject = event.getValue();
-								RootPanel.get("body").add(new DiagramView(thisProject.master));
+								DiagramView.getInstance().setBranch(thisProject.master);
+								RootPanel.get("body").add(DiagramView.getInstance());
 								myRemove();
 							}
 							else
@@ -153,11 +164,9 @@ public class DiagramList extends Composite {
 		refreshMenu.setCommand(new Command() {
 			@Override
 			public void execute() {
-				refreshTable();
+				refresh();
 			}
 		});
-		
-		refreshTable();
 		
 	}
 	
@@ -169,7 +178,7 @@ public class DiagramList extends Composite {
 		scrollPanel.setWidth(windowWidth.toString()+"px");
 	}
 	
-	private void refreshTable() {
+	public void refresh() {
 		LibreRPCService.getDiagramList(ClientSession.getInstance().getSessionId(), thisProject, 
 				new AsyncCallback<List<Diagram>>() {
 			@Override

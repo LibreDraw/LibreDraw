@@ -223,6 +223,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public String addInterface(String sessionId, long branch, UMLInterface theInterface) {
 		Key<LDUser> owner = getUser(sessionId);

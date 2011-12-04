@@ -20,6 +20,7 @@ package org.libredraw.shared.umlclassdiagram;
 import java.util.Vector;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.libredraw.shared.LDUser;
 
@@ -29,14 +30,14 @@ import com.googlecode.objectify.Key;
 public class UMLEnumeration extends UMLNode {
 	private static final long serialVersionUID = 1L;
 	@Id public long id;
-	public boolean locked;
-	public boolean limited;
 	
-	Vector<Key<UMLEnumerationLiteral>> literals;
+	transient public Vector<Key<UMLEnumerationLiteral>> m_literals;
 	
-	public UMLEnumeration(String name, UMLVisibility visibility, Key<LDUser> createdBy) {
+	@Transient public Vector<UMLEnumerationLiteral> literals;
+	
+	public UMLEnumeration(String name, UMLVisibility visibility, Vector<UMLEnumerationLiteral> literals, Key<LDUser> createdBy) {
 		super(name, visibility, createdBy);
-		// TODO Auto-generated constructor stub
+		this.literals = literals;
 	}
 
 }

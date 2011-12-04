@@ -29,7 +29,7 @@ public class UMLNode extends DiagramEntity implements Serializable {
 	UMLVisibility m_visibility;
 	
 	public UMLNode() {
-		super(null, null);
+		
 	}
 	
 	public UMLNode(String name, UMLVisibility visibility, Key<LDUser> createdBy) {

@@ -169,6 +169,7 @@ public class newClassDialog extends DialogBox {
 			@Override
 			public void onSuccess(String result) {
 				myHide();
+				DiagramView.getInstance().refresh();
 			}
 			
 		});

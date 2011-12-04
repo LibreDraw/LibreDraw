@@ -44,11 +44,19 @@ public class ProjectList extends Composite {
 	@UiField MenuItem refreshMenu;
 	List<Project> projectList;
 	Date clickTracker = null;
+	
+	static ProjectList instance = null;
 
 	interface ProjectListUiBinder extends UiBinder<Widget, ProjectList> {
 	}
 	
-	public ProjectList() {
+	public static ProjectList getInstace() {
+		if(instance == null)
+			instance = new ProjectList();
+		return instance;
+	}
+	
+	private ProjectList() {
 		initWidget(uiBinder.createAndBindUi(this));
 				
 		refreshTable();
@@ -127,8 +135,9 @@ public class ProjectList extends Composite {
 							long difference = new Date().getTime() - clickTracker.getTime();
 							if(difference <= 500){
 								Project thisProject = event.getValue();
-								RootPanel.get("body").add(new DiagramList(thisProject.id));
+								DiagramList.getInstance().setProject(thisProject.id);
 								myRemove();
+								RootPanel.get("body").add(DiagramList.getInstance());
 							}
 							else
 								clickTracker = new Date();
@@ -146,13 +155,6 @@ public class ProjectList extends Composite {
 		refreshMenu.setCommand(new Command() {
 			public void execute() {
 				refreshTable();
-			}
-		});
-		
-		archiveMenu.setCommand(new Command () {
-			public void execute() {
-				RootPanel.get("body").add(new DiagramView(1l));
-				myRemove();
 			}
 		});
 		

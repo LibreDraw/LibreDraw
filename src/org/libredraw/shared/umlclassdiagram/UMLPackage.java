@@ -30,8 +30,6 @@ import com.googlecode.objectify.Key;
 public class UMLPackage extends UMLNode {
 	private static final long serialVersionUID = 1L;
 	@Id public long id;
-	public boolean locked;
-	public boolean limited;
 	
 	Vector<Key<?>> m_nodes;
 	Key<?> m_parentPackage;

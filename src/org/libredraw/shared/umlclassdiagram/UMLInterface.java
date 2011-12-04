@@ -32,8 +32,6 @@ import com.googlecode.objectify.Key;
 public class UMLInterface extends UMLNode implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id public long id;
-	public boolean locked;
-	public boolean limited;
 	
 	public transient Vector<Key<UMLOperation>> m_operations;
 	public transient Vector<Key<UMLAttribute>> m_attributes;
@@ -42,7 +40,7 @@ public class UMLInterface extends UMLNode implements Serializable {
 	@Transient public Vector<UMLAttribute> attributes;
 	
 	public UMLInterface() {
-		super();
+		
 	}
 	
 	public UMLInterface(String name, UMLVisibility visibility, Vector<UMLOperation> operations, Vector<UMLAttribute> attributes, Key<LDUser> createdBy) {

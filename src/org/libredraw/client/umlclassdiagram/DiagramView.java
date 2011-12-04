@@ -40,7 +40,7 @@ public class DiagramView extends Composite {
 	@UiField MenuItem newInterfaceMenu;
 	@UiField MenuItem newClassMenu;
 	@UiField MenuItem refreshMenu;
-	@UiField MenuItem menuNewAssociation;
+	@UiField MenuItem newAssociationMenu;
 	@UiField MenuItem newPackageMenu;
 	@UiField MenuItem saveMenu;
 	@UiField MenuItem modifyMenu;
@@ -53,14 +53,27 @@ public class DiagramView extends Composite {
 	static ScrollPanel scrollPanel;
 	@UiField static TabPanel tabPanel;
 	long thisBranch;
+	List<DiagramEntity> entities;
+	
+	static DiagramView instance = null;
 
 	interface DiagramViewUiBinder extends UiBinder<Widget, DiagramView> {
 	}
+	
+	public static DiagramView getInstance() {
+		if(instance == null)
+			instance = new DiagramView();
+		return instance;
+	}
+	
+	public void setBranch(long branch) {
+		thisBranch = branch;
+		this.refresh();
+	}
 
-	public DiagramView(long branch) {
+	private DiagramView() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		thisBranch = branch;
 		
 		tabPanel.selectTab(0);
 		
@@ -147,14 +160,19 @@ public class DiagramView extends Composite {
 			}	
 		});
 		
+		newAssociationMenu.setCommand(new Command() {
+			@Override
+			public void execute() {
+				TableView.registerDialog(new newAssociationDialog(thisBranch));
+			}
+		});
+		
 		refreshMenu.setCommand(new Command() {
 			@Override
 			public void execute() {
 				refresh();
 			}
 		});
-		
-		refresh();
 	}
 
 	private static void onResize() {
@@ -166,7 +184,7 @@ public class DiagramView extends Composite {
 		scrollPanel.setHeight((windowHeight-80)+"px");
 	}
 	
-	private void refresh() {
+	public void refresh() {
 		LibreRPCService.getEntities(ClientSession.getInstance().getSessionId(),
 				thisBranch, 
 				new AsyncCallback<List<DiagramEntity>>() {
@@ -175,6 +193,7 @@ public class DiagramView extends Composite {
 				}
 				@Override
 				public void onSuccess(List<DiagramEntity> result) {
+					entities = result;
 					populateTable(result);
 				}
 		});

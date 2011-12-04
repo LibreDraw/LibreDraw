@@ -60,6 +60,7 @@ public class NewDiagramDialog extends DialogBox {
 						@Override
 						public void onSuccess(String result) {
 							myHide();
+							DiagramList.getInstance().refresh();
 						}
 			});
 		}
