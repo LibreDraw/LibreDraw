@@ -331,7 +331,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			return false;
 		DiagramEntity d = (DiagramEntity) dba.get(key);
 		
-		if(d.m_locked = true)
+		if(d.m_locked == true)
 			return false;
 		else {
 			d.m_locked = true;
@@ -341,79 +341,106 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		}
 	}
 	
+	public boolean unlock(String sessionId, Key<?> key) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return false;
+		DiagramEntity d = (DiagramEntity) dba.get(key);
+		
+		if(d.m_locked == false)
+			return false;
+		else {
+			boolean result = unlimitNeighbors(TransientUpdator.u(d), owner);
+			d.m_locked = false;
+			d.m_lockedBy = null;
+			dba.put(d);
+			return result;
+		}
+	}
 	
-	@SuppressWarnings("unchecked")
-	private boolean limitNeighbors(DiagramEntity d, Key<LDUser> owner) {
-		if(d.getClass() == UMLClass.class) {
-			Key<UMLClass> key = (Key<UMLClass>) d.entityKey;
-			
-			if(d.m_locked && d.m_lockedBy == owner) {
-				List<UMLAssociation> l = searchAssociations(key);
-				if(l == null)
-					return true;
-				else {
-					for(UMLAssociation a: l) 
-						if(!limitNeighbors(TransientUpdator.u((DiagramEntity)a), owner))
-							return false;
-					return true;
-				}
-			} else {
-				d.m_limited = true;
-				d.m_lockedBy = owner;
-				dba.put(d);
-				return true;
-			}
-		} else if(d.getClass() == UMLInterface.class) {
-			Key<UMLInterface> key = (Key<UMLInterface>) d.entityKey;
-			
-			if(d.m_locked && d.m_lockedBy == owner) {
-				List<UMLAssociation> l = searchAssociations(key);
-				if(l == null)
-					return true;
-				else {
-					for(UMLAssociation a: l) 
-						if(!limitNeighbors(TransientUpdator.u((DiagramEntity)a), owner))
-							return false;
-					return true;
-				}
-			} else {
-				d.m_limited = true;
-				d.m_lockedBy = owner;
-				dba.put(d);
-				return true;
-			}
-		} else if(d.getClass() == UMLAssociation.class) {
+	private boolean unlimitNeighbors(DiagramEntity d, Key<LDUser> owner) {
+		if("UMLAssociation".equals(d.entityKey.getKind())) {
 			UMLAssociation a = (UMLAssociation) dba.get(d.entityKey);
 			DiagramEntity left = (DiagramEntity) dba.get(a.m_left);
-			DiagramEntity right = (DiagramEntity) dba.get(a.m_left);
+			DiagramEntity right = (DiagramEntity) dba.get(a.m_right);
 			
-			if(left.m_locked == false) {
-				left.m_limited = true;
-				left.m_lockedBy = owner;
-				dba.put(left);
+			left.m_limited = false;
+			left.m_limitedBy = null;
+			
+			right.m_limited = false;
+			right.m_limitedBy = null;
+			
+			dba.put(left);
+			dba.put(right);
+			
+		} else {
+			List<UMLAssociation> associations = searchAssociations(d.entityKey);
+			for(UMLAssociation a : associations) {
+				a.m_limited = false;
+				a.m_limitedBy = null;
+				dba.put(a);
+				if(a.m_left.getClass() == d.entityKey.getClass() 
+						&& a.m_left.getId() == d.entityKey.getId()) {
+					DiagramEntity thisEntity = (DiagramEntity) dba.get(a.m_right);
+					thisEntity.m_limited = false;
+					thisEntity.m_limitedBy = null;
+					dba.put(thisEntity);
+				} else {
+					DiagramEntity thisEntity = (DiagramEntity) dba.get(a.m_left);
+					thisEntity.m_limited = false;
+					thisEntity.m_limitedBy = null;
+					dba.put(thisEntity);
+				}
 			}
-			
-			if(right.m_locked == false) {
-				right.m_limited = true;
-				right.m_lockedBy = owner;
-				dba.put(right);
-			}
-			
-			a.m_limited = true;
-			a.m_lockedBy = owner;
-			
-			dba.put(a);
-			
-			return true;
 		}
-		return false;
+		return true;
+	}
+
+
+	private boolean limitNeighbors(DiagramEntity d, Key<LDUser> owner) {
+		if("UMLAssociation".equals(d.entityKey.getKind())) {
+			UMLAssociation a = (UMLAssociation) dba.get(d.entityKey);
+			DiagramEntity left = (DiagramEntity) dba.get(a.m_left);
+			DiagramEntity right = (DiagramEntity) dba.get(a.m_right);
+			
+			left.m_limited = true;
+			left.m_limitedBy = owner;
+			
+			right.m_limited = true;
+			right.m_limitedBy = owner;
+			
+			dba.put(left);
+			dba.put(right);
+			
+		} else {
+			List<UMLAssociation> associations = searchAssociations(d.entityKey);
+			for(UMLAssociation a : associations) {
+				a.m_limited = true;
+				a.m_limitedBy = owner;
+				dba.put(a);
+				if(a.m_left.getClass() == d.entityKey.getClass() 
+						&& a.m_left.getId() == d.entityKey.getId()) {
+					DiagramEntity thisEntity = (DiagramEntity) dba.get(a.m_right);
+					thisEntity.m_limited = true;
+					thisEntity.m_limitedBy = owner;
+					dba.put(thisEntity);
+				} else {
+					DiagramEntity thisEntity = (DiagramEntity) dba.get(a.m_left);
+					thisEntity.m_limited = true;
+					thisEntity.m_limitedBy = owner;
+					dba.put(thisEntity);
+				}
+			}
+		}
+		return true;
 	}
 
 	private List<UMLAssociation> searchAssociations(Key<?> d) {
 		List<UMLAssociation> result = new ArrayList<UMLAssociation>();
 		Query<UMLAssociation> q = dba.getQuery(UMLAssociation.class);
 		for(UMLAssociation a : q)
-			if(a.m_left == d || a.m_right == d)
+			if(a.m_left.getId() == d.getId() && a.m_left.getClass() == d.getClass() 
+			|| a.m_right.getId() == d.getId() && a.m_right.getClass() == d.getClass())
 				result.add(a);
 		return result;
 	}

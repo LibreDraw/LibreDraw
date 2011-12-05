@@ -17,6 +17,7 @@
 
 package org.libredraw.shared.umlclassdiagram;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import javax.persistence.Entity;
@@ -27,7 +28,7 @@ import org.libredraw.shared.LDUser;
 import com.googlecode.objectify.Key;
 
 @Entity
-public class UMLPackage extends UMLNode {
+public class UMLPackage extends UMLNode implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id public long id;
 	

@@ -29,8 +29,8 @@
 			<g:MenuItemSeparator/>
 			<g:MenuItem text="Manage Diagram">
 				<g:MenuBar vertical="true">
+					<g:MenuItem text="Edit" ui:field="editMenu"/>
 					<g:MenuItem text="Delete" ui:field="deleteMenu" enabled="false"/>
-					<g:MenuItem text="Edit" enabled="false" ui:field="editMenu"/>
 				</g:MenuBar>
 			</g:MenuItem>
 		</g:MenuBar>

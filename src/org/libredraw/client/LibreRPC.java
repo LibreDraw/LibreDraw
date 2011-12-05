@@ -66,7 +66,7 @@ public interface LibreRPC extends RemoteService {
 	
 	UMLInterface getUMLInterface(String sessionId, long id);
 	
-	UMLAssociation getUMLAssociation(String sessionId, long branch);
+	UMLAssociation getUMLAssociation(String sessionId, long id);
 	
 	boolean updateUMLClass(String sessionId, long branch, UMLClass theClass);
 	
@@ -87,6 +87,8 @@ public interface LibreRPC extends RemoteService {
 	boolean changeNameProject(String sessionId, long project, String name);
 	
 	boolean changeNameDiagram(String sessionId, long diagram, String name);
+	
+	boolean unlock(String sessionId, Key<?> key);
 	
 
 	

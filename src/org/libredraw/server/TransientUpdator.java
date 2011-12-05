@@ -133,15 +133,19 @@ public final class TransientUpdator {
 	}
 	
 	public static UMLAssociation u(UMLAssociation a) {
+		a.right = (DiagramEntity) dba.get(a.m_right);
+		a.left = (DiagramEntity) dba.get(a.m_left);
 		return (UMLAssociation) u((DiagramEntity)a);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static DiagramEntity u(DiagramEntity d) {
-		d.createdBy = TransientUpdator.u((LDUser) dba.get(d.m_createdBy));
 		d.modifiedBy = TransientUpdator.u((LDUser) dba.get(d.m_modifiedBy));
+		d.createdBy = TransientUpdator.u((LDUser) dba.get(d.m_createdBy));
 		if(d.m_lockedBy != null)
 			d.lockedBy = TransientUpdator.u((LDUser) dba.get(d.m_lockedBy));
+		if(d.m_limitedBy != null)
+			d.limitedBy = TransientUpdator.u((LDUser) dba.get(d.m_limitedBy));
 		
 		if(d.getClass() == UMLClass.class) {
 			UMLClass c = (UMLClass) d;

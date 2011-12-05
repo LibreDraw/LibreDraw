@@ -31,6 +31,7 @@ import org.libredraw.shared.umlclassdiagram.UMLOperationParser;
 import org.libredraw.shared.umlclassdiagram.UMLVisibility;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -188,7 +189,22 @@ public class EditClassDialog extends DialogBox {
 
 	@UiHandler("cancelButton")
 	void onCancelButtonClick(ClickEvent event) {
-		this.removeFromParent();
+		LibreRPCService.unlock(ClientSession.getInstance().getSessionId(), 
+				thisClass.entityKey, 
+				new AsyncCallback<Boolean>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				TableView.registerErrorDialog(new StackTrace(caught));
+			}
+			@Override
+			public void onSuccess(Boolean result) {
+				if(result)
+					myHide();
+				else
+					Window.alert("Generic error.");
+			}
+		});
+
 	}
 	
 	@UiHandler("submitButton")

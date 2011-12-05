@@ -72,7 +72,7 @@ public interface LibreRPCAsync {
 	void getUMLInterface(String sessionId, long id,
 			AsyncCallback<UMLInterface> callback);
 
-	void getUMLAssociation(String sessionId, long branch,
+	void getUMLAssociation(String sessionId, long id,
 			AsyncCallback<UMLAssociation> callback);
 	
 	void updateUMLClass(String sessionId, long branch, UMLClass theClass,
@@ -103,6 +103,8 @@ public interface LibreRPCAsync {
 
 	void changeNameDiagram(String sessionId, long diagram, String name,
 			AsyncCallback<Boolean> callback);
+	
+	void unlock(String sessionId, Key<?> key, AsyncCallback<Boolean> callback);
 	
 	
 	

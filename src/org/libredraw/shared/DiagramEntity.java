@@ -33,15 +33,15 @@ public abstract class DiagramEntity implements Serializable {
 	public boolean m_locked;
 	public boolean m_limited;
 	transient public Key<LDUser> m_lockedBy;
-	
-	@Transient public LDUser lockedBy;
-	
+	transient public Key<LDUser> m_limitedBy;
 	public String m_name;
 	public Date m_created;
 	public Date m_modified;
 	transient public Key<LDUser> m_modifiedBy;
 	transient public Key<LDUser> m_createdBy;
 	
+	@Transient public LDUser lockedBy;
+	@Transient public LDUser limitedBy;
 	@Transient public LDUser modifiedBy;
 	@Transient public LDUser createdBy;
 	@Transient public Key<?> entityKey;

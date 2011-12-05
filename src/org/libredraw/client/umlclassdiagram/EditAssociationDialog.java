@@ -55,6 +55,7 @@ public class EditAssociationDialog extends DialogBox {
 	@UiField ListBox typeComboBox;
 	long thisBranch;
 	List<DiagramEntity> entities;
+	UMLAssociation thisAssociation;
 
 	interface newAssociationDialogUiBinder extends
 			UiBinder<Widget, EditAssociationDialog> {
@@ -93,6 +94,54 @@ public class EditAssociationDialog extends DialogBox {
 		typeComboBox.addItem("Dependency");
 		typeComboBox.addItem("Inheritance");
 		this.entities = entities;
+		
+		LibreRPCService.getUMLAssociation(ClientSession.getInstance().getSessionId(), 
+				entity.getId(), new AsyncCallback<UMLAssociation>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				TableView.registerErrorDialog(new StackTrace(caught));
+			}
+			@Override
+			public void onSuccess(UMLAssociation result) {
+				thisAssociation = result;
+				populateBoxes();
+			}
+		});
+		
+	}
+	
+	void populateBoxes() {
+		nameTextBox.setText(thisAssociation.m_name);
+		entityOneNameTextBox.setText(thisAssociation.m_leftName);
+		entityOneMultiplicityTextBox.setText(thisAssociation.m_leftMultiplicity);
+		entityTwoNameTextBox.setText(thisAssociation.m_rightName);
+		entityTwoMultiplicityTextBox.setText(thisAssociation.m_rightMultiplicity);
+		
+		int count = 0;
+		for(DiagramEntity d:entities) {
+			if(d.m_name.equals(thisAssociation.left.m_name))
+				break;
+			count++;
+		}
+		entityOneComboBox.setSelectedIndex(count);
+		count = 0;
+		for(DiagramEntity d:entities) {
+			if(d.m_name.equals(thisAssociation.right.m_name))
+				break;
+			count++;
+		}
+		entityTwoComboBox.setSelectedIndex(count);
+		
+		if(thisAssociation.m_type == UMLAssociationType.Association)
+			typeComboBox.setSelectedIndex(1);
+		if(thisAssociation.m_type == UMLAssociationType.Aggregation)
+			typeComboBox.setSelectedIndex(2);
+		if(thisAssociation.m_type == UMLAssociationType.Composition)
+			typeComboBox.setSelectedIndex(3);
+		if(thisAssociation.m_type == UMLAssociationType.Dependency)
+			typeComboBox.setSelectedIndex(4);
+		if(thisAssociation.m_type == UMLAssociationType.Inheritance)
+			typeComboBox.setSelectedIndex(5);
 	}
 	
 	@SuppressWarnings("unchecked")

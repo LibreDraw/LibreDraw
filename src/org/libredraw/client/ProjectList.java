@@ -19,6 +19,8 @@ package org.libredraw.client;
 
 import java.util.Date;
 import java.util.List;
+
+import org.libredraw.client.umlclassdiagram.DiagramView;
 import org.libredraw.shared.Project;
 import com.gargoylesoftware.htmlunit.javascript.host.Event;
 import com.google.gwt.cell.client.CheckboxCell;
@@ -186,13 +188,13 @@ public class ProjectList extends Composite {
 				refresh();
 			}
 		});
-		/*archiveMenu.setCommand(new Command() {
+		archiveMenu.setCommand(new Command() {
 			public void execute() {
 				DiagramView.getInstance().setBranch(1l);
 				myRemove();
 				RootPanel.get("body").add(DiagramView.getInstance());
 			}
-		});*/
+		});
 		
 		editMenu.setCommand(new Command() {
 			@Override

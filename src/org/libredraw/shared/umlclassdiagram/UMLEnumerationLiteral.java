@@ -17,11 +17,13 @@
 
 package org.libredraw.shared.umlclassdiagram;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class UMLEnumerationLiteral {
+public class UMLEnumerationLiteral implements Serializable {
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;

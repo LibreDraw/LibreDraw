@@ -20,6 +20,8 @@ package org.libredraw.shared.umlclassdiagram;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.LDUser;
 import com.googlecode.objectify.Key;
@@ -33,10 +35,15 @@ public class UMLAssociation extends DiagramEntity implements Serializable {
 	public String m_leftName;
 	public String m_rightName;
 	public String m_leftMultiplicity;
-	public String m_rightMiltipliciry;
+	public String m_rightMultiplicity;
 	public UMLAssociationType m_type;
 	public Key<DiagramEntity> m_left;
 	public Key<DiagramEntity> m_right;
+	
+	@Transient
+	public DiagramEntity left;
+	@Transient
+	public DiagramEntity right;
 	
 	public UMLAssociation() {
 		
@@ -50,7 +57,7 @@ public class UMLAssociation extends DiagramEntity implements Serializable {
 		m_leftName = leftName;
 		m_rightName = rightName;
 		m_leftMultiplicity = leftMultiplicity;
-		m_rightMiltipliciry = rightMultiplicity;
+		m_rightMultiplicity = rightMultiplicity;
 		m_type = type;
 	}
 	
