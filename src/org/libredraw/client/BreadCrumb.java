@@ -40,6 +40,7 @@ public class BreadCrumb extends Composite {
 	@UiField Label diagramCarrot;
 	@UiField Label diagramText;
 	@UiField Label projectListText;
+	@UiField Label projectText;
 	private static BreadCrumb m_instance = null;
 	Project thisProject;
 
@@ -66,8 +67,9 @@ public class BreadCrumb extends Composite {
 		projectCarrot.setVisible(false);
 		diagramText.setVisible(false);
 		diagramCarrot.setVisible(false);
-		projectListText.setVisible(true);
+		projectListText.setVisible(false);
 		projectListHyperLink.setVisible(false);
+		projectText.setVisible(false);
 	}
 	@UiHandler("projectHyperLink")
 	void onProjectHyperLinkClick(ClickEvent event) {
@@ -76,12 +78,15 @@ public class BreadCrumb extends Composite {
 		RootPanel.get("body").add(DiagramList.getInstance());
 		diagramText.setVisible(false);
 		diagramCarrot.setVisible(false);
+		projectHyperLink.setVisible(false);
+		projectText.setVisible(true);
 	}
 	
 	public void registerProject(Project p) {
 		thisProject = p;
 		projectHyperLink.setText(thisProject.m_name);
-		projectHyperLink.setVisible(true);
+		projectText.setText(thisProject.m_name);
+		projectText.setVisible(true);
 		projectCarrot.setVisible(true);
 		projectListText.setVisible(false);
 		projectListHyperLink.setVisible(true);
@@ -89,6 +94,8 @@ public class BreadCrumb extends Composite {
 	
 	public void registerDiagram(String name, String branchName) {
 		diagramText.setText(name + "(" + branchName +")");
+		projectHyperLink.setVisible(true);
+		projectText.setVisible(false);
 		diagramText.setVisible(true);
 		diagramCarrot.setVisible(true);
 	}

@@ -27,9 +27,16 @@
 			<g:Label text="Project List" ui:field="projectListText"/>
 			<g:Hyperlink text="ProjectList" targetHistoryToken="newHistoryToken" ui:field="projectListHyperLink" visible="false"/>
 		</g:HorizontalPanel>
+		<g:AbsolutePanel width="5px" height="5px"/>
 		<g:Label text=" &gt; " ui:field="projectCarrot" visible="false"/>
-		<g:Hyperlink text="Project Name" targetHistoryToken="newHistoryToken" ui:field="projectHyperLink" visible="false"/>
+		<g:AbsolutePanel height="5px" width="5px"/>
+		<g:HorizontalPanel>
+			<g:Label text="Project Name" ui:field="projectText" wordWrap="false" visible="false"/>
+			<g:Hyperlink text="Project Name" targetHistoryToken="newHistoryToken" ui:field="projectHyperLink" visible="false"/>
+		</g:HorizontalPanel>
+		<g:AbsolutePanel height="5px" width="5px"/>
 		<g:Label text=" &gt; " ui:field="diagramCarrot" visible="false"/>
+		<g:AbsolutePanel height="5px" width="5px"/>
 		<g:Label text="DiagramName(MASTER)" ui:field="diagramText" visible="false"/>
 	</g:HorizontalPanel>
 </ui:UiBinder> 
