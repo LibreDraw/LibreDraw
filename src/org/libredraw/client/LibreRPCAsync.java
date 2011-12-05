@@ -66,11 +66,22 @@ public interface LibreRPCAsync {
 	
 	void lock(String sessionId, Key<?> key, AsyncCallback<Boolean> callback);
 	
-	void getUMLClass(long id, AsyncCallback<UMLClass> callback);
+	void getUMLClass(String sessionId, long id, AsyncCallback<UMLClass> callback);
 	
-	void getUMLInterface(long id, AsyncCallback<UMLInterface> callback);
+	void getUMLInterface(String sessionId, long id,
+			AsyncCallback<UMLInterface> callback);
 
-	void getUMLAssociation(long id, AsyncCallback<UMLAssociation> callback);
+	void getUMLAssociation(String sessionId, long branch,
+			AsyncCallback<UMLAssociation> callback);
+	
+	void updateUMLClass(String sessionId, long branch, UMLClass theClass,
+			AsyncCallback<Boolean> callback);
+
+	void updateUMLInterface(String sessionId, long branch,
+			UMLInterface theInterface, AsyncCallback<Boolean> callback);
+
+	void updateUMLAssociation(String sessionId, long branch,
+			UMLAssociation theAssociation, AsyncCallback<Boolean> callback);
 	
 	
 	
@@ -82,5 +93,5 @@ public interface LibreRPCAsync {
 	void getObject(Key<?> key, AsyncCallback<DiagramEntity> callback);
 
 	void getNode(AsyncCallback<UMLNode> callback);
-
+	
 }

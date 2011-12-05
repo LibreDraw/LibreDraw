@@ -37,5 +37,14 @@ public class UMLAttribute implements Serializable {
 	public UMLAttribute() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public String toString() {
+		 String result = m_visibility.toString();
+		 result += m_name;
+		 result += ": " + m_type;
+		 if(m_multiplicity != null)
+			 result += "[" + m_multiplicity + "]";
+		return result;
+	}
 
 }

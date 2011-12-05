@@ -17,12 +17,15 @@
 
 package org.libredraw.shared.umlclassdiagram;
 
+import java.io.Serializable;
 import java.util.Vector;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class UMLOperation {
+public class UMLOperation implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	public long id;
 
@@ -34,5 +37,28 @@ public class UMLOperation {
 	
 	public UMLOperation() {
 		m_parameters = new Vector<UMLOperationParameter>();
+	}
+	
+	public String toString() {
+		 String result = m_visibility.toString();
+		 result += m_name;
+		 result +="(";
+		 if(m_parameters != null) {
+			 int count = 0;
+			 for(UMLOperationParameter p : m_parameters) {
+				 if(count == 0)
+					 result += p.toString();
+				 else
+					 result +=", " + p.toString();
+				count++;
+			 }
+		 }
+		 result += ")";
+		 if(m_returnType != null) {
+			 result += ": " + m_returnType;
+			 if(m_returnTypeMultiplicity != null)
+				 result += "[" + m_returnTypeMultiplicity + "]";
+		 }
+		return result;
 	}
 }

@@ -46,6 +46,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.googlecode.objectify.Key;
 
 public class DiagramView extends Composite {
 	
@@ -73,6 +74,11 @@ public class DiagramView extends Composite {
 	@UiField static TabPanel tabPanel;
 	long thisBranch;
 	List<DiagramEntity> entities;
+	AsyncCallback<Boolean> classHandler;
+	AsyncCallback<Boolean> interfaceHandler;
+	AsyncCallback<Boolean> associationHandler;
+	
+	Key<?> entityCalled;
 	
 	Date clickTracker = null;
 	
@@ -195,6 +201,40 @@ public class DiagramView extends Composite {
 			}
 		});
 		
+		classHandler = new AsyncCallback<Boolean>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				TableView.registerErrorDialog(new StackTrace(caught));
+			}
+			@Override
+			public void onSuccess(Boolean result) {
+				TableView.registerDialog(new editClassDialog(entityCalled, thisBranch));
+				
+			}
+		};
+		
+		interfaceHandler = new AsyncCallback<Boolean>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				TableView.registerErrorDialog(new StackTrace(caught));
+			}
+			@Override
+			public void onSuccess(Boolean result) {
+				TableView.registerDialog(new editInterfaceDialog(entityCalled, thisBranch));
+			}
+		};
+		
+		associationHandler = new AsyncCallback<Boolean>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				TableView.registerErrorDialog(new StackTrace(caught));
+			}
+			@Override
+			public void onSuccess(Boolean result) {
+				TableView.registerDialog(new editAssociationDialog(thisBranch, entities, entityCalled));
+			}
+		};
+		
 		table.addCellPreviewHandler(new CellPreviewEvent.Handler<DiagramEntity>() {
 			@Override
 			public void onCellPreview(CellPreviewEvent<DiagramEntity> event) {
@@ -207,12 +247,17 @@ public class DiagramView extends Composite {
 							long difference = new Date().getTime() - clickTracker.getTime();
 							if(difference <= 500){
 								DiagramEntity e = event.getValue();
+								entityCalled = e.entityKey;
 								if("UMLClass".equals(e.entityKey.getKind())) {
-									TableView.registerDialog(new editClassDialog(e.entityKey, thisBranch));
+									LibreRPCService.lock(ClientSession.getInstance().getSessionId(),
+											e.entityKey, classHandler);
 								} else if("UMLInterface".equals(e.entityKey.getKind())) {
+									LibreRPCService.lock(ClientSession.getInstance().getSessionId(),
+											e.entityKey, interfaceHandler);
 									
 								} else if("UMLAssociation".equals(e.entityKey.getKind())) {
-									
+									LibreRPCService.lock(ClientSession.getInstance().getSessionId(),
+											e.entityKey, interfaceHandler);
 								} else { // should never happen
 									Window.alert("generic error");
 								}

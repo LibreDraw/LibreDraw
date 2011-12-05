@@ -1,3 +1,5 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
 <!--
 	This file is part of LibreDraw.
 
@@ -15,7 +17,6 @@
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client" xmlns:w="urn:import:com.google.gwt.widget.client">
 	<ui:style>
@@ -28,7 +29,7 @@
 			<g:MenuItemSeparator/>
 			<g:MenuItem text="Manage Project">
 				<g:MenuBar vertical="true">
-					<g:MenuItem text="Archive" ui:field="archiveMenu" enabled="false"/>
+					<g:MenuItem text="Archive" ui:field="archiveMenu"/>
 					<g:MenuItem text="Edit" ui:field="editMenu" enabled="false"/>
 					<g:MenuItem text="Delete" ui:field="deleteMenu" enabled="false"/>
 					<g:MenuItemSeparator/>

@@ -26,7 +26,7 @@ import com.googlecode.objectify.Key;
 
 public class UMLNode extends DiagramEntity implements Serializable {
 	private static final long serialVersionUID = 1481851909631311579L;
-	UMLVisibility m_visibility;
+	public UMLVisibility m_visibility;
 	
 	public UMLNode() {
 		

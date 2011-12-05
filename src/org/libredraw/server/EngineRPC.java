@@ -419,18 +419,79 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 	}
 	
 	@Override
-	public UMLClass getUMLClass(long id) {
+	public UMLClass getUMLClass(String sessionId, long id) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return null;
+		//TODO permission check
 		return TransientUpdator.u((UMLClass) dba.get(new Key<UMLClass>(UMLClass.class, id)));
 	}
 	
 	@Override
-	public UMLInterface getUMLInterface(long id) {
+	public UMLInterface getUMLInterface(String sessionId, long id) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return null;
+		//TODO permission check
 		return TransientUpdator.u((UMLInterface) dba.get(new Key<UMLInterface>(UMLInterface.class, id)));
 	}
 
 	@Override
-	public UMLAssociation getUMLAssociation(long id) {
+	public UMLAssociation getUMLAssociation(String sessionId, long id) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return null;
+		//TODO permission check
 		return TransientUpdator.u((UMLAssociation) dba.get(new Key<UMLAssociation>(UMLAssociation.class, id)));
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean updateUMLClass(String sessionId, long branch,
+			UMLClass theClass) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return false;
+		//TODO permission check
+		
+		
+		//TODO check locked
+		
+		long oldId = theClass.id;
+
+		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(TransientUpdator.p(theClass, owner));
+		
+		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
+		if(v == null) {
+			return false;
+		} else {
+			Version next = TransientUpdator.nextVersion(v, owner);
+			
+			for(Key<DiagramEntity> d : next.m_objects)
+				if(d.getId() == oldId) {
+					next.m_objects.remove(d);
+					break;
+				}
+			
+			next.add(key);
+			
+			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
+			return true;
+		}
+	}
+
+	@Override
+	public boolean updateUMLInterface(String sessionId, long branch,
+			UMLInterface theInterface) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateUMLAssociation(String sessionId, long branch,
+			UMLAssociation theAssociation) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	
@@ -462,5 +523,5 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

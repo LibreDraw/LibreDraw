@@ -44,6 +44,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.googlecode.objectify.Key;
 
 @SuppressWarnings("deprecation")
 public class editInterfaceDialog extends DialogBox {
@@ -77,7 +78,7 @@ public class editInterfaceDialog extends DialogBox {
 	interface newClassDialogUiBinder extends UiBinder<Widget, editInterfaceDialog> {
 	}
 
-	public editInterfaceDialog(long branch) {
+	public editInterfaceDialog(Key<?> entity, long branch) {
 		setWidget(uiBinder.createAndBindUi(this));
 		this.setAnimationEnabled(true);
 		this.setAnimationEnabled(true);

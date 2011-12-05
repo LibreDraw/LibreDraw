@@ -16,11 +16,14 @@
 */
 
 package org.libredraw.shared.umlclassdiagram;
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class UMLOperationParameter {
+public class UMLOperationParameter implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	public long id;
 	public boolean locked;
@@ -32,6 +35,14 @@ public class UMLOperationParameter {
 	
 	public UMLOperationParameter() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public String toString() {
+		String result = m_name;
+		result += ": " + m_type;
+		if(m_multiplicity != null)
+			result += "[" + m_multiplicity + "]";
+		return result;
 	}
 
 }

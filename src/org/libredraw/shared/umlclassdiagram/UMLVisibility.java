@@ -22,4 +22,20 @@ public enum UMLVisibility {
 	Private,
 	Package,
 	Protected;
+	
+	public String toString() {
+		if(this.compareTo(UMLVisibility.Public) == 0) {
+			return "+";
+		}
+		if(this.compareTo(UMLVisibility.Private) == 0) {
+			return "-";
+		}
+		if(this.compareTo(UMLVisibility.Package) == 0) {
+			return "~";
+		}
+		if(this.compareTo(UMLVisibility.Protected) == 0) {
+			return "#";
+		}
+		return null;
+	}
 }

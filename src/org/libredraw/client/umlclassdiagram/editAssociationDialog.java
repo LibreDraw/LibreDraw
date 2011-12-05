@@ -60,7 +60,7 @@ public class editAssociationDialog extends DialogBox {
 			UiBinder<Widget, editAssociationDialog> {
 	}
 
-	public editAssociationDialog(long branch, List<DiagramEntity> entities) {
+	public editAssociationDialog(long branch, List<DiagramEntity> entities, Key<?> entity) {
 		setWidget(uiBinder.createAndBindUi(this));
 		
 		this.setAnimationEnabled(true);

@@ -106,14 +106,16 @@ public final class TransientUpdator {
 	
 	public static UMLClass u(UMLClass c) {
 		c.operations = new Vector<UMLOperation>();
-		for(Key<UMLOperation> o: c.m_operations) {
-			c.operations.add((UMLOperation) dba.get(o));
-		}
+		if(c.m_operations != null)
+			for(Key<UMLOperation> o: c.m_operations) {
+				c.operations.add((UMLOperation) dba.get(o));
+			}
 		c.attributes = new Vector<UMLAttribute>();
-		for(Key<UMLAttribute> o: c.m_attributes) {
-			c.attributes.add((UMLAttribute) dba.get(o));
-		}
-		return c;
+		if(c.m_attributes != null)
+			for(Key<UMLAttribute> o: c.m_attributes) {
+				c.attributes.add((UMLAttribute) dba.get(o));
+			}
+		return (UMLClass) u((DiagramEntity)c);
 	}
 	
 	public static UMLInterface u(UMLInterface i) {
@@ -125,11 +127,11 @@ public final class TransientUpdator {
 		for(Key<UMLAttribute> o: i.m_attributes) {
 			i.attributes.add((UMLAttribute) dba.get(o));
 		}
-		return i;
+		return (UMLInterface) u((DiagramEntity)i);
 	}
 	
 	public static UMLAssociation u(UMLAssociation a) {
-		return a;
+		return (UMLAssociation) u((DiagramEntity)a);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -199,6 +201,28 @@ public final class TransientUpdator {
 			objects.add(k);
 		}
 		return new Version(AutoIncrement.getNextId(Version.class), v.m_versionNuber+1, thisVersion , modified, objects);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static UMLClass p(UMLClass theClass, Key<LDUser> m) {
+		theClass.id = AutoIncrement.getNextId(UMLClass.class);
+		theClass.m_createdBy = new Key<LDUser>(LDUser.class, theClass.createdBy.id);
+		theClass.m_modifiedBy = m;
+		theClass.m_modified = new Date();
+		theClass.m_operations = new Vector<Key<UMLOperation>>();
+		if(theClass.m_operations != null)
+			for(UMLOperation o: theClass.operations) {
+				o.id = AutoIncrement.getNextId(UMLOperation.class);
+				theClass.m_operations.add((Key<UMLOperation>) dba.put(o));
+			}
+		theClass.m_attributes = new Vector<Key<UMLAttribute>>();
+		if(theClass.m_attributes != null)
+			for(UMLAttribute a: theClass.attributes) {
+				a.id = AutoIncrement.getNextId(UMLAttribute.class);
+				theClass.m_attributes.add((Key<UMLAttribute>) dba.put(a));
+			}
+		
+		return theClass;
 	}
 
 }

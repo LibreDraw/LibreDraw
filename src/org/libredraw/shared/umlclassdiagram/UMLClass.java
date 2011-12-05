@@ -37,7 +37,7 @@ public class UMLClass extends UMLNode implements Serializable {
 	public transient Vector<Key<UMLOperation>> m_operations;
 	public transient Vector<Key<UMLAttribute>> m_attributes;
 	
-	boolean m_abstract;
+	public boolean m_abstract;
 	@Transient
 	public Vector<UMLOperation> operations;
 	@Transient
