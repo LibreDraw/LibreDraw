@@ -38,7 +38,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.googlecode.objectify.Key;
 
-public class newAssociationDialog extends DialogBox {
+public class EditAssociationDialog extends DialogBox {
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
@@ -57,10 +57,10 @@ public class newAssociationDialog extends DialogBox {
 	List<DiagramEntity> entities;
 
 	interface newAssociationDialogUiBinder extends
-			UiBinder<Widget, newAssociationDialog> {
+			UiBinder<Widget, EditAssociationDialog> {
 	}
 
-	public newAssociationDialog(long branch, List<DiagramEntity> entities) {
+	public EditAssociationDialog(long branch, List<DiagramEntity> entities, Key<?> entity) {
 		setWidget(uiBinder.createAndBindUi(this));
 		
 		this.setAnimationEnabled(true);

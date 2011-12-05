@@ -19,7 +19,6 @@ package org.libredraw.client;
 
 import java.util.Date;
 import java.util.List;
-
 import org.libredraw.client.umlclassdiagram.DiagramView;
 import org.libredraw.shared.Diagram;
 import com.google.gwt.cell.client.CheckboxCell;
@@ -41,7 +40,11 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.view.client.CellPreviewEvent;
+import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.ProvidesKey;
+import com.google.gwt.view.client.SelectionModel;
 
 public class DiagramList extends Composite {
 	
@@ -59,7 +62,9 @@ public class DiagramList extends Composite {
 	long thisProject = 0;
 	List<Diagram> diagramList;
 	Date clickTracker = null;
-	static DiagramList instance = null;
+	private static DiagramList instance = null;
+	
+	
 
 	interface DiagramListUiBinder extends UiBinder<Widget, DiagramList> {
 	}
@@ -80,6 +85,18 @@ public class DiagramList extends Composite {
 		
 		DiagramList.onResize();
 		
+		ProvidesKey<Diagram> KEY_PROVIDER = new ProvidesKey<Diagram>() {
+			public Object getKey(Diagram d) {
+				return d.id;
+			}
+		};
+		
+		final SelectionModel<Diagram> selectionModel = new MultiSelectionModel<Diagram>(
+				KEY_PROVIDER);
+		;
+		table.setSelectionModel(selectionModel,
+				DefaultSelectionEventManager.<Diagram> createCheckboxManager());
+		
 		Window.addResizeHandler(new ResizeHandler() {
 			public void onResize(ResizeEvent event) {
 				DiagramList.onResize();
@@ -90,7 +107,7 @@ public class DiagramList extends Composite {
 			new CheckboxCell(true, false)) {
 				@Override
 				public Boolean getValue(Diagram d) {
-					return false;
+					return selectionModel.isSelected(d);
 				}
 		};
 		
@@ -158,10 +175,11 @@ public class DiagramList extends Composite {
 						else {
 							long difference = new Date().getTime() - clickTracker.getTime();
 							if(difference <= 500){
-								Diagram thisProject = event.getValue();
-								DiagramView.getInstance().setBranch(thisProject.master);
+								Diagram thisDiagram = event.getValue();
+								DiagramView.getInstance().setBranch(thisDiagram.master);
 								RootPanel.get("body").add(DiagramView.getInstance());
 								myRemove();
+								BreadCrumb.getInstance().registerDiagram(thisDiagram.m_name, "MASTER");
 							}
 							else
 								clickTracker = new Date();
@@ -182,6 +200,26 @@ public class DiagramList extends Composite {
 			@Override
 			public void execute() {
 				refresh();
+			}
+		});
+		
+		editMenu.setCommand(new Command() {
+			@Override
+			public void execute() {
+				int count = 0;
+				Diagram selectedDiagram = null;
+				for(Diagram d : diagramList) {
+					if(table.getSelectionModel().isSelected(d)) {
+						selectedDiagram = d;
+						count++;
+					}
+				}
+				if(count>1) {
+					Window.alert("Please select only one project to edit.");
+					return;
+				}
+				if(selectedDiagram != null)
+					TableView.registerDialog(new EditDiagramDialog(selectedDiagram));
 			}
 		});
 		

@@ -25,7 +25,7 @@ import org.libredraw.client.StackTrace;
 import org.libredraw.client.TableView;
 import org.libredraw.shared.umlclassdiagram.UMLAttribute;
 import org.libredraw.shared.umlclassdiagram.UMLAttributeParser;
-import org.libredraw.shared.umlclassdiagram.UMLClass;
+import org.libredraw.shared.umlclassdiagram.UMLInterface;
 import org.libredraw.shared.umlclassdiagram.UMLOperation;
 import org.libredraw.shared.umlclassdiagram.UMLOperationParser;
 import org.libredraw.shared.umlclassdiagram.UMLVisibility;
@@ -44,10 +44,9 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.CheckBox;
 
 @SuppressWarnings("deprecation")
-public class newClassDialog extends DialogBox {
+public class NewInterfaceDialog extends DialogBox {
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
@@ -62,7 +61,6 @@ public class newClassDialog extends DialogBox {
 	@UiField VerticalPanel attributePanel;
 	@UiField VerticalPanel operationPanel;
 	@UiField Label errorLabel;
-	@UiField CheckBox abstractCheckBox;
 	ClickListenerImpl removeButtonListener;
 	Vector<TextBox> attributeTexts;
 	Vector<TextBox> operationTexts;
@@ -76,17 +74,17 @@ public class newClassDialog extends DialogBox {
 		}
 	}
 	
-	interface newClassDialogUiBinder extends UiBinder<Widget, newClassDialog> {
+	interface newClassDialogUiBinder extends UiBinder<Widget, NewInterfaceDialog> {
 	}
 
-	public newClassDialog(long branch) {
+	public NewInterfaceDialog(long branch) {
 		setWidget(uiBinder.createAndBindUi(this));
 		this.setAnimationEnabled(true);
 		this.setAnimationEnabled(true);
 		this.setGlassEnabled(true);
 		this.center();
 		
-		this.setText("New UML Class");
+		this.setText("New UML Interface");
 		
 		removeButtonListener = new ClickListenerImpl();
 		
@@ -174,8 +172,8 @@ public class newClassDialog extends DialogBox {
 			}
 		}
 		
-		UMLClass thisClass = new UMLClass(nameTextBox.getText(), UMLVisibility.Public, abstractCheckBox.getValue(), operations, attributes, null);
-		LibreRPCService.addClass(ClientSession.getInstance().getSessionId(), thisBranch, thisClass, new AsyncCallback<String>() {
+		UMLInterface thisInterface = new UMLInterface(nameTextBox.getText(), UMLVisibility.Public, operations, attributes, null);
+		LibreRPCService.addInterface(ClientSession.getInstance().getSessionId(), thisBranch, thisInterface, new AsyncCallback<String>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				TableView.registerErrorDialog(new StackTrace(caught));

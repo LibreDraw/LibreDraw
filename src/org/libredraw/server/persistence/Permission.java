@@ -20,6 +20,9 @@ package org.libredraw.server.persistence;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.libredraw.shared.LDUser;
+import org.libredraw.shared.PermissionRecord;
+
 
 @Entity
 public class Permission
@@ -32,7 +35,7 @@ public class Permission
 	static public int OWNER = 32;
 	static public int ALL = READ + WRITE + BRANCH + MERGE + EXPORT;
 	
-	int code;
+	public int code;
 	
 	@Id public long id;
 	
@@ -49,5 +52,22 @@ public class Permission
 		if((code & permission) == permission)
 			return true;
 		return false;
+	}
+	
+	public PermissionRecord getRecord(LDUser u) {
+		PermissionRecord result = new PermissionRecord(u);
+		if(containsPermission(READ))
+			result.READ = true;
+		if(containsPermission(WRITE))
+			result.WRITE = true;
+		if(containsPermission(BRANCH))
+			result.BRANCH = true;
+		if(containsPermission(MERGE))
+			result.MERGE = true;
+		if(containsPermission(EXPORT))
+			result.EXPORT = true;
+		if(containsPermission(OWNER))
+			result.OWNER = true;
+		return result;
 	}
 }

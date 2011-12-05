@@ -22,6 +22,14 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:HTMLPanel>
-	</g:HTMLPanel>
+	<g:HorizontalPanel>
+		<g:HorizontalPanel>
+			<g:Label text="Project List" ui:field="projectListText"/>
+			<g:Hyperlink text="ProjectList" targetHistoryToken="newHistoryToken" ui:field="projectListHyperLink" visible="false"/>
+		</g:HorizontalPanel>
+		<g:Label text=" &gt; " ui:field="projectCarrot" visible="false"/>
+		<g:Hyperlink text="Project Name" targetHistoryToken="newHistoryToken" ui:field="projectHyperLink" visible="false"/>
+		<g:Label text=" &gt; " ui:field="diagramCarrot" visible="false"/>
+		<g:Label text="DiagramName(MASTER)" ui:field="diagramText" visible="false"/>
+	</g:HorizontalPanel>
 </ui:UiBinder> 

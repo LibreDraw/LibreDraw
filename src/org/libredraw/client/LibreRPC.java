@@ -22,6 +22,7 @@ import java.util.List;
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.DiagramEntity;
+import org.libredraw.shared.PermissionRecord;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.umlclassdiagram.UMLAssociation;
 import org.libredraw.shared.umlclassdiagram.UMLClass;
@@ -73,6 +74,20 @@ public interface LibreRPC extends RemoteService {
 	
 	boolean updateUMLAssociation(String sessionId, long branch, UMLAssociation theAssociation);
 	
+	List<PermissionRecord> getPermissionsForProject(String sessionId, long project);
+	
+	List<PermissionRecord> getPermissionsForDiagram(String sessionId, long diagram);
+	
+	boolean putPermissionsProject(String sessionId, long project, List<PermissionRecord> permissions);
+	
+	boolean putPermissionsDiagram(String sessionId, long diagram, List<PermissionRecord> permissions);
+	
+	boolean userExists(String sessionId, String displayName);
+	
+	boolean changeNameProject(String sessionId, long project, String name);
+	
+	boolean changeNameDiagram(String sessionId, long diagram, String name);
+	
 
 	
 	
@@ -83,5 +98,7 @@ public interface LibreRPC extends RemoteService {
 	Diagram getDiagram(long id);
 	
 	DiagramEntity getObject(Key<?> key);
+	
+	PermissionRecord getPermission(long id);
 
 }

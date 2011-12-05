@@ -494,6 +494,154 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		return false;
 	}
 	
+	@Override
+	public List<PermissionRecord> getPermissionsForProject(String sessionId, long project) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return null;
+		
+		//TODO permission check
+		
+		Query<Authorization> q = dba.getQuery(Authorization.class);
+		
+		List<PermissionRecord> result = new ArrayList<PermissionRecord>();
+		
+		for(Authorization a : q) {
+			if(a.m_regarding.getId() == project && "Project".equals(a.m_regarding.getKind())) {
+				Permission p = (Permission) dba.get(a.m_granted);
+				LDUser u = TransientUpdator.u((LDUser) dba.get(a.m_user));
+				result.add(p.getRecord(u));
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<PermissionRecord> getPermissionsForDiagram(String sessionId, long diagram) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return null;
+		
+		//TODO permission check
+		
+		Query<Authorization> q = dba.getQuery(Authorization.class);
+		
+		List<PermissionRecord> result = new ArrayList<PermissionRecord>();
+		
+		for(Authorization a : q) {
+			if(a.m_regarding.getId() == diagram && "Diagram".equals(a.m_regarding.getKind())) {
+				Permission p = (Permission) dba.get(a.m_granted);
+				LDUser u = TransientUpdator.u((LDUser) dba.get(a.m_user));
+				result.add(p.getRecord(u));
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public boolean putPermissionsProject(String sessionId, long project,
+			List<PermissionRecord> permissions) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return false;
+		
+		//TODO permission check
+		
+		Query<Authorization> q = dba.getQuery(Authorization.class);
+		
+		for(Authorization a : q) {
+			if(a.m_regarding.getId() == project && "Project".equals(a.m_regarding.getKind())) {
+				Permission p = (Permission) dba.get(a.m_granted);
+				for(PermissionRecord r: permissions) {
+					if(a.m_user.getId() == r.m_user.id && TransientUpdator.getPermission(r) != p.code) {
+						p.code = TransientUpdator.getPermission(r);
+					} else if(TransientUpdator.getPermission(r) != p.code) {
+						
+						dba.createAuthorization(new Key<LDUser>(LDUser.class, r.m_user.id),
+								new Key<Project>(Project.class, project), 
+								TransientUpdator.getPermission(r));
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public boolean putPermissionsDiagram(String sessionId, long diagram,
+			List<PermissionRecord> permissions) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return false;
+		
+		//TODO permission check
+		
+		Query<Authorization> q = dba.getQuery(Authorization.class);
+		
+		for(Authorization a : q) {
+			if(a.m_regarding.getId() == diagram && "Diagram".equals(a.m_regarding.getKind())) {
+				Permission p = (Permission) dba.get(a.m_granted);
+				for(PermissionRecord r: permissions) {
+					if(a.m_user.getId() == r.m_user.id && TransientUpdator.getPermission(r) != p.code) {
+						p.code = TransientUpdator.getPermission(r);
+					} else if(TransientUpdator.getPermission(r) != p.code) {
+						
+						dba.createAuthorization(new Key<LDUser>(LDUser.class, r.m_user.id),
+								new Key<Diagram>(Diagram.class, diagram), 
+								TransientUpdator.getPermission(r));
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public boolean userExists(String sessionId, String displayName) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return false;
+		
+		//TODO permission check
+		
+		Query<GenericAccountConnector> query = dba.getQuery(GenericAccountConnector.class);
+		
+		query = 
+				dba.getQuery(GenericAccountConnector.class).filter("m_displayName =", displayName);
+		if(query.get() != null)
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean changeNameProject(String sessionId, long project, String name) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return false;
+		
+		//TODO permission check
+		
+		Project thisProject = (Project) dba.get(new Key<Project>(Project.class, project));
+		thisProject.m_name = name;
+		dba.put(thisProject);
+		return true;
+	}
+
+	@Override
+	public boolean changeNameDiagram(String sessionId, long diagram, String name) {
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return false;
+		
+		//TODO permission check
+		
+		Diagram thisDiagram = (Diagram) dba.get(new Key<Diagram>(Diagram.class, diagram));
+		thisDiagram.m_name = name;
+		dba.put(thisDiagram);
+		return true;
+	}
+	
+	
 	
 	
 	
@@ -520,6 +668,12 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 
 	@Override
 	public UMLNode getNode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PermissionRecord getPermission(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

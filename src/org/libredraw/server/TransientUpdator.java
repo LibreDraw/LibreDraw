@@ -21,11 +21,13 @@ import java.util.Date;
 import java.util.Vector;
 import org.libredraw.server.persistence.AutoIncrement;
 import org.libredraw.server.persistence.DAO;
+import org.libredraw.server.persistence.Permission;
 import org.libredraw.shared.AccountConnector;
 import org.libredraw.shared.Branch;
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramEntity;
 import org.libredraw.shared.LDUser;
+import org.libredraw.shared.PermissionRecord;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.Version;
 import org.libredraw.shared.umlclassdiagram.UMLAssociation;
@@ -223,6 +225,23 @@ public final class TransientUpdator {
 			}
 		
 		return theClass;
+	}
+	
+	public static int getPermission(PermissionRecord p) {
+		int result = 0;
+		if(p.READ)
+			result += Permission.READ;
+		if(p.WRITE)
+			result += Permission.WRITE;
+		if(p.BRANCH)
+			result += Permission.BRANCH;
+		if(p.MERGE)
+			result += Permission.MERGE;
+		if(p.EXPORT)
+			result += Permission.EXPORT;
+		if(p.OWNER)
+			result += Permission.OWNER;
+		return result;
 	}
 
 }

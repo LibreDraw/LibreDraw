@@ -17,16 +17,31 @@
 
 package org.libredraw.client;
 
+import org.libredraw.client.umlclassdiagram.DiagramView;
+import org.libredraw.shared.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.Label;
 
 public class BreadCrumb extends Composite {
 
 	private static BreadCrumbUiBinder uiBinder = GWT
 			.create(BreadCrumbUiBinder.class);
+	@UiField Hyperlink projectHyperLink;
+	@UiField Hyperlink projectListHyperLink;
+	@UiField Label projectCarrot;
+	@UiField Label diagramCarrot;
+	@UiField Label diagramText;
+	@UiField Label projectListText;
 	private static BreadCrumb m_instance = null;
+	Project thisProject;
 
 	interface BreadCrumbUiBinder extends UiBinder<Widget, BreadCrumb> {
 	}
@@ -35,10 +50,46 @@ public class BreadCrumb extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	public BreadCrumb getInstance() {
+	public static BreadCrumb getInstance() {
 		if(m_instance == null)
 			m_instance = new BreadCrumb();
 		return m_instance;
+		
+		
 	}
-
+	@UiHandler("projectListHyperLink")
+	void onProjectListHyperLinkClick(ClickEvent event) {
+		DiagramView.getInstance().removeFromParent();
+		DiagramList.getInstance().removeFromParent();
+		RootPanel.get("body").add(ProjectList.getInstance());
+		projectHyperLink.setVisible(false);
+		projectCarrot.setVisible(false);
+		diagramText.setVisible(false);
+		diagramCarrot.setVisible(false);
+		projectListText.setVisible(true);
+		projectListHyperLink.setVisible(false);
+	}
+	@UiHandler("projectHyperLink")
+	void onProjectHyperLinkClick(ClickEvent event) {
+		DiagramView.getInstance().removeFromParent();
+		DiagramList.getInstance().setProject(thisProject.id);
+		RootPanel.get("body").add(DiagramList.getInstance());
+		diagramText.setVisible(false);
+		diagramCarrot.setVisible(false);
+	}
+	
+	public void registerProject(Project p) {
+		thisProject = p;
+		projectHyperLink.setText(thisProject.m_name);
+		projectHyperLink.setVisible(true);
+		projectCarrot.setVisible(true);
+		projectListText.setVisible(false);
+		projectListHyperLink.setVisible(true);
+	}
+	
+	public void registerDiagram(String name, String branchName) {
+		diagramText.setText(name + "(" + branchName +")");
+		diagramText.setVisible(true);
+		diagramCarrot.setVisible(true);
+	}
 }

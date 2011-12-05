@@ -25,7 +25,7 @@ import org.libredraw.client.StackTrace;
 import org.libredraw.client.TableView;
 import org.libredraw.shared.umlclassdiagram.UMLAttribute;
 import org.libredraw.shared.umlclassdiagram.UMLAttributeParser;
-import org.libredraw.shared.umlclassdiagram.UMLInterface;
+import org.libredraw.shared.umlclassdiagram.UMLClass;
 import org.libredraw.shared.umlclassdiagram.UMLOperation;
 import org.libredraw.shared.umlclassdiagram.UMLOperationParser;
 import org.libredraw.shared.umlclassdiagram.UMLVisibility;
@@ -44,9 +44,11 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.googlecode.objectify.Key;
 
 @SuppressWarnings("deprecation")
-public class newInterfaceDialog extends DialogBox {
+public class EditClassDialog extends DialogBox {
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
@@ -61,32 +63,40 @@ public class newInterfaceDialog extends DialogBox {
 	@UiField VerticalPanel attributePanel;
 	@UiField VerticalPanel operationPanel;
 	@UiField Label errorLabel;
-	ClickListenerImpl removeButtonListener;
+	@UiField CheckBox abstractCheckBox;
 	Vector<TextBox> attributeTexts;
 	Vector<TextBox> operationTexts;
 	long thisBranch;
+	UMLClass thisClass;
 
 	private final class ClickListenerImpl implements ClickListener {
+		TextBox m_textBox;
+		public ClickListenerImpl(TextBox b) {
+			m_textBox = b;
+		}
+
 		@Override
 		public void onClick(Widget sender) {
 			HorizontalPanel h = (HorizontalPanel) sender.getParent();
 			h.removeFromParent();
+			if(attributeTexts.contains(m_textBox))
+				attributeTexts.remove(m_textBox);
+			if(operationTexts.contains(m_textBox))
+				operationTexts.remove(m_textBox);
 		}
 	}
 	
-	interface newClassDialogUiBinder extends UiBinder<Widget, newInterfaceDialog> {
+	interface newClassDialogUiBinder extends UiBinder<Widget, EditClassDialog> {
 	}
 
-	public newInterfaceDialog(long branch) {
+	public EditClassDialog(Key<?> entityKey, long branch) {
 		setWidget(uiBinder.createAndBindUi(this));
 		this.setAnimationEnabled(true);
 		this.setAnimationEnabled(true);
 		this.setGlassEnabled(true);
 		this.center();
 		
-		this.setText("New UML Interface");
-		
-		removeButtonListener = new ClickListenerImpl();
+		this.setText("Edit UML Class");
 		
 		attributeTexts = new Vector<TextBox>();
 		attributeTexts.add(atributeTextBox);
@@ -94,10 +104,49 @@ public class newInterfaceDialog extends DialogBox {
 		operationTexts = new Vector<TextBox>();
 		operationTexts.add(operationsTextBox);
 		thisBranch = branch;
+		
+		LibreRPCService.getUMLClass(ClientSession.getInstance().getSessionId(), 
+				entityKey.getId(), new AsyncCallback<UMLClass>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				TableView.registerErrorDialog(new StackTrace(caught));
+			}
+			@Override
+			public void onSuccess(UMLClass result) {
+				thisClass = result;
+				populateBoxes();
+			}
+		});
+	}
+	
+	private void populateBoxes() {
+		int count = 0;
+		for(UMLAttribute a:thisClass.attributes) {
+			if(count == 0)
+				atributeTextBox.setText(a.toString());
+			else
+				addNewAttributeBox(a.toString());
+			count++;
+		}
+		count = 0;
+		for(UMLOperation o:thisClass.operations) {
+			if(count == 0)
+				operationsTextBox.setText(o.toString());
+			else
+				addNewOperationBox(o.toString());
+			count++;
+		}
+		nameTextBox.setText(thisClass.m_name);
+		abstractCheckBox.setValue(thisClass.m_abstract);
+		this.center();
 	}
 
 	@UiHandler("attributeAddButton")
 	void onAttributeAddButtonClick(ClickEvent event) {
+		addNewAttributeBox("");
+	}
+	
+	private void addNewAttributeBox(String string) {
 		HorizontalPanel h = new HorizontalPanel();
 		AbsolutePanel spacer = new AbsolutePanel();
 		spacer.setWidth("94px");
@@ -105,17 +154,22 @@ public class newInterfaceDialog extends DialogBox {
 		TextBox text = new TextBox();
 		text.setHeight("16px");
 		text.setWidth("170px");
+		text.setText(string);
 		attributeTexts.add(text);
 		h.add(text);
-		Button remove = new Button("-", removeButtonListener);
+		Button remove = new Button("-", new ClickListenerImpl(text));
 		remove.setHeight("28px");
 		remove.setWidth("28px");
 		h.add(remove);
 		attributePanel.add(h);
 	}
-	
+
 	@UiHandler("newOperationButton")
 	void onNewOperationButtonClick(ClickEvent event) {
+		addNewOperationBox("");
+	}
+	
+	private void addNewOperationBox(String string) {
 		HorizontalPanel h = new HorizontalPanel();
 		AbsolutePanel spacer = new AbsolutePanel();
 		spacer.setWidth("94px");
@@ -125,13 +179,13 @@ public class newInterfaceDialog extends DialogBox {
 		text.setWidth("170px");
 		operationTexts.add(text);
 		h.add(text);
-		Button remove = new Button("-", removeButtonListener);
+		Button remove = new Button("-", new ClickListenerImpl(text));
 		remove.setHeight("28px");
 		remove.setWidth("28px");
 		h.add(remove);
 		operationPanel.add(h);
 	}
-	
+
 	@UiHandler("cancelButton")
 	void onCancelButtonClick(ClickEvent event) {
 		this.removeFromParent();
@@ -172,25 +226,29 @@ public class newInterfaceDialog extends DialogBox {
 			}
 		}
 		
-		UMLInterface thisInterface = new UMLInterface(nameTextBox.getText(), UMLVisibility.Public, operations, attributes, null);
-		LibreRPCService.addInterface(ClientSession.getInstance().getSessionId(), thisBranch, thisInterface, new AsyncCallback<String>() {
+		thisClass.m_name = nameTextBox.getText();
+		thisClass.m_visibility = UMLVisibility.Public;
+		thisClass.m_abstract = abstractCheckBox.getValue();
+		thisClass.operations = operations;
+		thisClass.attributes = attributes;
+		LibreRPCService.updateUMLClass(ClientSession.getInstance().getSessionId(), 
+				thisBranch, thisClass, new AsyncCallback<Boolean>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				TableView.registerErrorDialog(new StackTrace(caught));
 			}
-
 			@Override
-			public void onSuccess(String result) {
-				if("Sucsess".equals(result)) {
+			public void onSuccess(Boolean result) {
+				if(result) {
 					myHide();
 					DiagramView.getInstance().refresh();
 				}
 			}
-			
 		});
 	}
 	
 	void myHide() {
 		this.removeFromParent();
 	}
+	
 }

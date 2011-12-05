@@ -70,7 +70,7 @@ public class NewProjectDialog extends DialogBox {
 						public void onSuccess(String result) {
 							if(result != null) {
 								myHide();
-								ProjectList.getInstace().refresh();
+								ProjectList.getInstance().refresh();
 							} else
 								errorLabel.setText("Create failed :'(");
 						}

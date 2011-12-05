@@ -50,8 +50,9 @@ public class TableView implements EntryPoint {
 				}
 		});
 		
-		RootPanel.get("body").add(ProjectList.getInstace());
+		RootPanel.get("body").add(ProjectList.getInstance());
 		RootPanel.get("logout").add(new Logout());
+		RootPanel.get("breadCrumbsm").add(BreadCrumb.getInstance());
 	}
 	
 	public static void navigateTo() {

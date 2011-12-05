@@ -19,8 +19,6 @@ package org.libredraw.client;
 
 import java.util.Date;
 import java.util.List;
-
-import org.libredraw.client.umlclassdiagram.DiagramView;
 import org.libredraw.shared.Project;
 import com.gargoylesoftware.htmlunit.javascript.host.Event;
 import com.google.gwt.cell.client.CheckboxCell;
@@ -42,7 +40,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.CellPreviewEvent;
+import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.ProvidesKey;
+import com.google.gwt.view.client.SelectionModel;
 
 public class ProjectList extends Composite {
 	
@@ -62,12 +64,12 @@ public class ProjectList extends Composite {
 	List<Project> projectList;
 	Date clickTracker = null;
 	
-	static ProjectList instance = null;
+	private static ProjectList instance = null;
 
 	interface ProjectListUiBinder extends UiBinder<Widget, ProjectList> {
 	}
 	
-	public static ProjectList getInstace() {
+	public static ProjectList getInstance() {
 		if(instance == null)
 			instance = new ProjectList();
 		return instance;
@@ -84,11 +86,22 @@ public class ProjectList extends Composite {
 			}
 		});
 		
+		ProvidesKey<Project> KEY_PROVIDER = new ProvidesKey<Project>() {
+			public Object getKey(Project p) {
+				return p.id;
+			}
+		};
+		
+		final SelectionModel<Project> selectionModel = new MultiSelectionModel<Project>(
+				KEY_PROVIDER);
+		table.setSelectionModel(selectionModel,
+			DefaultSelectionEventManager.<Project> createCheckboxManager());
+		
 		Column<Project, Boolean> checkColumn = new Column<Project, Boolean>( 
 			new CheckboxCell(true, false)) {
 				@Override
-				public Boolean getValue(Project object) {
-					return false;
+				public Boolean getValue(Project p) {
+					return selectionModel.isSelected(p);
 				}
 		};
 				
@@ -153,6 +166,7 @@ public class ProjectList extends Composite {
 								DiagramList.getInstance().setProject(thisProject.id);
 								myRemove();
 								RootPanel.get("body").add(DiagramList.getInstance());
+								BreadCrumb.getInstance().registerProject(thisProject);
 							}
 							else
 								clickTracker = new Date();
@@ -172,11 +186,31 @@ public class ProjectList extends Composite {
 				refresh();
 			}
 		});
-		archiveMenu.setCommand(new Command() {
+		/*archiveMenu.setCommand(new Command() {
 			public void execute() {
 				DiagramView.getInstance().setBranch(1l);
 				myRemove();
 				RootPanel.get("body").add(DiagramView.getInstance());
+			}
+		});*/
+		
+		editMenu.setCommand(new Command() {
+			@Override
+			public void execute() {
+				int count = 0;
+				Project selectedProject = null;
+				for(Project p : projectList) {
+					if(table.getSelectionModel().isSelected(p)) {
+						selectedProject = p;
+						count++;
+					}
+				}
+				if(count>1) {
+					Window.alert("Please select only one project to edit.");
+					return;
+				}
+				if(selectedProject != null)
+					TableView.registerDialog(new EditProjectDialog(selectedProject));
 			}
 		});
 		

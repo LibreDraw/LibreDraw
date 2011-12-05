@@ -19,6 +19,8 @@ package org.libredraw.shared.umlclassdiagram;
 
 import java.io.Serializable;
 import java.util.Vector;
+
+import javax.jdo.annotations.Serialized;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -32,6 +34,7 @@ public class UMLOperation implements Serializable {
 	String m_name;
 	String m_returnType;
 	String m_returnTypeMultiplicity;
+	@Serialized
 	Vector<UMLOperationParameter> m_parameters;
 	UMLVisibility m_visibility;
 	

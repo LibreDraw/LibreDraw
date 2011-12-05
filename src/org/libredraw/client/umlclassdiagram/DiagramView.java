@@ -176,21 +176,21 @@ public class DiagramView extends Composite {
 		newClassMenu.setCommand(new Command() {
 			@Override
 			public void execute() {
-				TableView.registerDialog(new newClassDialog(thisBranch));
+				TableView.registerDialog(new NewClassDialog(thisBranch));
 			}
 		});
 		
 		newInterfaceMenu.setCommand(new Command() {
 			@Override
 			public void execute() {
-				TableView.registerDialog(new newInterfaceDialog(thisBranch));
+				TableView.registerDialog(new NewInterfaceDialog(thisBranch));
 			}	
 		});
 		
 		newAssociationMenu.setCommand(new Command() {
 			@Override
 			public void execute() {
-				TableView.registerDialog(new newAssociationDialog(thisBranch, entities));
+				TableView.registerDialog(new NewAssociationDialog(thisBranch, entities));
 			}
 		});
 		
@@ -208,7 +208,7 @@ public class DiagramView extends Composite {
 			}
 			@Override
 			public void onSuccess(Boolean result) {
-				TableView.registerDialog(new editClassDialog(entityCalled, thisBranch));
+				TableView.registerDialog(new EditClassDialog(entityCalled, thisBranch));
 				
 			}
 		};
@@ -220,7 +220,7 @@ public class DiagramView extends Composite {
 			}
 			@Override
 			public void onSuccess(Boolean result) {
-				TableView.registerDialog(new editInterfaceDialog(entityCalled, thisBranch));
+				TableView.registerDialog(new EditInterfaceDialog(entityCalled, thisBranch));
 			}
 		};
 		
@@ -231,7 +231,7 @@ public class DiagramView extends Composite {
 			}
 			@Override
 			public void onSuccess(Boolean result) {
-				TableView.registerDialog(new editAssociationDialog(thisBranch, entities, entityCalled));
+				TableView.registerDialog(new EditAssociationDialog(thisBranch, entities, entityCalled));
 			}
 		};
 		
