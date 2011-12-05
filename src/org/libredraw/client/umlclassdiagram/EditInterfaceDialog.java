@@ -25,12 +25,14 @@ import org.libredraw.client.StackTrace;
 import org.libredraw.client.TableView;
 import org.libredraw.shared.umlclassdiagram.UMLAttribute;
 import org.libredraw.shared.umlclassdiagram.UMLAttributeParser;
+import org.libredraw.shared.umlclassdiagram.UMLClass;
 import org.libredraw.shared.umlclassdiagram.UMLInterface;
 import org.libredraw.shared.umlclassdiagram.UMLOperation;
 import org.libredraw.shared.umlclassdiagram.UMLOperationParser;
 import org.libredraw.shared.umlclassdiagram.UMLVisibility;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -66,12 +68,22 @@ public class EditInterfaceDialog extends DialogBox {
 	Vector<TextBox> attributeTexts;
 	Vector<TextBox> operationTexts;
 	long thisBranch;
+	UMLInterface thisInterface;
 
 	private final class ClickListenerImpl implements ClickListener {
+		TextBox m_textBox;
+		public ClickListenerImpl(TextBox b) {
+			m_textBox = b;
+		}
+
 		@Override
 		public void onClick(Widget sender) {
 			HorizontalPanel h = (HorizontalPanel) sender.getParent();
 			h.removeFromParent();
+			if(attributeTexts.contains(m_textBox))
+				attributeTexts.remove(m_textBox);
+			if(operationTexts.contains(m_textBox))
+				operationTexts.remove(m_textBox);
 		}
 	}
 	
@@ -85,9 +97,7 @@ public class EditInterfaceDialog extends DialogBox {
 		this.setGlassEnabled(true);
 		this.center();
 		
-		this.setText("New UML Interface");
-		
-		removeButtonListener = new ClickListenerImpl();
+		this.setText("Edit UML Interface");
 		
 		attributeTexts = new Vector<TextBox>();
 		attributeTexts.add(atributeTextBox);
@@ -95,10 +105,48 @@ public class EditInterfaceDialog extends DialogBox {
 		operationTexts = new Vector<TextBox>();
 		operationTexts.add(operationsTextBox);
 		thisBranch = branch;
+		
+		LibreRPCService.getUMLInterface(ClientSession.getInstance().getSessionId(), 
+				entity.getId(), new AsyncCallback<UMLInterface>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				TableView.registerErrorDialog(new StackTrace(caught));
+			}
+			@Override
+			public void onSuccess(UMLInterface result) {
+				thisInterface = result;
+				populateBoxes();
+			}
+		});
+	}
+	
+	private void populateBoxes() {
+		int count = 0;
+		for(UMLAttribute a:thisInterface.attributes) {
+			if(count == 0)
+				atributeTextBox.setText(a.toString());
+			else
+				addNewAttributeBox(a.toString());
+			count++;
+		}
+		count = 0;
+		for(UMLOperation o:thisInterface.operations) {
+			if(count == 0)
+				operationsTextBox.setText(o.toString());
+			else
+				addNewOperationBox(o.toString());
+			count++;
+		}
+		nameTextBox.setText(thisInterface.m_name);
+		this.center();
 	}
 
 	@UiHandler("attributeAddButton")
 	void onAttributeAddButtonClick(ClickEvent event) {
+		addNewAttributeBox("");
+	}
+	
+	private void addNewAttributeBox(String string) {
 		HorizontalPanel h = new HorizontalPanel();
 		AbsolutePanel spacer = new AbsolutePanel();
 		spacer.setWidth("94px");
@@ -106,9 +154,10 @@ public class EditInterfaceDialog extends DialogBox {
 		TextBox text = new TextBox();
 		text.setHeight("16px");
 		text.setWidth("170px");
+		text.setText(string);
 		attributeTexts.add(text);
 		h.add(text);
-		Button remove = new Button("-", removeButtonListener);
+		Button remove = new Button("-", new ClickListenerImpl(text));
 		remove.setHeight("28px");
 		remove.setWidth("28px");
 		h.add(remove);
@@ -117,6 +166,10 @@ public class EditInterfaceDialog extends DialogBox {
 	
 	@UiHandler("newOperationButton")
 	void onNewOperationButtonClick(ClickEvent event) {
+		addNewOperationBox("");
+	}
+	
+	private void addNewOperationBox(String string) {
 		HorizontalPanel h = new HorizontalPanel();
 		AbsolutePanel spacer = new AbsolutePanel();
 		spacer.setWidth("94px");
@@ -126,7 +179,7 @@ public class EditInterfaceDialog extends DialogBox {
 		text.setWidth("170px");
 		operationTexts.add(text);
 		h.add(text);
-		Button remove = new Button("-", removeButtonListener);
+		Button remove = new Button("-", new ClickListenerImpl(text));
 		remove.setHeight("28px");
 		remove.setWidth("28px");
 		h.add(remove);
@@ -135,7 +188,21 @@ public class EditInterfaceDialog extends DialogBox {
 	
 	@UiHandler("cancelButton")
 	void onCancelButtonClick(ClickEvent event) {
-		this.removeFromParent();
+		LibreRPCService.unlock(ClientSession.getInstance().getSessionId(), 
+				thisInterface.entityKey, 
+				new AsyncCallback<Boolean>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				TableView.registerErrorDialog(new StackTrace(caught));
+			}
+			@Override
+			public void onSuccess(Boolean result) {
+				if(result)
+					myHide();
+				else
+					Window.alert("Generic error.");
+			}
+		});
 	}
 	
 	@UiHandler("submitButton")
@@ -173,21 +240,23 @@ public class EditInterfaceDialog extends DialogBox {
 			}
 		}
 		
-		UMLInterface thisInterface = new UMLInterface(nameTextBox.getText(), UMLVisibility.Public, operations, attributes, null);
-		LibreRPCService.addInterface(ClientSession.getInstance().getSessionId(), thisBranch, thisInterface, new AsyncCallback<String>() {
+		thisInterface.m_name = nameTextBox.getText();
+		thisInterface.m_visibility = UMLVisibility.Public;
+		thisInterface.operations = operations;
+		thisInterface.attributes = attributes;
+		LibreRPCService.updateUMLInterface(ClientSession.getInstance().getSessionId(), 
+				thisBranch, thisInterface, new AsyncCallback<Boolean>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				TableView.registerErrorDialog(new StackTrace(caught));
 			}
-
 			@Override
-			public void onSuccess(String result) {
-				if("Sucsess".equals(result)) {
+			public void onSuccess(Boolean result) {
+				if(result) {
 					myHide();
 					DiagramView.getInstance().refresh();
 				}
 			}
-			
 		});
 	}
 	

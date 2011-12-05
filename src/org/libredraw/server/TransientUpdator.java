@@ -133,8 +133,14 @@ public final class TransientUpdator {
 	}
 	
 	public static UMLAssociation u(UMLAssociation a) {
-		a.right = (DiagramEntity) dba.get(a.m_right);
-		a.left = (DiagramEntity) dba.get(a.m_left);
+		if("UMLClass".equals(a.m_rightKind))
+			a.right = (DiagramEntity) dba.get(new Key<UMLClass>(UMLClass.class, a.m_right.getId()));
+		if("UMLInterface".equals(a.m_rightKind))
+			a.right = (DiagramEntity) dba.get(new Key<UMLInterface>(UMLInterface.class, a.m_right.getId()));
+		if("UMLClass".equals(a.m_leftKind))
+			a.left = (DiagramEntity) dba.get(new Key<UMLClass>(UMLClass.class, a.m_left.getId()));
+		if("UMLInterface".equals(a.m_leftKind))
+			a.left = (DiagramEntity) dba.get(new Key<UMLInterface>(UMLInterface.class, a.m_left.getId()));
 		return (UMLAssociation) u((DiagramEntity)a);
 	}
 	
@@ -212,10 +218,11 @@ public final class TransientUpdator {
 	@SuppressWarnings("unchecked")
 	public static UMLClass p(UMLClass theClass, Key<LDUser> m) {
 		theClass.id = AutoIncrement.getNextId(UMLClass.class);
-		theClass.m_createdBy = new Key<LDUser>(LDUser.class, theClass.createdBy.id);
+		if(theClass.createdBy!=null)
+			theClass.m_createdBy = new Key<LDUser>(LDUser.class, theClass.createdBy.id);
 		theClass.m_modifiedBy = m;
 		theClass.m_modified = new Date();
-		theClass.m_operations = new Vector<Key<UMLOperation>>();
+		
 		if(theClass.m_operations != null)
 			for(UMLOperation o: theClass.operations) {
 				o.id = AutoIncrement.getNextId(UMLOperation.class);
@@ -229,6 +236,46 @@ public final class TransientUpdator {
 			}
 		
 		return theClass;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static UMLAssociation p(UMLAssociation theAssociation, Key<LDUser> m) {
+		theAssociation.id = AutoIncrement.getNextId(UMLAssociation.class);
+		if(theAssociation.createdBy !=null)
+		theAssociation.m_createdBy = new Key<LDUser>(LDUser.class, theAssociation.createdBy.id);
+		theAssociation.m_modifiedBy = m;
+		theAssociation.m_modified = new Date();
+		
+		theAssociation.m_left = (Key<DiagramEntity>) theAssociation.left.entityKey;
+		theAssociation.m_leftKind = theAssociation.left.entityKey.getKind();
+		theAssociation.m_right = (Key<DiagramEntity>) theAssociation.right.entityKey;
+		theAssociation.m_rightKind = theAssociation.right.entityKey.getKind();
+		
+		return theAssociation;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static UMLInterface p(UMLInterface theInterface, Key<LDUser> m) {
+		theInterface.id = AutoIncrement.getNextId(UMLInterface.class);
+		if(theInterface.createdBy != null)
+			theInterface.m_createdBy = new Key<LDUser>(LDUser.class, theInterface.createdBy.id);
+		theInterface.m_modifiedBy = m;
+		theInterface.m_modified = new Date();
+		
+		theInterface.m_operations = new Vector<Key<UMLOperation>>();
+		if(theInterface.m_operations != null)
+			for(UMLOperation o: theInterface.operations) {
+				o.id = AutoIncrement.getNextId(UMLOperation.class);
+				theInterface.m_operations.add((Key<UMLOperation>) dba.put(o));
+			}
+		theInterface.m_attributes = new Vector<Key<UMLAttribute>>();
+		if(theInterface.m_attributes != null)
+			for(UMLAttribute a: theInterface.attributes) {
+				a.id = AutoIncrement.getNextId(UMLAttribute.class);
+				theInterface.m_attributes.add((Key<UMLAttribute>) dba.put(a));
+			}
+		
+		return theInterface;
 	}
 	
 	public static int getPermission(PermissionRecord p) {

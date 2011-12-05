@@ -24,6 +24,7 @@ import javax.persistence.Id;
 
 @Entity
 public class UMLEnumerationLiteral implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id public long id;
 	public boolean locked;
 	public boolean limited;

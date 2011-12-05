@@ -35,8 +35,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.googlecode.objectify.Key;
+import com.google.gwt.event.dom.client.ClickEvent;;
 
 public class NewAssociationDialog extends DialogBox {
 	
@@ -95,10 +94,9 @@ public class NewAssociationDialog extends DialogBox {
 		this.entities = entities;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@UiHandler("submitButton")
 	void onSubmitButtonClick(ClickEvent event) {
-		Key<DiagramEntity> one = null, two = null;
+		DiagramEntity one = null, two = null;
 		if("Select and entity:".equals(entityOneComboBox.getValue(entityOneComboBox.getSelectedIndex()))) {
 			//TODO error
 		}
@@ -111,44 +109,45 @@ public class NewAssociationDialog extends DialogBox {
 		String oneName = entityOneComboBox.getValue(entityOneComboBox.getSelectedIndex());
 		for(DiagramEntity d : entities) {
 			if(d.m_name.equals(oneName))
-				one = (Key<DiagramEntity>) d.entityKey;
+				one =  d;
 		}
 		String twoName = entityTwoComboBox.getValue(entityTwoComboBox.getSelectedIndex());
 		for(DiagramEntity d : entities) {
 			if(d.m_name.equals(twoName))
-				two = (Key<DiagramEntity>) d.entityKey;
+				two = d;
 		}
 		if(one == null || two == null) {
 			//TODO error
-		}
-		UMLAssociation a = new UMLAssociation(
-				nameTextBox.getText(),
-				one,
-				two,
-				entityOneNameTextBox.getText(),
-				entityOneMultiplicityTextBox.getText(),
-				entityTwoNameTextBox.getText(),
-				entityTwoMultiplicityTextBox.getText(),
-				getType(entityTwoComboBox.getValue(entityTwoComboBox.getSelectedIndex())),
-				null);
-		
-		
-		LibreRPCService.addAssocation(ClientSession.getInstance().getSessionId(),
-				thisBranch, a, new AsyncCallback<String>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						TableView.registerDialog(new StackTrace(caught));
-					}
-					@Override
-					public void onSuccess(String result) {
-						if("Sucsess".equals(result))
-						{
-							myHide();
-							DiagramView.getInstance().refresh();
+		} else {
+			UMLAssociation a = new UMLAssociation(
+					nameTextBox.getText(),
+					one,
+					two,
+					entityOneNameTextBox.getText(),
+					entityOneMultiplicityTextBox.getText(),
+					entityTwoNameTextBox.getText(),
+					entityTwoMultiplicityTextBox.getText(),
+					getType(typeComboBox.getValue(typeComboBox.getSelectedIndex())),
+					null);
+			
+			
+			LibreRPCService.addAssocation(ClientSession.getInstance().getSessionId(),
+					thisBranch, a, new AsyncCallback<String>() {
+						@Override
+						public void onFailure(Throwable caught) {
+							TableView.registerDialog(new StackTrace(caught));
 						}
-						
-					}
-		});
+						@Override
+						public void onSuccess(String result) {
+							if("Sucsess".equals(result))
+							{
+								myHide();
+								DiagramView.getInstance().refresh();
+							}
+							
+						}
+			});
+		}
 	}
 	
 	private UMLAssociationType getType(String type) {

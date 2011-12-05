@@ -22,12 +22,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Vector;
 import org.libredraw.client.LibreRPC;
 import org.libredraw.server.persistence.*;
 import org.libredraw.shared.*;
 import org.libredraw.shared.umlclassdiagram.*;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Query;
@@ -209,20 +207,8 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		if(owner ==null)
 			return null;
 		//TODO Authorization check
-		theClass.id = AutoIncrement.getNextId(UMLClass.class);
-		theClass.m_operations = new Vector<Key<UMLOperation>>();
-		for(UMLOperation o : theClass.operations) {
-			o.id = AutoIncrement.getNextId(UMLOperation.class);
-			theClass.m_operations.add((Key<UMLOperation>) dba.put(o));
-		}
-		theClass.m_attributes = new Vector<Key<UMLAttribute>>();
-		for(UMLAttribute a : theClass.attributes) {
-			a.id = AutoIncrement.getNextId(UMLAttribute.class);
-			theClass.m_attributes.add((Key<UMLAttribute>) dba.put(a));
-		}
 		theClass.m_createdBy = owner;
-		theClass.m_modifiedBy = owner;
-		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(theClass);
+		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(TransientUpdator.p(theClass, owner));
 		
 		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
 		if(v == null) {
@@ -247,20 +233,9 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		if(owner ==null)
 			return null;
 		//TODO Authorization check
-		theInterface.id = AutoIncrement.getNextId(UMLInterface.class);
-		theInterface.m_operations = new Vector<Key<UMLOperation>>();
-		for(UMLOperation o : theInterface.operations) {
-			o.id = AutoIncrement.getNextId(UMLOperation.class);
-			theInterface.m_operations.add((Key<UMLOperation>) dba.put(o));
-		}
-		theInterface.m_attributes = new Vector<Key<UMLAttribute>>();
-		for(UMLAttribute a : theInterface.attributes) {
-			a.id = AutoIncrement.getNextId(UMLAttribute.class);
-			theInterface.m_attributes.add((Key<UMLAttribute>) dba.put(a));
-		}
+		
 		theInterface.m_createdBy = owner;
-		theInterface.m_modifiedBy = owner;
-		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(theInterface);
+		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(TransientUpdator.p(theInterface, owner));
 		
 		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
 		if(v == null) {
@@ -285,10 +260,8 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		Key<LDUser> owner = getUser(sessionId);
 		if(owner ==null)
 			return null;
-		theAssocation.id = AutoIncrement.getNextId(UMLAssociation.class);
 		theAssocation.m_createdBy = owner;
-		theAssocation.m_modifiedBy = owner;
-		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(theAssocation);
+		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(TransientUpdator.p(theAssocation, owner));
 		
 		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
 		if(v == null) {
@@ -495,7 +468,7 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			Version next = TransientUpdator.nextVersion(v, owner);
 			
 			for(Key<DiagramEntity> d : next.m_objects)
-				if(d.getId() == oldId) {
+				if(d.getId() == oldId && "UMLClass".equals(d.getKind())) {
 					next.m_objects.remove(d);
 					break;
 				}
@@ -503,22 +476,78 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			next.add(key);
 			
 			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
-			return true;
+			return unlock(sessionId, key);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean updateUMLInterface(String sessionId, long branch,
 			UMLInterface theInterface) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return false;
+		//TODO permission check
+		
+		
+		//TODO check locked
+		
+		long oldId = theInterface.id;
 
+		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(TransientUpdator.p(theInterface, owner));
+		
+		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
+		if(v == null) {
+			return false;
+		} else {
+			Version next = TransientUpdator.nextVersion(v, owner);
+			
+			for(Key<DiagramEntity> d : next.m_objects)
+				if(d.getId() == oldId && "UMLInterface".equals((d.getKind()))) {
+					next.m_objects.remove(d);
+					break;
+				}
+			
+			next.add(key);
+			
+			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
+		}
+			return unlock(sessionId, key);
+	}
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean updateUMLAssociation(String sessionId, long branch,
 			UMLAssociation theAssociation) {
-		// TODO Auto-generated method stub
-		return false;
+		Key<LDUser> owner = getUser(sessionId);
+		if(owner ==null)
+			return false;
+		//TODO permission check
+		
+		
+		//TODO check locked
+		
+		long oldId = theAssociation.id;
+
+		Key<DiagramEntity> key = (Key<DiagramEntity>) dba.put(TransientUpdator.p(theAssociation, owner));
+		
+		Key<Version> v = dba.getLatestVersion(new Key<Branch>(Branch.class, branch));
+		if(v == null) {
+			return false;
+		} else {
+			Version next = TransientUpdator.nextVersion(v, owner);
+			
+			for(Key<DiagramEntity> d : next.m_objects)
+				if(d.getId() == oldId && "UMLAssociation".equals((d.getKind()))) {
+					next.m_objects.remove(d);
+					break;
+				}
+			
+			next.add(key);
+			
+			dba.putNewVersion(new Key<Branch>(Branch.class, branch), (Key<Version>) dba.put(next));
+		}
+			return unlock(sessionId, key);
 	}
 	
 	@Override

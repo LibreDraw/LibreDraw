@@ -37,8 +37,10 @@ public class UMLAssociation extends DiagramEntity implements Serializable {
 	public String m_leftMultiplicity;
 	public String m_rightMultiplicity;
 	public UMLAssociationType m_type;
-	public Key<DiagramEntity> m_left;
-	public Key<DiagramEntity> m_right;
+	transient public Key<DiagramEntity> m_left;
+	transient public Key<DiagramEntity> m_right;
+	public String m_leftKind;
+	public String m_rightKind;
 	
 	@Transient
 	public DiagramEntity left;
@@ -49,11 +51,10 @@ public class UMLAssociation extends DiagramEntity implements Serializable {
 		
 	}
 	
-	public UMLAssociation(String name, Key<DiagramEntity> one, Key<DiagramEntity>two, String leftName, String leftMultiplicity, String rightName, String rightMultiplicity, UMLAssociationType type,  Key<LDUser> createdBy) {
+	public UMLAssociation(String name, DiagramEntity left, DiagramEntity right, String leftName, String leftMultiplicity, String rightName, String rightMultiplicity, UMLAssociationType type,  Key<LDUser> createdBy) {
 		super(name, createdBy);
-		//m_nodes = new Key<DiagramEntity>[2];
-		m_left = one;
-		m_right = two;
+		this.left = left;
+		this.right = right;
 		m_leftName = leftName;
 		m_rightName = rightName;
 		m_leftMultiplicity = leftMultiplicity;

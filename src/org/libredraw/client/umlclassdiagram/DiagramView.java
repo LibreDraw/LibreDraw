@@ -19,9 +19,6 @@ package org.libredraw.client.umlclassdiagram;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.libredraw.client.ClientSession;
 import org.libredraw.client.LibreRPC;
 import org.libredraw.client.LibreRPCAsync;
@@ -174,6 +171,17 @@ public class DiagramView extends Composite {
 			}
 		};
 		
+		TextColumn<DiagramEntity> lockedColumn = new TextColumn<DiagramEntity>() {
+			@Override
+			public String getValue(DiagramEntity d) {
+				if(d.m_locked)
+					return d.lockedBy.m_displayName;
+				if(d.m_limited)
+					return d.limitedBy.m_displayName;
+				return null;
+			}
+		};
+		
 		table.addColumn(checkColumn, "");
 		table.addColumn(nameColumn, "Name");
 		table.addColumn(typeColumn, "Type");
@@ -181,6 +189,7 @@ public class DiagramView extends Composite {
 		table.addColumn(modifiedByColumn, "By");
 		table.addColumn(createdOnColumn, "Created On");
 		table.addColumn(ownerColumn, "Created By");
+		table.addColumn(lockedColumn, "Locked/Limited By");
 		
 		table.setWidth("100%", true);
 		table.setColumnWidth(checkColumn, 50.0, Unit.PX);
@@ -275,7 +284,7 @@ public class DiagramView extends Composite {
 									
 								} else if("UMLAssociation".equals(e.entityKey.getKind())) {
 									LibreRPCService.lock(ClientSession.getInstance().getSessionId(),
-											e.entityKey, interfaceHandler);
+											e.entityKey, associationHandler);
 								} else { // should never happen
 									Window.alert("generic error");
 								}

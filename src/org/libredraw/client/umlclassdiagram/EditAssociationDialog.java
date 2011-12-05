@@ -18,6 +18,9 @@
 package org.libredraw.client.umlclassdiagram;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.libredraw.client.ClientSession;
 import org.libredraw.client.LibreRPC;
 import org.libredraw.client.LibreRPCAsync;
@@ -28,6 +31,7 @@ import org.libredraw.shared.umlclassdiagram.UMLAssociation;
 import org.libredraw.shared.umlclassdiagram.UMLAssociationType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -39,6 +43,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.googlecode.objectify.Key;
 
 public class EditAssociationDialog extends DialogBox {
+	
+	private static Logger logger = Logger.getLogger("NameOfYourLogger");
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
@@ -69,7 +75,7 @@ public class EditAssociationDialog extends DialogBox {
 		this.setGlassEnabled(true);
 		this.center();
 		
-		this.setText("New UML Assocation");
+		this.setText("Edit UML Assocation");
 		
 		thisBranch = branch;
 		
@@ -103,6 +109,7 @@ public class EditAssociationDialog extends DialogBox {
 			}
 			@Override
 			public void onSuccess(UMLAssociation result) {
+				logger.log(Level.WARNING, result.m_name);
 				thisAssociation = result;
 				populateBoxes();
 			}
@@ -117,20 +124,17 @@ public class EditAssociationDialog extends DialogBox {
 		entityTwoNameTextBox.setText(thisAssociation.m_rightName);
 		entityTwoMultiplicityTextBox.setText(thisAssociation.m_rightMultiplicity);
 		
-		int count = 0;
-		for(DiagramEntity d:entities) {
-			if(d.m_name.equals(thisAssociation.left.m_name))
-				break;
-			count++;
+		for(int i = 0; i< entityOneComboBox.getItemCount(); i++) {
+			if(thisAssociation.left.m_name.equals(entityOneComboBox.getItemText(i)))
+				entityOneComboBox.setSelectedIndex(i);
 		}
-		entityOneComboBox.setSelectedIndex(count);
-		count = 0;
-		for(DiagramEntity d:entities) {
-			if(d.m_name.equals(thisAssociation.right.m_name))
-				break;
-			count++;
+		
+
+		for(int i = 0; i< entityTwoComboBox.getItemCount(); i++) {
+			if(thisAssociation.right.m_name.equals(entityTwoComboBox.getItemText(i)))
+				entityTwoComboBox.setSelectedIndex(i);
 		}
-		entityTwoComboBox.setSelectedIndex(count);
+
 		
 		if(thisAssociation.m_type == UMLAssociationType.Association)
 			typeComboBox.setSelectedIndex(1);
@@ -144,10 +148,9 @@ public class EditAssociationDialog extends DialogBox {
 			typeComboBox.setSelectedIndex(5);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@UiHandler("submitButton")
 	void onSubmitButtonClick(ClickEvent event) {
-		Key<DiagramEntity> one = null, two = null;
+		DiagramEntity one = null, two = null;
 		if("Select and entity:".equals(entityOneComboBox.getValue(entityOneComboBox.getSelectedIndex()))) {
 			//TODO error
 		}
@@ -160,44 +163,48 @@ public class EditAssociationDialog extends DialogBox {
 		String oneName = entityOneComboBox.getValue(entityOneComboBox.getSelectedIndex());
 		for(DiagramEntity d : entities) {
 			if(d.m_name.equals(oneName))
-				one = (Key<DiagramEntity>) d.entityKey;
+				one = d;
 		}
 		String twoName = entityTwoComboBox.getValue(entityTwoComboBox.getSelectedIndex());
 		for(DiagramEntity d : entities) {
 			if(d.m_name.equals(twoName))
-				two = (Key<DiagramEntity>) d.entityKey;
+				two = d;
 		}
 		if(one == null || two == null) {
 			//TODO error
-		}
-		UMLAssociation a = new UMLAssociation(
-				nameTextBox.getText(),
-				one,
-				two,
-				entityOneNameTextBox.getText(),
-				entityOneMultiplicityTextBox.getText(),
-				entityTwoNameTextBox.getText(),
-				entityTwoMultiplicityTextBox.getText(),
-				getType(entityTwoComboBox.getValue(entityTwoComboBox.getSelectedIndex())),
-				null);
-		
-		
-		LibreRPCService.addAssocation(ClientSession.getInstance().getSessionId(),
-				thisBranch, a, new AsyncCallback<String>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						TableView.registerDialog(new StackTrace(caught));
-					}
-					@Override
-					public void onSuccess(String result) {
-						if("Sucsess".equals(result))
-						{
-							myHide();
-							DiagramView.getInstance().refresh();
+		} else {
+			logger.log(Level.WARNING, one.toString());
+			logger.log(Level.WARNING, two.toString());
+			thisAssociation.m_name = nameTextBox.getText();
+			thisAssociation.left =  one;
+			thisAssociation.right = two;
+			thisAssociation.m_leftName = entityOneNameTextBox.getText();
+			thisAssociation.m_leftMultiplicity = entityOneMultiplicityTextBox.getText();
+			thisAssociation.m_rightName = entityTwoNameTextBox.getText();
+			thisAssociation.m_rightMultiplicity = entityTwoMultiplicityTextBox.getText();
+			thisAssociation.m_type = getType(typeComboBox.getValue(typeComboBox.getSelectedIndex()));
+			
+			
+			LibreRPCService.updateUMLAssociation(
+					ClientSession.getInstance().getSessionId(),
+					thisBranch, 
+					thisAssociation, 
+					new AsyncCallback<Boolean>() {
+						@Override
+						public void onFailure(Throwable caught) {
+							TableView.registerDialog(new StackTrace(caught));
 						}
-						
-					}
-		});
+						@Override
+						public void onSuccess(Boolean result) {
+							if(result)
+							{
+								myHide();
+								DiagramView.getInstance().refresh();
+							}
+							
+						}
+			});
+		}
 	}
 	
 	private UMLAssociationType getType(String type) {
@@ -216,7 +223,21 @@ public class EditAssociationDialog extends DialogBox {
 
 	@UiHandler("cancelButton")
 	void onCancelButtonClick(ClickEvent event) {
-		myHide();
+		LibreRPCService.unlock(ClientSession.getInstance().getSessionId(), 
+				thisAssociation.entityKey, 
+				new AsyncCallback<Boolean>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				TableView.registerErrorDialog(new StackTrace(caught));
+			}
+			@Override
+			public void onSuccess(Boolean result) {
+				if(result)
+					myHide();
+				else
+					Window.alert("Generic error.");
+			}
+		});
 	}
 	
 	private void myHide() {
