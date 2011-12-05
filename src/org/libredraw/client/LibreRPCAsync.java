@@ -23,6 +23,7 @@ import java.util.List;
 import org.libredraw.shared.Diagram;
 import org.libredraw.shared.DiagramType;
 import org.libredraw.shared.DiagramEntity;
+import org.libredraw.shared.LDUser;
 import org.libredraw.shared.PermissionRecord;
 import org.libredraw.shared.Project;
 import org.libredraw.shared.umlclassdiagram.UMLAssociation;
@@ -96,8 +97,9 @@ public interface LibreRPCAsync {
 	void putPermissionsDiagram(String sessionId, long diagram,
 			List<PermissionRecord> permissions, AsyncCallback<Boolean> callback);
 
-	void userExists(String sessionId, String displayName,
-			AsyncCallback<Boolean> callback);
+	void userExists(String sessionId, String text,
+			AsyncCallback<LDUser> asyncCallback);
+	
 	void changeNameProject(String sessionId, long project, String name,
 			AsyncCallback<Boolean> callback);
 
@@ -119,5 +121,7 @@ public interface LibreRPCAsync {
 	void getNode(AsyncCallback<UMLNode> callback);
 	
 	void getPermission(long id, AsyncCallback<PermissionRecord> callback);
+
+
 
 }

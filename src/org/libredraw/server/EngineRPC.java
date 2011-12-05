@@ -19,9 +19,7 @@ package org.libredraw.server;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import org.libredraw.client.LibreRPC;
 import org.libredraw.server.persistence.*;
 import org.libredraw.shared.*;
@@ -104,25 +102,13 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 			Query<Authorization> query = 
 					dba.getQuery(Authorization.class).filter("m_user =", user);
 			List<Project> projects = new ArrayList<Project>();
-			Iterator<Authorization> i = query.iterator();
-			Authorization next;
-			try {
-				next = i.next();
-			} catch (NoSuchElementException e) {
-				next = null;
-			}
-			while(next!=null) {
-				Key<?> get = next.m_regarding;
+			for(Authorization a: query) {
+				Key<?> get =a.m_regarding;
 				if("Project".equals(get.getKind()))
 				{
 					Project thisProject = (Project) dba.get(get);
 					Project p = thisProject;
 					projects.add(TransientUpdator.u(p));
-				}
-				try {
-					next = i.next();
-				} catch (NoSuchElementException e) {
-					next = null;
 				}
 			}
 			return projects;
@@ -653,10 +639,10 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 	}
 
 	@Override
-	public boolean userExists(String sessionId, String displayName) {
+	public LDUser userExists(String sessionId, String displayName) {
 		Key<LDUser> owner = getUser(sessionId);
 		if(owner ==null)
-			return false;
+			return null;
 		
 		//TODO permission check
 		
@@ -664,9 +650,10 @@ public class EngineRPC extends RemoteServiceServlet implements LibreRPC {
 		
 		query = 
 				dba.getQuery(GenericAccountConnector.class).filter("m_displayName =", displayName);
-		if(query.get() != null)
-			return true;
-		return false;
+		GenericAccountConnector c = query.get();
+		if(c != null)
+			return TransientUpdator.u((LDUser) dba.get(c.m_user));
+		return null;
 	}
 	
 	@Override

@@ -19,8 +19,13 @@ package org.libredraw.client;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.libredraw.client.umlclassdiagram.DiagramView;
 import org.libredraw.shared.Diagram;
+import org.libredraw.shared.Project;
+
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -50,6 +55,8 @@ public class DiagramList extends Composite {
 	
 	private final LibreRPCAsync LibreRPCService = GWT
 			.create(LibreRPC.class);
+	
+	private static Logger logger = Logger.getLogger("NameOfYourLogger");
 
 	private static DiagramListUiBinder uiBinder = GWT
 			.create(DiagramListUiBinder.class);
@@ -93,9 +100,8 @@ public class DiagramList extends Composite {
 		
 		final SelectionModel<Diagram> selectionModel = new MultiSelectionModel<Diagram>(
 				KEY_PROVIDER);
-		;
 		table.setSelectionModel(selectionModel,
-				DefaultSelectionEventManager.<Diagram> createCheckboxManager());
+			DefaultSelectionEventManager.<Diagram> createCheckboxManager());
 		
 		Window.addResizeHandler(new ResizeHandler() {
 			public void onResize(ResizeEvent event) {
@@ -209,17 +215,20 @@ public class DiagramList extends Composite {
 				int count = 0;
 				Diagram selectedDiagram = null;
 				for(Diagram d : diagramList) {
+					logger.log(Level.WARNING, d.m_name);
 					if(table.getSelectionModel().isSelected(d)) {
 						selectedDiagram = d;
 						count++;
 					}
 				}
 				if(count>1) {
-					Window.alert("Please select only one project to edit.");
+					Window.alert("Please select only one diagram to edit.");
 					return;
 				}
-				if(selectedDiagram != null)
+				if(selectedDiagram != null) {
 					TableView.registerDialog(new EditDiagramDialog(selectedDiagram));
+					
+				}
 			}
 		});
 		

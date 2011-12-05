@@ -1,10 +1,11 @@
 package org.libredraw.client;
 
 import java.util.List;
-
+import org.libredraw.shared.LDUser;
 import org.libredraw.shared.PermissionRecord;
 import org.libredraw.shared.Project;
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -58,6 +59,7 @@ public class EditProjectDialog extends DialogBox {
 			}
 		};
 		
+		
 		Column<PermissionRecord, Boolean> readColumn = new Column<PermissionRecord, Boolean>( 
 				new CheckboxCell(true, false)) {
 					@Override
@@ -65,6 +67,17 @@ public class EditProjectDialog extends DialogBox {
 						return object.READ;
 					}
 		};
+		
+		readColumn.setFieldUpdater(new FieldUpdater<PermissionRecord, Boolean>() {
+			@Override
+			public void update(int index, PermissionRecord record, Boolean value) {
+				for(PermissionRecord r: permissions) {
+					if(r.m_user.id == record.m_user.id)
+						r.READ = value;
+				}
+				record.READ = value;
+			}
+		});
 		
 		Column<PermissionRecord, Boolean> writeColumn = new Column<PermissionRecord, Boolean>( 
 				new CheckboxCell(true, false)) {
@@ -74,6 +87,17 @@ public class EditProjectDialog extends DialogBox {
 					}
 		};
 		
+		readColumn.setFieldUpdater(new FieldUpdater<PermissionRecord, Boolean>() {
+			@Override
+			public void update(int index, PermissionRecord record, Boolean value) {
+				for(PermissionRecord r: permissions) {
+					if(r.m_user.id == record.m_user.id)
+						r.WRITE = value;
+				}
+				record.WRITE = value;
+			}
+		});
+		
 		
 		Column<PermissionRecord, Boolean> exportColumn = new Column<PermissionRecord, Boolean>( 
 				new CheckboxCell(true, false)) {
@@ -82,6 +106,17 @@ public class EditProjectDialog extends DialogBox {
 						return object.EXPORT;
 					}
 		};
+		
+		readColumn.setFieldUpdater(new FieldUpdater<PermissionRecord, Boolean>() {
+			@Override
+			public void update(int index, PermissionRecord record, Boolean value) {
+				for(PermissionRecord r: permissions) {
+					if(r.m_user.id == record.m_user.id)
+						r.EXPORT = value;
+				}
+				record.EXPORT = value;
+			}
+		});
 		
 		table.addColumn(nameColumn, "User");
 		table.addColumn(readColumn, "Read");
@@ -129,22 +164,25 @@ public class EditProjectDialog extends DialogBox {
 
 	@UiHandler("addUserButton")
 	void onAddUserButtonClick(ClickEvent event) {
-		LibreRPCService.userExists(ClientSession.getInstance().getSessionId(), 
-				newUserTextBox.getText(), new AsyncCallback<Boolean>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						TableView.registerErrorDialog(new StackTrace(caught));
+		LibreRPCService.userExists(
+			ClientSession.getInstance().getSessionId(), 
+			newUserTextBox.getText(), 
+			new AsyncCallback<LDUser>() {
+				@Override
+				public void onFailure(Throwable caught) {
+					TableView.registerErrorDialog(new StackTrace(caught));
+				}
+				@Override
+				public void onSuccess(LDUser result) {
+					if(result!=null) {
+						PermissionRecord p = new PermissionRecord();
+						p.m_user = result; 
+						permissions.add(p);
+						populateTable(permissions);
+					} else {
+						newUserTextBox.setText("That user does not exist");
 					}
-					@Override
-					public void onSuccess(Boolean result) {
-						if(result) {
-							permissions.add(new PermissionRecord());
-							populateTable(permissions);
-						} else {
-							newUserTextBox.setText("That user does not exist");
-						}
-							
-					}
+				}
 		});
 	}
 	

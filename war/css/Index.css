@@ -23,7 +23,7 @@
 	height: 200px;
 	width: 200px;
 	
-	-webkit-mask-image: url(images/spinner.png);
+	-webkit-mask-image: url(./images/spinner.png);
 	background-color: #000;
 	-webkit-animation-name: spinnerRotate;
 	-webkit-animation-duration: 2s;

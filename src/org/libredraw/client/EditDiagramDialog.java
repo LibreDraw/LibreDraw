@@ -3,9 +3,11 @@ package org.libredraw.client;
 import java.util.List;
 
 import org.libredraw.shared.Diagram;
+import org.libredraw.shared.LDUser;
 import org.libredraw.shared.PermissionRecord;
 
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -67,6 +69,13 @@ public class EditDiagramDialog extends DialogBox {
 					}
 		};
 		
+		readColumn.setFieldUpdater(new FieldUpdater<PermissionRecord, Boolean>() {
+			@Override
+			public void update(int index, PermissionRecord record, Boolean value) {
+				record.READ = value;
+			}
+		});
+		
 		Column<PermissionRecord, Boolean> writeColumn = new Column<PermissionRecord, Boolean>( 
 				new CheckboxCell(true, false)) {
 					@Override
@@ -74,6 +83,13 @@ public class EditDiagramDialog extends DialogBox {
 						return object.WRITE;
 					}
 		};
+		
+		writeColumn.setFieldUpdater(new FieldUpdater<PermissionRecord, Boolean>() {
+			@Override
+			public void update(int index, PermissionRecord record, Boolean value) {
+				record.WRITE = value;
+			}
+		});
 		
 		
 		Column<PermissionRecord, Boolean> exportColumn = new Column<PermissionRecord, Boolean>( 
@@ -83,6 +99,13 @@ public class EditDiagramDialog extends DialogBox {
 						return object.EXPORT;
 					}
 		};
+		
+		exportColumn.setFieldUpdater(new FieldUpdater<PermissionRecord, Boolean>() {
+			@Override
+			public void update(int index, PermissionRecord record, Boolean value) {
+				record.EXPORT = value;
+			}
+		});
 		
 		table.addColumn(nameColumn, "User");
 		table.addColumn(readColumn, "Read");
@@ -131,20 +154,20 @@ public class EditDiagramDialog extends DialogBox {
 	@UiHandler("addUserButton")
 	void onAddUserButtonClick(ClickEvent event) {
 		LibreRPCService.userExists(ClientSession.getInstance().getSessionId(), 
-				newUserTextBox.getText(), new AsyncCallback<Boolean>() {
+				newUserTextBox.getText(), 
+				new AsyncCallback<LDUser>() {
 					@Override
 					public void onFailure(Throwable caught) {
 						TableView.registerErrorDialog(new StackTrace(caught));
 					}
 					@Override
-					public void onSuccess(Boolean result) {
-						if(result) {
+					public void onSuccess(LDUser result) {
+						if(result!=null) {
 							permissions.add(new PermissionRecord());
 							populateTable(permissions);
 						} else {
 							newUserTextBox.setText("That user does not exist");
 						}
-							
 					}
 		});
 	}
