@@ -25,6 +25,8 @@ import org.libredraw.client.LibreRPCAsync;
 import org.libredraw.client.StackTrace;
 import org.libredraw.client.TableView;
 import org.libredraw.shared.DiagramEntity;
+import org.libredraw.shared.Project;
+
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -44,7 +46,11 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
+import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.ProvidesKey;
+import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.googlecode.objectify.Key;
 
@@ -101,6 +107,17 @@ public class DiagramView extends Composite {
 	private DiagramView() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
+		ProvidesKey<DiagramEntity> KEY_PROVIDER = new ProvidesKey<DiagramEntity>() {
+			public Object getKey(DiagramEntity d) {
+				return d.entityKey;
+			}
+		};
+		
+		final SelectionModel<DiagramEntity> selectionModel = new MultiSelectionModel<DiagramEntity>(
+				KEY_PROVIDER);
+		table.setSelectionModel(selectionModel,
+			DefaultSelectionEventManager.<DiagramEntity> createCheckboxManager());
+		
 		
 		tabPanel.selectTab(0);
 		
@@ -110,7 +127,7 @@ public class DiagramView extends Composite {
 				new CheckboxCell(true, false)) {
 					@Override
 					public Boolean getValue(DiagramEntity d) {
-						return false;
+						return selectionModel.isSelected(d);
 					}
 			};
 			

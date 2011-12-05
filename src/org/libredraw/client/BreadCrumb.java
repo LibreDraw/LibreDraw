@@ -67,7 +67,7 @@ public class BreadCrumb extends Composite {
 		projectCarrot.setVisible(false);
 		diagramText.setVisible(false);
 		diagramCarrot.setVisible(false);
-		projectListText.setVisible(false);
+		projectListText.setVisible(true);
 		projectListHyperLink.setVisible(false);
 		projectText.setVisible(false);
 	}

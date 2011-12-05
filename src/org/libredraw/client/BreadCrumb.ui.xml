@@ -25,7 +25,7 @@
 	<g:HorizontalPanel>
 		<g:HorizontalPanel>
 			<g:Label text="Project List" ui:field="projectListText"/>
-			<g:Hyperlink text="ProjectList" targetHistoryToken="newHistoryToken" ui:field="projectListHyperLink" visible="false"/>
+			<g:Hyperlink text="Project List" targetHistoryToken="newHistoryToken" ui:field="projectListHyperLink" visible="false"/>
 		</g:HorizontalPanel>
 		<g:AbsolutePanel width="5px" height="5px"/>
 		<g:Label text=" &gt; " ui:field="projectCarrot" visible="false"/>
