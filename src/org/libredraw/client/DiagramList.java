@@ -251,6 +251,7 @@ public class DiagramList extends Composite {
 			}
 			@Override
 			public void onSuccess(List<Diagram> result) {
+				diagramList = result;
 				populateTable(result);
 			}
 		});

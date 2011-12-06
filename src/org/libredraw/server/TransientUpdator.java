@@ -58,7 +58,7 @@ public final class TransientUpdator {
 					latest = dDate;
 					latestD = d;
 				}
-				else {
+				else {//v.m_date.after(latest)
 					if(latest.before(dDate)) {
 						latest = dDate;
 						latestD = d;
@@ -89,7 +89,7 @@ public final class TransientUpdator {
 					latest = v.m_date;
 					latestU = v.m_modifiedBy;
 				}
-				if(v.m_date.before(latest)) {
+				if(v.m_date.after(latest)) {
 					latest = v.m_date;
 					latestU = v.m_modifiedBy;
 				}
@@ -177,7 +177,7 @@ public final class TransientUpdator {
 				Version v = (Version) dba.get(k);
 				if(latest == null)
 					latest = v.m_date;
-				if(v.m_date.before(latest))
+				if(v.m_date.after(latest))
 					latest = v.m_date;
 			}
 		}
@@ -197,7 +197,7 @@ public final class TransientUpdator {
 					last = v.m_date;
 					latest = v.m_modifiedBy;
 				}
-				if(v.m_date.before(last)) {
+				if(v.m_date.after(last)) {
 					last = v.m_date;
 					latest = v.m_modifiedBy;
 				}

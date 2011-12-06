@@ -153,7 +153,7 @@ public class DiagramView extends Composite {
 		TextColumn<DiagramEntity> modifiedByColumn = new TextColumn<DiagramEntity>() {
 			@Override
 			public String getValue(DiagramEntity d) {
-				return d.createdBy.m_displayName;
+				return d.modifiedBy.m_displayName;
 			}
 		};
 		
@@ -188,7 +188,7 @@ public class DiagramView extends Composite {
 		table.addColumn(modifiedColumn, "Date Modified");
 		table.addColumn(modifiedByColumn, "By");
 		table.addColumn(createdOnColumn, "Created On");
-		table.addColumn(ownerColumn, "Created By");
+		table.addColumn(ownerColumn, "By");
 		table.addColumn(lockedColumn, "Locked/Limited By");
 		
 		table.setWidth("100%", true);
