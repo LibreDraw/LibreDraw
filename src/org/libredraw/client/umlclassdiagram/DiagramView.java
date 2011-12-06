@@ -235,7 +235,10 @@ public class DiagramView extends Composite {
 			}
 			@Override
 			public void onSuccess(Boolean result) {
-				TableView.registerDialog(new EditClassDialog(entityCalled, thisBranch));
+				if(result)
+					TableView.registerDialog(new EditClassDialog(entityCalled, thisBranch));
+				else
+					Window.alert("That is Locked");
 				
 			}
 		};
@@ -247,7 +250,10 @@ public class DiagramView extends Composite {
 			}
 			@Override
 			public void onSuccess(Boolean result) {
-				TableView.registerDialog(new EditInterfaceDialog(entityCalled, thisBranch));
+				if(result)
+					TableView.registerDialog(new EditInterfaceDialog(entityCalled, thisBranch));
+				else
+					Window.alert("That is Locked");
 			}
 		};
 		
@@ -258,7 +264,10 @@ public class DiagramView extends Composite {
 			}
 			@Override
 			public void onSuccess(Boolean result) {
-				TableView.registerDialog(new EditAssociationDialog(thisBranch, entities, entityCalled));
+				if(result)
+					TableView.registerDialog(new EditAssociationDialog(thisBranch, entities, entityCalled));
+				else
+					Window.alert("That is Locked");
 			}
 		};
 		
