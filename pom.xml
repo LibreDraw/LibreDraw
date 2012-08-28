@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
 
-	<!-- The Basics -->
-	<groupId>org.libredraw</groupId>
-	<artifactId>LibreDraw</artifactId>
-	<version>2.0-GIT</version>
-	<packaging>war</packaging>
-	<name>libredraw</name>
+    <modelVersion>4.0.0</modelVersion>
 
-	<!-- Repos -->
-	<repositories>
-		<repository>
-			<id>objectify-appengine</id>
-			<name>Maven Objectify gae repo</name>
-			<url>http://maven.objectify-appengine.googlecode.com/git/</url>
-		</repository>
-		<repository>  
-			<id>maven-restlet</id>  
-			<name>Public online Restlet repository</name>  
-			<url>http://maven.restlet.org</url>  
+    <!-- The Basics -->
+    <groupId>org.libredraw</groupId>
+    <artifactId>LibreDraw</artifactId>
+    <version>2.0-GIT</version>
+
+    <packaging>war</packaging>
+
+    <name>libredraw</name>
+
+    <repositories>
+        <repository>
+            <id>objectify-appengine</id>
+            <name>Objectify Maven Repository</name>
+            <url>http://objectify-appengine.googlecode.com/svn/maven</url>
+        </repository>
+        <repository>
+			<id>maven-restlet</id>
+			<name>Public online Restlet repository</name>
+			<url>http://maven.restlet.org</url>
 		</repository>  
-	</repositories>
+    </repositories>
 
-	<dependencies>
+    <dependencies>
 		<!-- Google App Engine meta-package -->
 		<dependency>
 			<groupId>net.kindleit</groupId>
@@ -31,18 +33,18 @@
 			<version>${gae.version}</version>
 			<type>pom</type>
 		</dependency>
+		
+		<dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+        </dependency>
 
 		<dependency>
 			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-core</artifactId>
 			<version>${datanucleus.version}</version>
 			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>jta</artifactId>
-			<version>1.1</version>
 		</dependency>
 
 		<!--
@@ -147,186 +149,150 @@
 			<artifactId>org.restlet.ext.xml</artifactId>
 			<version>${restlet.version}</version>
 		</dependency>
-	</dependencies>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<!--
-				This plug-in "enhances" your domain model objects (i.e. makes them
-				persistent for datanucleus)
-			-->
-			<plugin>
-				<groupId>org.datanucleus</groupId>
-				<artifactId>maven-datanucleus-plugin</artifactId>
-				<version>1.1.4</version>
-				<configuration>
-					<!--
-						Make sure this path contains your persistent classes!
-					-->
-					<mappingIncludes>**/model/*.class</mappingIncludes>
-					<verbose>true</verbose>
-					<enhancerName>ASM</enhancerName>
-					<api>JDO</api>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>enhance</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.datanucleus</groupId>
-						<artifactId>datanucleus-core</artifactId>
-						<version>${datanucleus.version}</version>
-						<exclusions>
-							<exclusion>
-								<groupId>javax.transaction</groupId>
-								<artifactId>transaction-api</artifactId>
-							</exclusion>
-						</exclusions>
-					</dependency>
-					<dependency>
-						<groupId>org.datanucleus</groupId>
-						<artifactId>datanucleus-rdbms</artifactId>
-						<version>${datanucleus.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.datanucleus</groupId>
-						<artifactId>datanucleus-enhancer</artifactId>
-						<version>1.1.4</version>
-					</dependency>
-					<dependency>
-						<groupId>javax.jdo</groupId>
-						<artifactId>jdo2-api</artifactId>
-						<version>2.3-ec</version>
-						<scope>runtime</scope>
-					</dependency>
-				</dependencies>
-			</plugin>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.archetype</groupId>
+                <artifactId>archetype-packaging</artifactId>
+                <version>2.0-alpha-5</version>
+            </extension>
+        </extensions>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1-beta-1</version>
-				<configuration>
-					<webXml>war\WEB-INF\web.xml</webXml>    
-					<webResources>
-						<resource>
-							<directory>war</directory>
-							<filtering>true</filtering>
-							<includes>
-								<include>**/appengine-web.xml</include>
-							</includes>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
+        <plugins>
+            <plugin>
+                <artifactId>maven-archetype-plugin</artifactId>
+                <version>2.0-alpha-4</version>
+                <extensions>true</extensions>
+            </plugin>
 
-			<!--
-				The actual maven-gae-plugin. Type "mvn gae:run" to run project, "mvn
-				gae:deploy" to upload to GAE.
-			-->
-			<plugin>
-				<groupId>net.kindleit</groupId>
-				<artifactId>maven-gae-plugin</artifactId>
-				<version>0.9.4</version>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1-beta-1</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>true</filtering>
+                            <includes>
+                                <include>**/appengine-web.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
 
-			<!--
-				Upload application to the appspot automatically, during
-				release:perform
-			-->
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<goals>gae:deploy</goals>
-				</configuration>
-			</plugin>
+            <!--
+            The actual maven-gae-plugin. Type "mvn gae:run" to run project,
+            "mvn gae:deploy" to upload to GAE.
+            -->
+            <plugin>
+                <groupId>net.kindleit</groupId>
+                <artifactId>maven-gae-plugin</artifactId>
+				        <version>0.9.4</version>
+            </plugin>
 
-			<!-- Java compiler version -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.0</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+            <!--
+            Upload application to the appspot automatically, during
+            release:perform.
+            -->
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <goals>gae:deploy</goals>
+                </configuration>
+            </plugin>
 
-	<!-- Specify hard-coded project properties here -->
-	<properties>
+            <!--
+            Java compiler version
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<!-- Sets the project's default encoding.
-		http://docs.codehaus.org/display/MAVENUSER/POM+Element+for+Source+File+Encoding -->
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!--
+    Specify hard-coded project properties here.
+    -->
+    <properties>
 
-		<!--
-			This is just for "eclipse:eclipse" goal to always attempt downloading
-			sources
-		-->
-		<downloadSources>true</downloadSources>
+        <!-- Sets the project's default encoding.
+         http://docs.codehaus.org/display/MAVENUSER/POM+Element+for+Source+File+Encoding -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<!--
-			Specify AppEngine version for your project. It should match SDK
-			version pointed to by ${gae.home} property (Typically, one used by
-			your Eclipse plug-in)
-		-->
-		<gae.version>1.7.0</gae.version>
+        <!--
+        This is just for "eclipse:eclipse" goal to always attempt downloading
+        sources.
+        -->
+        <downloadSources>true</downloadSources>
 
-		<!--
-			Upload to http://test.latest.<applicationName>.appspot.com by default
-		-->
-		<gae.application.version>test</gae.application.version>
+        <!--
+        Specify AppEngine version for your project. It should match
+        SDK version pointed to by ${gae.home} property (Typically, one used by your
+        Eclipse plug-in).
+        -->
+        <gae.version>1.7.0</gae.version>
 
-		<datanucleus.version>1.1.5</datanucleus.version>
-		
-		<restlet.version>2.0.15</restlet.version>
+        <!--
+        Upload to http://test.latest.<applicationName>.appspot.com by
+        default.
+        -->
+        <gae.application.version>test</gae.application.version>
+        
+        <datanucleus.version>1.1.5</datanucleus.version>
+        
+        <restlet.version>2.0.15</restlet.version>
 		<restlet.edition>org.restlet.gae</restlet.edition>
 		
 		<objectify.version>3.1</objectify.version>
-	</properties>
+		
+    </properties>
 
-	<profiles>
-		<!--
-			We can configure our integration server to activate this profile and
-			perform gae:deploy, thus uploading latest snapshot to the
-			http://1.latest.<applicationName>.appspot.com automatically
-		-->
-		<profile>
-			<id>integration-build</id>
-			<properties>
-				<gae.application.version>stage</gae.application.version>
-			</properties>
-		</profile>
+    <profiles>
+        <!--
+        We can configure our integration server to activate this profile
+        and perform gae:deploy, thus uploading latest snapshot to the
+        http://1.latest.<applicationName>.appspot.com automatically.
+        -->
+        <profile>
+            <id>integration-build</id>
+            <properties>
+                <gae.application.version>stage</gae.application.version>
+            </properties>
+        </profile>
 
-		<!--
-			This profile will activate automatically during release and upload
-			application to the http://2.latest.<applicationName>.appspot.com (We
-			might want to set the 2nd version as our applications Default version
-			to be accessible at http://<applicationName>.appspot.com)
-		-->
-		<profile>
-			<id>release-build</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
+        <!--
+        This profile will activate automatically during release and
+        upload application to the http://2.latest.<applicationName>.appspot.com (We
+        might want to set the 2nd version as our applications Default version to
+        be accessible at http://<applicationName>.appspot.com).
+        -->
+        <profile>
+            <id>release-build</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
 
-			<properties>
-				<!--
-					During release, set application version in appengine-web.xml to 2
-				-->
-				<gae.application.version>release</gae.application.version>
-			</properties>
-		</profile>
-	</profiles>
+            <properties>
+                <!--
+                During release, set application version in appengine-web.xml
+                to 2.
+                -->
+                <gae.application.version>release</gae.application.version>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
