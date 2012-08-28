@@ -13,41 +13,29 @@
 
     You should have received a copy of the GNU General Public License
     along with LibreDraw.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.libredraw.persistence.umlclassdiagram;
 
-public class UMLOperationParser {
-	private class ParserException extends Exception {
-		private static final long serialVersionUID = 1L;
-		
-		/**
-		 * Builds a ParserException.
-		 * 
-		 * @param msg Token that was not expected.
-		 */
-		public ParserException(String msg) {
-			super("Unexpected Character: " + msg);
-		}
-	}
+import org.libredraw.parser.*;
 
-	
-	
+public class UMLOperationParser extends Parser {
+
 	private Lexer lexer;
 	private UMLOperation value;
 
 	/**
 	 * Create an operation parser, parse the string s.
 	 * 
-	 * @param s String to be parsed.
+	 * @param s
+	 *            String to be parsed.
 	 * @throws ParserException
 	 */
-	public UMLOperationParser(String s) throws ParserException
-	{
+	public UMLOperationParser(String s) throws ParserException {
 		lexer = new Lexer(s);
 
 		value = parseExpression();
-		
+
 		match(Lexer.EOLN_TOKEN);
 	}
 
@@ -56,48 +44,28 @@ public class UMLOperationParser {
 	 * 
 	 * @return UMLOperation that was built from the input string.
 	 */
-	public UMLOperation getValue()
-	{
+	public UMLOperation getValue() {
 		return value;
 	}
 
 	/**
-	 * Match a given token and advance to the next. This utility is used by our 
-	 * parsing routines. If the given token does not match lexer.nextToken(), 
-	 * we generate an appropriate error message.  Advancing to the next token 
-	 * may also cause an error.
-	 *
-	 * @param token the token that must match
-	 * @throws ParserException 
-	 */
-	private void match(int token) throws ParserException {
-		if (lexer.nextToken() == token)
-		{
-			lexer.advance();
-		}
-		else
-			throw new ParserException(lexer.getString());
-	}
-
-	/**
-	 * Parse an expression.  If any error occurs we 
-	 * return immediately.
-	 *
+	 * Parse an expression. If any error occurs we return immediately.
+	 * 
 	 * @return The UMLOperation being built
-	 * @throws ParserException 
+	 * @throws ParserException
 	 */
 	private UMLOperation parseExpression() throws ParserException {
 
 		// <expression> ::= <visibility> <name> ( <operands> ) :<returnType>
-		//					|| <visibility> <name> ( <operands> )
-		
+		// || <visibility> <name> ( <operands> )
+
 		UMLOperation result = new UMLOperation();
 		result.m_visibility = Visibility();
 		result = Name(result);
 		match('(');
 		result = Operands(result);
 		match(')');
-		if(lexer.nextToken() == ':') {
+		if (lexer.nextToken() == ':') {
 			match(':');
 			result = returnType(result);
 		}
@@ -113,14 +81,14 @@ public class UMLOperationParser {
 	 * @throws ParserException
 	 */
 	private UMLOperation returnType(UMLOperation result) throws ParserException {
-		//<returnType> ::= String || String [ String ]
+		// <returnType> ::= String || String [ String ]
 		if (lexer.nextToken() == Lexer.STRING_TOKEN) {
 			result.m_returnType = lexer.getString();
 			match(Lexer.STRING_TOKEN);
 		}
-		if(lexer.nextToken() ==')')
+		if (lexer.nextToken() == ')')
 			return result;
-		if(lexer.nextToken() == '[') {
+		if (lexer.nextToken() == '[') {
 			match('[');
 			result.m_returnTypeMultiplicity = Multiplicity();
 			match(']');
@@ -135,46 +103,40 @@ public class UMLOperationParser {
 	 * @throws ParserException
 	 */
 	private UMLVisibility Visibility() throws ParserException {
-		
-		//<visibility> ::= -|+|#|~|<epsilon>
-				
-			if (lexer.nextToken() == '-') {
-				match('-');
-				UMLVisibility result = UMLVisibility.Private;
-				return result;
-			}
-			else if (lexer.nextToken() == '+')
-			{
-				match('+');
-				UMLVisibility result = UMLVisibility.Public;
-				return result;
-			}
-			else if (lexer.nextToken() == '#')
-			{
-				match('#');
-				UMLVisibility result = UMLVisibility.Protected;
-				return result;
-			}
-			else if (lexer.nextToken() == '~')
-			{
-				match('~');
-				UMLVisibility result = UMLVisibility.Package;
-				return result;
-			}
-			else 
-				return UMLVisibility.Public;
+
+		// <visibility> ::= -|+|#|~|<epsilon>
+
+		if (lexer.nextToken() == '-') {
+			match('-');
+			UMLVisibility result = UMLVisibility.Private;
+			return result;
+		} else if (lexer.nextToken() == '+') {
+			match('+');
+			UMLVisibility result = UMLVisibility.Public;
+			return result;
+		} else if (lexer.nextToken() == '#') {
+			match('#');
+			UMLVisibility result = UMLVisibility.Protected;
+			return result;
+		} else if (lexer.nextToken() == '~') {
+			match('~');
+			UMLVisibility result = UMLVisibility.Package;
+			return result;
+		} else
+			return UMLVisibility.Public;
 
 	}
-	
+
 	/**
 	 * Parse the input string to get the name.
 	 * 
-	 * @param result UMLOperation
+	 * @param result
+	 *            UMLOperation
 	 * @return the UMLOperation being built
 	 * @throws ParserException
 	 */
 	private UMLOperation Name(UMLOperation result) throws ParserException {
-		//<name> ::= String
+		// <name> ::= String
 		if (lexer.nextToken() == Lexer.STRING_TOKEN) {
 			result.m_name = lexer.getString();
 			match(Lexer.STRING_TOKEN);
@@ -182,7 +144,7 @@ public class UMLOperationParser {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Parse the input string to get the multiplicity.
 	 * 
@@ -190,7 +152,7 @@ public class UMLOperationParser {
 	 * @throws ParserException
 	 */
 	private String Multiplicity() throws ParserException {
-		//<mult> ::= String
+		// <mult> ::= String
 		if (lexer.nextToken() == Lexer.STRING_TOKEN) {
 			String result = lexer.getString();
 			match(Lexer.STRING_TOKEN);
@@ -198,7 +160,7 @@ public class UMLOperationParser {
 		}
 		throw new ParserException(lexer.getString());
 	}
-	
+
 	/**
 	 * Parse the input string to get the operand(s).
 	 * 
@@ -208,16 +170,15 @@ public class UMLOperationParser {
 	 */
 	private UMLOperation Operands(UMLOperation result) throws ParserException {
 		// <operands> ::= <operation> || <operation> , <operands> || epsilon
-		if(lexer.nextToken() != ')')
+		if (lexer.nextToken() != ')')
 			result.m_parameters.add(Operand());
 		else
 			return result;
-		if(lexer.nextToken() == ',') {
+		if (lexer.nextToken() == ',') {
 			match(',');
 			result = Operands(result);
 			return result;
-		}
-		else
+		} else
 			return result;
 	}
 
@@ -233,7 +194,7 @@ public class UMLOperationParser {
 		result.m_name = Op_Name();
 		match(':');
 		result.m_type = Op_Type();
-		if(lexer.nextToken() == '[') {
+		if (lexer.nextToken() == '[') {
 			match('[');
 			result.m_multiplicity = Multiplicity();
 			match(']');
@@ -249,7 +210,7 @@ public class UMLOperationParser {
 	 * @throws ParserException
 	 */
 	private String Op_Type() throws ParserException {
-		//<op_type> ::= String
+		// <op_type> ::= String
 		if (lexer.nextToken() == Lexer.STRING_TOKEN) {
 			String result = lexer.getString();
 			match(Lexer.STRING_TOKEN);
@@ -265,7 +226,7 @@ public class UMLOperationParser {
 	 * @throws ParserException
 	 */
 	private String Op_Name() throws ParserException {
-		//<op_name> ::= String
+		// <op_name> ::= String
 		if (lexer.nextToken() == Lexer.STRING_TOKEN) {
 			String result = lexer.getString();
 			match(Lexer.STRING_TOKEN);
